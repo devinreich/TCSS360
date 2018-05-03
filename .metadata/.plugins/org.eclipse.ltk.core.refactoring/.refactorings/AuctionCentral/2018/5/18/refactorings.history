@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;unit_tests.OrganizationAuctionRequestTest&apos; to &apos;AuctionRequestTest&apos;&#x0D;&#x0A;- Original project: &apos;AuctionCentral&apos;&#x0D;&#x0A;- Original element: &apos;unit_tests.OrganizationAuctionRequestTest&apos;&#x0D;&#x0A;- Renamed element: &apos;unit_tests.AuctionRequestTest&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;OrganizationAuctionRequestTest&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;unit_tests{OrganizationAuctionRequestTest.java[OrganizationAuctionRequestTest" matchStrategy="1" name="AuctionRequestTest" qualified="false" references="true" similarDeclarations="false" stamp="1525314674220" textual="false" version="1.0"/>
+</session>
