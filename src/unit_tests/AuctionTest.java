@@ -13,6 +13,8 @@ import Model.Item;
 import Model.Organization;
 import Model.PhoneNumber;
 import Model.User;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -22,9 +24,9 @@ import java.util.Date;
 class AuctionTest {
 	
 	Auction testAuction;
-	Date testStartDate;
-	Date testEndDate;
-	Date testCreationDate;
+	LocalDate testStartDate;
+	LocalDate testEndDate;
+	LocalDate testCreationDate;
 	int testMaxItemsPerBidder;
 	Item item1;
 	Item item2;
@@ -39,10 +41,10 @@ class AuctionTest {
 	 */
 	@BeforeEach
 	void setUp() {
-		testStartDate = new Date(7, 3, 2018);
-		testEndDate = new Date(7, 4, 2018);
+		testStartDate = LocalDate.of(2018, 7, 3);
+		testEndDate = LocalDate.of(2018, 7, 4);
 		organizationNumber = new PhoneNumber(253, 222, 4516);
-		testCreationDate = new Date();
+		testCreationDate = LocalDate.now();
 		testMaxItemsPerBidder = 2;
 		item1 = new Item("Antique Chair", "An antique chair from France",
 				  		 100.00, testCreationDate);
@@ -62,8 +64,7 @@ class AuctionTest {
 										   auctions);
 		testAuction = new Auction(testStartDate, testEndDate,
 								 testCreationDate, testMaxItemsPerBidder, 
-								 testOrganization);
-										   	
+								 testOrganization);							   	
 	}
 
 	@Test
@@ -71,8 +72,7 @@ class AuctionTest {
 		
 		testAuction.addItem(item1);
 		
-		assertFalse(testAuction.isAuctionAtMaxCapacity());
-		
+		assertFalse(testAuction.isAuctionAtMaxCapacity());	
 	}
 	
 	@Test
@@ -96,7 +96,5 @@ class AuctionTest {
 		testAuction.addItem(item5);;
 		
 		assertTrue(testAuction.isAuctionAtMaxCapacity());
-
 	}
-
 }
