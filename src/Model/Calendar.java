@@ -1,11 +1,10 @@
 package Model;
-
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Calendar {
 	private Auction[] auctions;
 	
-	public boolean checkDate(Date theDate){
+	public boolean checkDate(LocalDate theDate){
 		int num = 0;
 		for (Auction theAuction : auctions){
 			if (theAuction.getStartDate().equals(theDate) || 
@@ -17,14 +16,12 @@ public class Calendar {
 		return false;
 	}
 	
-	public void requestAuction(Date theDate) {
+	public void requestAuction(LocalDate theDate) {
 		if (checkDate(theDate)) {
-			makeNewAuction()
+		//	makeNewAuction()
 		}
 	}
 	public void addAuction(Auction theAuction){
 		//method to add an auction into the calendar called by requestAuction.
 	}
-	
-
 }

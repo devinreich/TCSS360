@@ -4,12 +4,9 @@
 package unit_tests;
 
 import static org.junit.Assert.*;
-
-import java.util.Date;
-
+import java.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
-
 import Model.Auction;
 import Model.Calendar;
 import Model.Organization;
@@ -26,7 +23,7 @@ import Model.User;
 public class AuctionRequestTest {
 	
 	Auction testAuction;
-	Date testInitialDate;
+	LocalDate testInitialDate;
 	PhoneNumber testOrganizationNumber;
 	Organization testOrganization;
 	int testMaxItemsPerBidder;
@@ -43,7 +40,7 @@ public class AuctionRequestTest {
 	 */
 	@Before
 	public void setUp() {
-		testInitialDate = new Date(2007, 3, 17);
+		testInitialDate = LocalDate.of(2007, 3, 17);
 		testMaxItemsPerBidder = 0;		
 		
 		User[] users = new User[1];

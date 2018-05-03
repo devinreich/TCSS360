@@ -1,6 +1,7 @@
 /**
- * Nadia Polk
- * Test Business Rule 5a/b
+ * Class: BidTest
+ * Author: Nadia Polk
+ * Purpose: (Test Business Rule 5a/b) Test class for placing Bids on Items in Auctions. 
  */
 package unit_tests;
 
@@ -17,14 +18,15 @@ import Model.User;
 import java.time.LocalDate;
 
 /**
- * @author PrancingPonies
- * @version 1.0
+ * Test class for placing Bids on Items.
+ * @author nadiapolk
+ * @version 5/3/2018
  */
 public class BidTest {
 	
 	LocalDate testAuctionStartDate;
 	LocalDate testAuctionEndDate;
-	LocalDate testItemCreationDate;
+	LocalDate testAuctionCreationDate;
 	LocalDate testBidTimeDayBefore;
 	LocalDate testBidTimeDayOf;
 	LocalDate testBidTimeDayAfter;
@@ -45,47 +47,53 @@ public class BidTest {
 	Organization testOrganization;
 	
 	/**
+	 * Sets up test bid amounts for placing bids under minimum required bid, 
+	 * equal to required bid, and above required bid for item.
+	 * Also sets up test bid dates for 1 day before auction start, day of auction start, 
+	 * and one day after auction start.
+	 * @author nadiapolk
+	 * @version 5/3/2018
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
 	void setUp() {
 		
-		LocalDate testStartDate = LocalDate.of(2018,7,03);
-		LocalDate testEndDate = LocalDate.of(2018,7,04);
-		LocalDate testCreationDate = LocalDate.now();
+		LocalDate testAuctionStartDate = LocalDate.of(2018,7,03);
+		LocalDate testAuctionEndDate = LocalDate.of(2018,7,04);
+		LocalDate testAuctionCreationDate = LocalDate.now();
 		testItem = new Item("Antique Magic 8 Ball", "Guaruntees your future",
-				  		 1000.00, testCreationDate);
+				  		 1000.00, testAuctionCreationDate);
 		testMaxItemsPerBidder = 2;
 		organizationNumber = new PhoneNumber(253, 222, 4516);
 		User[] users = new User[1];
 		Auction[] auctions = new Auction[1];
 		testOrganization = new Organization("Goodwill", organizationNumber,
 				   "Contact Robert Smith", users, auctions);
-		testAuction = new Auction(testStartDate, testEndDate,
-				 testCreationDate, testMaxItemsPerBidder, testOrganization);		
-		testAuctionStartDate = testAuction.getStartDate();
+		testAuction = new Auction(testAuctionStartDate, testAuctionEndDate,
+				testAuctionCreationDate, testMaxItemsPerBidder, testOrganization);		
 		testBidLessThanBasePrice = new Double(testItem.getBasePrice()/2); 
 		testBidEqualToBasePrice = new Double(testItem.getBasePrice()); 
 		testBidGreaterThanBasePrice =new Double(testItem.getBasePrice() * 2);		
 		testBidTimeDayBefore = testAuctionStartDate.minusDays(1);
 		testBidTimeDayOf = testAuctionStartDate;
 		testBidTimeDayAfter = testAuctionStartDate.plusDays(1);
-		
-		Bidder testBidder = new Bidder("Nadia Polk", "polkn", new PhoneNumber(512, 569, 7725),
-				"polkn@uw.edu");
+		Bidder testBidder = new Bidder("Nadia Polk", "polkn", new PhoneNumber(512, 569, 7725), "polkn@uw.edu");
 		/*  Create Bids with variable bid dates - use legal bid amount */
-		testBidDayBefore = new Bid(testBidGreaterThanBasePrice, testBidTimeDayBefore, testBidder, testItem.getDescription(), testItem, testAuction);
-		testBidDayOf = new Bid(testBidGreaterThanBasePrice, testBidTimeDayOf, testBidder, testItem.getDescription(), testItem, testAuction);
-		testBidDayAfter = new Bid(testBidGreaterThanBasePrice, testBidTimeDayAfter, testBidder, testItem.getDescription(), testItem, testAuction);
+		testBidDayBefore = new Bid(testBidGreaterThanBasePrice, testBidTimeDayBefore, testBidder, testItem, testAuction);
+		testBidDayOf = new Bid(testBidGreaterThanBasePrice, testBidTimeDayOf, testBidder, testItem, testAuction);
+		testBidDayAfter = new Bid(testBidGreaterThanBasePrice, testBidTimeDayAfter, testBidder, testItem, testAuction);
 		/* Create Bids with variable bid amounts- use legal date */
-		testBidAmountUnderMin = new Bid(testBidLessThanBasePrice, testBidTimeDayBefore, testBidder, testItem.getDescription(), testItem, testAuction);
-		testBidAmountEqualsMin = new Bid(testBidEqualToBasePrice, testBidTimeDayBefore, testBidder, testItem.getDescription(), testItem, testAuction);
-		testBidAmountAboveMin = new Bid(testBidGreaterThanBasePrice, testBidTimeDayBefore, testBidder, testItem.getDescription(), testItem, testAuction);	
+		testBidAmountUnderMin = new Bid(testBidLessThanBasePrice, testBidTimeDayBefore, testBidder, testItem, testAuction);
+		testBidAmountEqualsMin = new Bid(testBidEqualToBasePrice, testBidTimeDayBefore, testBidder, testItem, testAuction);
+		testBidAmountAboveMin = new Bid(testBidGreaterThanBasePrice, testBidTimeDayBefore, testBidder, testItem, testAuction);	
 	}
 
-	/*
-	 * Make sure bid amount validity is being correctly assessed.
-	 * @result Method will return true if the bid amount is legal (greater than base price).
+	/**
+	 * Tests that the bid amount validity is being correctly assessed.
+	 * Method will return true if the bid amount is legal (greater than or equal to 
+	 * base price of item).
+	 * @author nadiapolk
+	 * @version 5/3/2018
 	 */
 	@Test
 	public void isBidAmountLegalTest() {
@@ -95,9 +103,11 @@ public class BidTest {
 		assertTrue(testBidAmountAboveMin.isBidAmountLegal());
 	}
 	
-	 /* Make sure bid date validity is being correctly assessed.
-	 * @result Method will return true if the bid date is legal (before midnight on start date).
-	 */
+	 /** Tests that the bid date validity is being correctly assessed.
+	  * Method will return true if the bid date is legal (before midnight on start date).
+	  * @author nadiapolk
+	  * @version 5/3/2018
+	  */
 	@Test
 	public void isBidDateLegalTest() {
 		
