@@ -39,6 +39,12 @@ public class Auction {
 		return inventory.size();
 	}
 	
+	public Date getStartDate(){
+		return startDate;
+	}
+	public Date getEndDate(){
+		return endDate;
+	}
 	//Checks if the auction is at the default max capacity.
 	//Returns true if inventory size equals default capacity.
 	public boolean isAuctionAtMaxCapacity() {
