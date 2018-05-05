@@ -13,9 +13,16 @@ public class Auction {
 	private String location; // make a location object?
 	private ArrayList<Item> inventory;
 	
+	public Auction() {
+		inventory = new ArrayList<Item>();
+	}
 	
 	public void addItem(Item item) {
 		// check if legal?
 		inventory.add(item);
+	}
+	
+	public ArrayList<Item> getInvetory() {
+		return (ArrayList<Item>) inventory.clone();
 	}
 }
