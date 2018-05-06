@@ -1,22 +1,30 @@
 package Controller;
 
-import Model.Bidder;
-import Model.User;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+
+import Model.Bidder;
+import Model.User;
+import Model.Calendar;
+import Model.ContactPerson;
+import Model.User;
+import View.AuctioneerMenu;
+import View.BidderMenu;
+
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Run {
 	
 	private static User user;
 	private static String userType;
+	public static LocalDate DATE = LocalDate.now();
+	public static Calendar CALENDAR = new Calendar(DATE);
 	
 
 	public static void main(String[] args) {
 		login();
-		
 	}
 	
 	private static void login() {
@@ -41,6 +49,8 @@ public class Run {
 		if (user instanceof Bidder) {
 			System.out.println("You are logged in as: " + user.getName() + " (Bidder)");
 			openMenu("Bidder");
+		} else if (user instanceof ContactPerson) {
+			openMenu("Organization");
 		}
 	}
 	
@@ -49,8 +59,7 @@ public class Run {
 			BidderMenu bMenu = new BidderMenu();
 			bMenu.launchMenu();
 		} else if (userType == "Organization" ) {
-			// AuctioneerMenu aMenu = new AuctioneerMenu((Organization) user);
-			// aMenu.launchMenu();
+			
 		}
 	}
 }

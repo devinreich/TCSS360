@@ -8,10 +8,15 @@ import Model.Bidder;
 import Model.PhoneNumber;
 
 public class Serializer {
-
+	
+	// TO SERIALIZE AN OBJECT
+	// Create object as desired
+	// Change path in FileOutputStream to appropriately named path
+	// Change out.writeObject to contain your object
 	public static void main(String[] args) {
 		Bidder bidder = new Bidder("John Doe", "johnny", new PhoneNumber(555, 555, 5555), "3326 Hidden Lookout\n" + 
 				"Elephant Point, Washington, 98865-8265, US");
+		
 		try {
 	         FileOutputStream fileOut =
 	         new FileOutputStream("src/SerializedObjects/johnny.ser");
@@ -19,7 +24,7 @@ public class Serializer {
 	         out.writeObject(bidder);
 	         out.close();
 	         fileOut.close();
-	         System.out.printf("Serialized data is saved in src/SerializedObjects/johnny.ser");
+	         System.out.printf("Serialized data is saved");
 	      } catch (IOException i) {
 	         i.printStackTrace();
 	      }
