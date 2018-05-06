@@ -1,8 +1,11 @@
 package Model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Item {
+public class Item implements Serializable {
+	
+	private static final long serialVersionUID = 7812031855039747429L;
 	private String name;
 	private String description;
 	private Double basePrice;

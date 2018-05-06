@@ -10,9 +10,6 @@ import java.time.LocalDate;
  */
 public class Bid implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8819633818230048886L;
 	private Item item;	/* need Item object to get base price */
 	private Auction auction;	/* need Auction object for auctionStartDate */
