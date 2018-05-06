@@ -33,4 +33,5 @@ public abstract class User implements Serializable {
 	public String contactInfo() {
 		return contactInfo;
 	}
+	
 }

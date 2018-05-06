@@ -19,7 +19,8 @@ import java.util.Date;
 
 /**
  * @author PrancingPonies
- * @version 1.0
+ * @author Brittany Byrd bbyrd227@uw.edu
+ * @version 5.1.2018
  */
 class AuctionTest {
 	
@@ -37,7 +38,7 @@ class AuctionTest {
 	Organization testOrganization;
 	
 	/**
-	 * @throws java.lang.Exception
+	 * Sets up new auction and items for each test.
 	 */
 	@BeforeEach
 	void setUp() {
@@ -54,19 +55,33 @@ class AuctionTest {
 						600.00, testCreationDate);
 		item4 = new Item("Vintage Coffee Table", "A vintage coffee table",
 						 150.00, testCreationDate);
-		item5 = new Item("Antique Dining Set", "Antique Table with set of 4 chairs",
+		item5 = new Item("Antique Dining Set", 
+						"Antique Table with set of 4 chairs",
 						1000.00, testCreationDate);
 		
 		User[] users = new User[1];
 		Auction[] auctions = new Auction[1];
-		testOrganization = new Organization("Goodwill", organizationNumber,
-										   "Contact Robert Smith", users,
+		testOrganization = new Organization("Goodwill", 
+											organizationNumber,
+										   "Contact Robert Smith", 
+										   users,
 										   auctions);
 		testAuction = new Auction(testStartDate, testEndDate,
+<<<<<<< HEAD
 								 testCreationDate, testMaxItemsPerBidder, 
 								 testOrganization);							   	
+=======
+								 testCreationDate, 
+								 testMaxItemsPerBidder, 
+								 testOrganization);
+										   	
+>>>>>>> B-Branch
 	}
 
+	/**
+	 * Tests if the max capacity is not full when there are many
+	 * fewer items than the max item count for auctions.
+	 */
 	@Test
 	public void isAuctionAtMaxCapacity_ManyFewerThanMaxItemCount_false() {
 		
@@ -75,6 +90,10 @@ class AuctionTest {
 		assertFalse(testAuction.isAuctionAtMaxCapacity());	
 	}
 	
+	/**
+	 * Tests is the max capacity is not full when there is
+	 * one less than the max item count for auctions.
+	 */
 	@Test
 	public void isAuctionAtMaxCapacity_OneLessFewerThanMaxItemCount_false() {
 		
@@ -86,6 +105,10 @@ class AuctionTest {
 		assertFalse(testAuction.isAuctionAtMaxCapacity());
 	}
 	
+	/**
+	 * Tests is the max capacity is full when there are the max
+	 * number of items for auctions.
+	 */
 	@Test
 	public void isAuctionAtMaxCapacity_AuctionExactlyAtMaxCapacity_true() {
 		
