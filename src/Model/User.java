@@ -1,6 +1,10 @@
 package Model;
 
-public abstract class User {
+import java.io.Serializable;
+
+public abstract class User implements Serializable {
+	
+	private static final long serialVersionUID = -898640423353892899L;
 	private String name;
 	private String loginName; // might remove login name, probably will be a key to the value User
 	private PhoneNumber phoneNumber;

@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -9,8 +10,9 @@ import java.util.ArrayList;
  * @author PrancingPonies
  * @version 5/3/2018
  */
-public class Auction {
+public class Auction implements Serializable {
 	
+	private static final long serialVersionUID = -657206927328048783L;
 	private static final Integer DEFAULT_MAX_ITEMS = 5;
 	private LocalDate startDate;
 	private LocalDate endDate;
