@@ -47,7 +47,7 @@ public class Organization {
 	
 	//Display details about current auction
 	public void displayCurrentAuctionDetails() {
-		System.out.println("Your current auction is scheduled on " + currentAuction.get);
+		System.out.println("Your current auction is scheduled on " + currentAuction.getStartDate());
 		
 	}
 	

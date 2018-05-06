@@ -39,6 +39,8 @@ public class Auction {
 		return inventory.size();
 	}
 	
+	
+	
 	//Checks if the auction is at the default max capacity.
 	//Returns true if inventory size equals default capacity.
 	public boolean isAuctionAtMaxCapacity() {
@@ -47,6 +49,6 @@ public class Auction {
 			
 	}
 	
-	public LocalDate
+
 	
 }
