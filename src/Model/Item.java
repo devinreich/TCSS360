@@ -1,22 +1,22 @@
 package Model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Item {
 	private String name;
 	private String description;
 	private Double basePrice;
 	private Bid highestBid;
-	private Date dateCreated;
+	private LocalDate dateCreated;
 	
-	public Item(String name, String description, Double basePrice, Date dateCreated) {
+	public Item(String name, String description, Double basePrice, LocalDate dateCreated) {
 		this.name = name;
 		this.description = description;
 		this.basePrice = basePrice;
-		this.dateCreated = new Date(dateCreated.getTime());
+		this.dateCreated = dateCreated;
 	}
 	
-	public Item(String name, String description, Double basePrice, Date dateCreated, Bid initialBid) {
+	public Item(String name, String description, Double basePrice, LocalDate dateCreated, Bid initialBid) {
 		this(name, description, basePrice, dateCreated);
 		this.highestBid = initialBid;
 	}
@@ -41,7 +41,7 @@ public class Item {
 		return basePrice; // maybe do string formating here to make it currency
 	}
 	
-	public Date getCreationDate() {
-		return new Date(dateCreated.getTime());
+	public LocalDate getCreationDate() {
+		return dateCreated;
 	}
 }

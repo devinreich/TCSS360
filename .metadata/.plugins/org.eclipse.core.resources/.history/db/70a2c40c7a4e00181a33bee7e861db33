@@ -1,0 +1,23 @@
+package unit_tests;
+
+import static org.junit.Assert.*;
+
+import java.util.Date;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class OrganizationAuctionRequestTest {
+	
+	Date testDate;
+	
+	@Before
+	public void setUp() throws Exception {
+	}
+
+	@Test
+	public void isAuctionRequestDateAllowed_noAuctionsOnDate_true() {
+		fail("Not yet implemented");
+	}
+
+}

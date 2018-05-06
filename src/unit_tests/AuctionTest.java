@@ -1,0 +1,100 @@
+/**
+ * 
+ */
+package unit_tests;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import Model.Auction;
+import Model.Item;
+import Model.Organization;
+import Model.PhoneNumber;
+import Model.User;
+
+import java.time.LocalDate;
+import java.util.Date;
+
+/**
+ * @author PrancingPonies
+ * @version 1.0
+ */
+class AuctionTest {
+	
+	Auction testAuction;
+	LocalDate testStartDate;
+	LocalDate testEndDate;
+	LocalDate testCreationDate;
+	int testMaxItemsPerBidder;
+	Item item1;
+	Item item2;
+	Item item3;
+	Item item4;
+	Item item5;
+	PhoneNumber organizationNumber;
+	Organization testOrganization;
+	
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@BeforeEach
+	void setUp() {
+		testStartDate = LocalDate.of(2018, 7, 3);
+		testEndDate = LocalDate.of(2018, 7, 4);
+		organizationNumber = new PhoneNumber(253, 222, 4516);
+		testCreationDate = LocalDate.now();
+		testMaxItemsPerBidder = 2;
+		item1 = new Item("Antique Chair", "An antique chair from France",
+				  		 100.00, testCreationDate);
+		item2 = new Item("Antique Sofa", "An antique sofa from France",
+			      		 200.00, testCreationDate);
+		item3 = new Item("Tiffany Lamp", "Vintage Tiffany Lamp",
+						600.00, testCreationDate);
+		item4 = new Item("Vintage Coffee Table", "A vintage coffee table",
+						 150.00, testCreationDate);
+		item5 = new Item("Antique Dining Set", "Antique Table with set of 4 chairs",
+						1000.00, testCreationDate);
+		
+		User[] users = new User[1];
+		Auction[] auctions = new Auction[1];
+		testOrganization = new Organization("Goodwill", organizationNumber,
+										   "Contact Robert Smith", users,
+										   auctions);
+		testAuction = new Auction(testStartDate, testEndDate,
+								 testCreationDate, testMaxItemsPerBidder, 
+								 testOrganization);							   	
+	}
+
+	@Test
+	public void isAuctionAtMaxCapacity_ManyFewerThanMaxItemCount_false() {
+		
+		testAuction.addItem(item1);
+		
+		assertFalse(testAuction.isAuctionAtMaxCapacity());	
+	}
+	
+	@Test
+	public void isAuctionAtMaxCapacity_OneLessFewerThanMaxItemCount_false() {
+		
+		testAuction.addItem(item1);
+		testAuction.addItem(item2);
+		testAuction.addItem(item3);
+		testAuction.addItem(item4);
+		
+		assertFalse(testAuction.isAuctionAtMaxCapacity());
+	}
+	
+	@Test
+	public void isAuctionAtMaxCapacity_AuctionExactlyAtMaxCapacity_true() {
+		
+		testAuction.addItem(item1);
+		testAuction.addItem(item2);
+		testAuction.addItem(item3);
+		testAuction.addItem(item4);
+		testAuction.addItem(item5);;
+		
+		assertTrue(testAuction.isAuctionAtMaxCapacity());
+	}
+}

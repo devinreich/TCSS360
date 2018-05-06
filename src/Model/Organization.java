@@ -9,6 +9,18 @@ public class Organization {
 	private User[] staff;
 	private Auction[] auctions;
 	
+	public Organization(String theName, PhoneNumber thePhoneNumber, 
+					   String theContactInfo, User[] theStaff,
+					   Auction[] theAuctions) {
+		
+		name = theName;
+		phoneNumber = thePhoneNumber;
+		contactInfo = theContactInfo;
+		staff = theStaff;
+		auctions = theAuctions;
+		
+	}
+	
 	public String getName() {
 		return name;
 	}

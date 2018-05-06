@@ -2,8 +2,8 @@ package Tests;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,10 +21,12 @@ public class BidTest {
 	private Item item;
 	private Auction auction;
 	
+	private Item item2 = new Item("Toothbrush", "Trump's toothbrush", 3000.0, LocalDate.now());
+	
 	@Before
 	public void setup() {
 		bidder = new Bidder("John", "johnLoginName", new PhoneNumber(360, 555, 5555), "contact info");
-		item = new Item("Toothbrush", "Trump's toothbrush", 3000.0, new Date());
+		item = new Item("Toothbrush", "Trump's toothbrush", 3000.0, LocalDate.now());
 		auction = new Auction();
 		auction.addItem(item);
 	}
