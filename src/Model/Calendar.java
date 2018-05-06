@@ -3,6 +3,7 @@ import java.time.LocalDate;
 
 public class Calendar {
 	private Auction[] auctions;
+<<<<<<< HEAD
 	private LocalDate currentDate;
 	
 	public Calendar(LocalDate theCurrentDate) {
