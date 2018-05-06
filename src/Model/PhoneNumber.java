@@ -1,7 +1,11 @@
 package Model;
 
+import java.io.Serializable;
+
 // Found online at https://introcs.cs.princeton.edu/java/32class/PhoneNumber.java.html
-public class PhoneNumber {
+public class PhoneNumber implements Serializable {
+	
+	private static final long serialVersionUID = -8900782944049651929L;
 	private final int area;   // area code (3 digits)
     private final int exch;   // exchange  (3 digits)
     private final int ext;    // extension (4 digits)

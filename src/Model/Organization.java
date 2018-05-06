@@ -1,8 +1,11 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class Organization {
+public class Organization implements Serializable {
+	
+	private static final long serialVersionUID = 8973718656632450810L;
 	private String name;
 	private PhoneNumber phoneNumber;
 	private String contactInfo;
