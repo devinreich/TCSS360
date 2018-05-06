@@ -29,4 +29,5 @@ public abstract class User {
 	public String contactInfo() {
 		return contactInfo;
 	}
+	
 }

@@ -14,13 +14,13 @@ public class Auction {
 	private String location; // make a location object?
 	private ArrayList<Item> inventory;
 	
-	public Auction(Date testStartDate, Date testEndDate,
-				   Date testCreationDate,
+	public Auction(Date theStartDate, Date theEndDate,
+				   Date theCreationDate,
 				   int theMaxItemsPerBidder, Organization theOrganization) {
 		
-		startDate = testStartDate;
-		endDate = testEndDate;
-		creationDate = testCreationDate;
+		startDate = theStartDate;
+		endDate = theEndDate;
+		creationDate = theCreationDate;
 		maxItemsPerBidder = theMaxItemsPerBidder;
 		forOrganization = theOrganization;
 		inventory = new ArrayList<>();

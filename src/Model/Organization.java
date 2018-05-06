@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Arrays;
 
-public class Organization {
+public class Organization extends User{
 	private String name;
 	private PhoneNumber phoneNumber;
 	private String contactInfo;
@@ -13,9 +13,7 @@ public class Organization {
 					   String theContactInfo, User[] theStaff,
 					   Auction[] theAuctions) {
 		
-		name = theName;
-		phoneNumber = thePhoneNumber;
-		contactInfo = theContactInfo;
+		super(theName, thePhoneNumber, theContactInfo);
 		staff = theStaff;
 		auctions = theAuctions;
 		
@@ -39,5 +37,13 @@ public class Organization {
 	
 	public Auction[] getAuctions() {
 		return Arrays.copyOf(auctions, auctions.length);
+	}
+	
+	public boolean hasActiveAuction() {
+		return true;
+	}
+	
+	public void displayCurrentAuctionDetails() {
+		
 	}
 }
