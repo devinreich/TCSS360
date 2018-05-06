@@ -3,16 +3,15 @@ import java.time.LocalDate;
 
 public class Calendar {
 	private Auction[] auctions;
-	private int MAX_DAYS = 2;
 	
 	public boolean checkDate(LocalDate theDate){
 		int num = 0;
 		for (Auction theAuction : auctions){
 			if (theAuction.getStartDate().equals(theDate) || 
 					theAuction.getEndDate().equals(theDate))
-				num++;
+				num+=1;
 		}
-		if (num <= MAX_DAYS)
+		if (num <=2)
 			return true;
 		return false;
 	}
