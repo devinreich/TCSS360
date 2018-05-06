@@ -25,16 +25,6 @@ public class Auction implements Serializable {
 		inventory = new ArrayList<Item>();
 	}
 	
-	/**
-	 * Creates an Auction and initializes start date, end date, creation date, max items per bidder
-	 * 	and the organization it's for. Creates an inventory for the Auction. 
-	 * @param thestartDate	The start date of the auction
-	 * @param theendDate	The end date of the auction
-	 * @param thecreateDate	The date the auction was created
-	 * @param theMaxItemsPerBidder	The maximum number of items per bidder for this auction
-	 * @param theOrganization	The organization this auction is for
-	 * @version 5/3/2018
-	 */
 	public Auction(LocalDate thestartDate, LocalDate theendDate, LocalDate thecreateDate,
 			Integer theMaxItemsPerBidder, Organization theOrganization) {
 		
@@ -52,23 +42,16 @@ public class Auction implements Serializable {
 		inventory.add(item);
 	}
 	
+	
 	public ArrayList<Item> getInvetory() {
 		return inventory;
 	}
-	/**
-	 * Returns size of inventory. 
-	 * @return Size of {@link Auction#inventory}. 
-	 * @version 5/3/2018
-	 */
+
+	
 	public int getInventoryCount() {
 		return inventory.size();
 	}
 	
-	/**
-	 * Returns create date of auction.
-	 * @return {@link Auction#createDate} 
-	 * @version 5/3/2018
-	 */
 	public LocalDate getCreateDate() {
 		return createDate;
 	}
