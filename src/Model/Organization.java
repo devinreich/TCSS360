@@ -11,16 +11,15 @@ public class Organization implements Serializable {
 	private String contactInfo;
 	private User[] staff;
 	private Auction[] auctions;
+	private Auction currentAuction;
 	
 	public Organization(String theName, PhoneNumber thePhoneNumber, 
 					   String theContactInfo, User[] theStaff,
 					   Auction[] theAuctions) {
 		
-		name = theName;
-		phoneNumber = thePhoneNumber;
-		contactInfo = theContactInfo;
 		staff = theStaff;
 		auctions = theAuctions;
+		currentAuction = null;
 		
 	}
 	
@@ -42,5 +41,21 @@ public class Organization implements Serializable {
 	
 	public Auction[] getAuctions() {
 		return Arrays.copyOf(auctions, auctions.length);
+	}
+	
+	//Figure out how to determine if a organization has a current auction
+	public boolean hasActiveAuction() {
+		return currentAuction != null;
+	}
+	
+	//Display details about current auction
+	public void displayCurrentAuctionDetails() {
+		System.out.println("Your current auction is scheduled on " + currentAuction.getStartDate());
+		
+	}
+	
+	//Cancel current auction
+	public void cancelCurrentAuction() {
+		
 	}
 }
