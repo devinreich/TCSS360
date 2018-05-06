@@ -57,6 +57,15 @@ public class Auction implements Serializable {
 	}
 	
 	public void removeItem(Item theItem) {
+		int index = 0;
+		for(Item myItem : inventory) {
+			if( !myItem.equals(theItem)) {
+				index++;
+			}
+		}
+		inventory.remove(index);
+		
+		
 		
 	}
 	
@@ -64,6 +73,12 @@ public class Auction implements Serializable {
 		inventory.add(theItem);
 	}
 	
+	public void viewItem(Item theItem) {
+		System.out.println("Item Name: "+ theItem.getName());
+		System.out.println("Item Description: " + theItem.getDescription());
+		System.out.println("Item Base Price: "+theItem.getBasePrice());
+		System.out.println("Item Create Date: "+ theItem.getCreationDate());
+	}
 	
 	public ArrayList<Item> getInventory() {
 		return inventory;
