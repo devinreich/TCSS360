@@ -43,7 +43,23 @@ public class Auction {
 		return inventory.size();
 	}
 	
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+	//Checks if the auction is at the default max capacity.
+	//Returns true if inventory size equals default capacity.
+	public boolean isAuctionAtMaxCapacity() {
+		
+		return getInventoryCount() == DEFAULT_MAX_ITEMS;
+			
+=======
+	/**
+	 * Returns create date of auction.
+	 * @return {@link Auction#createDate} 
+	 * @version 5/3/2018
+	 */
+>>>>>>> 399f5355cffc70f16924caace2a4dd0cf4a60015
 	public LocalDate getCreateDate() {
 		return createDate;
 	}
@@ -61,6 +77,7 @@ public class Auction {
 
 	public Organization getOrganization(){
 		return forOrganization;
+>>>>>>> d31e68e36c5c5146c26de57c7add69e039b2b323
 	}
 	
 
