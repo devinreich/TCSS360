@@ -9,5 +9,6 @@ public class ContactPerson extends User implements Serializable {
 	protected ContactPerson(String name, String loginName, PhoneNumber phoneNumber, String contactInfo) {
 		super(name, loginName, phoneNumber, contactInfo);
 	}
-
+	
+	
 }
