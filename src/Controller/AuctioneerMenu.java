@@ -59,6 +59,7 @@ public class AuctioneerMenu {
 		System.out.println("   1) View Current Auction");
 		System.out.println("   2) View All Auctions");
 		System.out.println("   3) Cancel Active Auction");
+      
 		System.out.println("Enter your choice: ");
 		Scanner scanner = new Scanner(System.in);
 		int choice;

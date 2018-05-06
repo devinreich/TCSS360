@@ -47,4 +47,6 @@ public class Auction {
 			
 	}
 	
+	public LocalDate
+	
 }

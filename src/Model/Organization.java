@@ -2,20 +2,21 @@ package Model;
 
 import java.util.Arrays;
 
-public class Organization extends User{
+public class Organization {
 	private String name;
 	private PhoneNumber phoneNumber;
 	private String contactInfo;
 	private User[] staff;
 	private Auction[] auctions;
+	private Auction currentAuction;
 	
 	public Organization(String theName, PhoneNumber thePhoneNumber, 
 					   String theContactInfo, User[] theStaff,
 					   Auction[] theAuctions) {
 		
-		super(theName, thePhoneNumber, theContactInfo);
 		staff = theStaff;
 		auctions = theAuctions;
+		currentAuction = null;
 		
 	}
 	
@@ -39,11 +40,19 @@ public class Organization extends User{
 		return Arrays.copyOf(auctions, auctions.length);
 	}
 	
+	//Figure out how to determine if a organization has a current auction
 	public boolean hasActiveAuction() {
-		return true;
+		return currentAuction != null;
 	}
 	
+	//Display details about current auction
 	public void displayCurrentAuctionDetails() {
+		System.out.println("Your current auction is scheduled on " + currentAuction.get);
+		
+	}
+	
+	//Cancel current auction
+	public void cancelCurrentAuction() {
 		
 	}
 }
