@@ -67,15 +67,8 @@ class AuctionTest {
 										   users,
 										   auctions);
 		testAuction = new Auction(testStartDate, testEndDate,
-<<<<<<< HEAD
 								 testCreationDate, testMaxItemsPerBidder, 
-								 testOrganization);							   	
-=======
-								 testCreationDate, 
-								 testMaxItemsPerBidder, 
 								 testOrganization);
-										   	
->>>>>>> B-Branch
 	}
 
 	/**

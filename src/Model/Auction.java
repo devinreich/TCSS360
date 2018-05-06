@@ -37,20 +37,10 @@ public class Auction implements Serializable {
 	 */
 	public Auction(LocalDate thestartDate, LocalDate theendDate, LocalDate thecreateDate,
 			Integer theMaxItemsPerBidder, Organization theOrganization) {
-	
-<<<<<<< HEAD
+		
 		startDate = thestartDate;
 		endDate = theendDate;
 		createDate = thecreateDate;
-=======
-	public Auction(Date theStartDate, Date theEndDate,
-				   Date theCreationDate,
-				   int theMaxItemsPerBidder, Organization theOrganization) {
-		
-		startDate = theStartDate;
-		endDate = theEndDate;
-		creationDate = theCreationDate;
->>>>>>> B-Branch
 		maxItemsPerBidder = theMaxItemsPerBidder;
 		forOrganization = theOrganization;
 		inventory = new ArrayList<>();
@@ -74,7 +64,6 @@ public class Auction implements Serializable {
 		return inventory.size();
 	}
 	
-<<<<<<< HEAD
 	/**
 	 * Returns create date of auction.
 	 * @return {@link Auction#createDate} 
@@ -103,18 +92,4 @@ public class Auction implements Serializable {
 	public boolean isAuctionAtMaxCapacity() {
 		return getInventoryCount() == DEFAULT_MAX_ITEMS;	
 	}
-=======
-	
-	
-	//Checks if the auction is at the default max capacity.
-	//Returns true if inventory size equals default capacity.
-	public boolean isAuctionAtMaxCapacity() {
-		
-		return getInventoryCount() == DEFAULT_MAX_ITEMS;
-			
-	}
-	
-
-	
->>>>>>> B-Branch
 }
