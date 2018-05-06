@@ -19,8 +19,12 @@ public class AuctioneerMenu {
 		
 		System.out.println("Which option would you like to choose?");
 		
+		
+		
+		//Only print out options the user can access 
 		if (auctioneer.hasActiveAuction()) {
-			printActiveAuctionMenu();
+			
+			int choice = printActiveAuctionMenu();
 			
 			switch(choice) {
 			
@@ -28,17 +32,18 @@ public class AuctioneerMenu {
 				auctioneer.displayCurrentAuctionDetails();
 				break;
 			case 2:
-				auctioneer.displayAllAuctions();
+				auctioneer.getAuctions();
+				break;
+			case 3:
+				auctioneer.cancelCurrentAuction();
+				break;
+			}
 				
 				
 		} else {
 			printInactiveAuctionMenu();
 		}
-		System.out.println("Enter your choice: ");
-		Scanner scanner = new Scanner(System.in);
-		int choice;
-		choice = scanner.nextInt();
-		// Should check for error input?
+	
 		
 		 
 			
@@ -49,11 +54,17 @@ public class AuctioneerMenu {
 		
 	}
 	
-	public void printActiveAuctionMenu() {
+	public int printActiveAuctionMenu() {
 		
 		System.out.println("   1) View Current Auction");
 		System.out.println("   2) View All Auctions");
 		System.out.println("   3) Cancel Active Auction");
+		System.out.println("Enter your choice: ");
+		Scanner scanner = new Scanner(System.in);
+		int choice;
+		choice = scanner.nextInt();
+		return choice;
+		// Should check for error input?
 	}
 
 	public void printInactiveAuctionMenu() {
