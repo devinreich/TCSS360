@@ -45,7 +45,7 @@ public class Calendar implements Serializable {
 		}
 	}
 	
-	private void addAuction(Auction theAuction){
+	public void addAuction(Auction theAuction){
 			auctions.add(theAuction);
 	}
 	

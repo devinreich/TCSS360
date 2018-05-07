@@ -29,7 +29,7 @@ public class Bid implements Serializable {
 	
 	private void PlaceBid() {
 		
-		if (isBidAmountLegal() && isBidDateLegal()) {
+		if (isBidAmountLegal() && isBidDateLegal() && isBidNumberLegal()) {
 			bidder.addBid(this);
 		}
 	}
