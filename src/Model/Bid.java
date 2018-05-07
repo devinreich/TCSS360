@@ -52,9 +52,6 @@ public class Bid implements Serializable {
 		return bidAmount >= item.getBasePrice();	
 	}
 	
-	public boolean isBidNumberLegal() {
-		return getBids().length <= MAX_BID;
-	}
 	public Double getBidAmount() {
 		return bidAmount;
 	}
