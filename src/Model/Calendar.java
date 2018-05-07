@@ -16,6 +16,7 @@ public class Calendar implements Serializable {
 	private int MAX_DAYS = 2;
 	private int MAX_UPCOMING_AUCTIONS = 25;
 	private int MAX_UPCOMING_AUCTIONS_DAYS = 60;
+	private int MIN_UPCOMING_AUCTIONS_DAYS = 14;
 
 	private LocalDate currentDate;
 	
@@ -67,19 +68,26 @@ public class Calendar implements Serializable {
 			if(auctions.get(i).getStartDate().isBefore(thePioneer.getStartDate()))
 				thePioneer = auctions.get(i);
 		}
-		if(thePioneer.getStartDate().getYear() - theAuction.getStartDate().getYear() == 0) {
-			if (thePioneer.getStartDate().getMonthValue() - theAuction.getStartDate().getMonthValue() < 2 ){
-				result = true;
-			}
-			else if (thePioneer.getStartDate().getMonthValue() - theAuction.getStartDate().getMonthValue() == 2) {
+//		if(thePioneer.getStartDate().getYear() - theAuction.getStartDate().getYear() == 0) {
+//			if (thePioneer.getStartDate().getMonthValue() - theAuction.getStartDate().getMonthValue() < 2 ){
+//				result = true;
+//			}
+//			else if (thePioneer.getStartDate().getMonthValue() - theAuction.getStartDate().getMonthValue() == 2) {
 				long DaysBetween = ChronoUnit.DAYS.between(thePioneer.getStartDate(), theAuction.getStartDate());
-				if(DaysBetween <= MAX_UPCOMING_AUCTIONS_DAYS){
-
+				if(DaysBetween <= MAX_UPCOMING_AUCTIONS_DAYS)
 					result = true;
-				}
-			}
-		}
+//				}
+//			}
+//		}
 		return result;
+	}
+	public boolean chekcForMinDays(Auction theAuction) {
+		boolean result = false;
+		long DaysBetween = ChronoUnit.DAYS.between(LocalDate.now(), theAuction.getStartDate());
+		if(DaysBetween <= MIN_UPCOMING_AUCTIONS_DAYS)
+			result = true;
+		return result;
+		
 	}
 	public boolean checkForUpComingAuctionNumber() {
 		return auctions.size() <= MAX_UPCOMING_AUCTIONS;
