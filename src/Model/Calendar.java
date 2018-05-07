@@ -12,13 +12,17 @@ import java.io.Serializable;
 
 public class Calendar implements Serializable {
 	private static final long serialVersionUID = 4438330929983107980L;
-	private ArrayList<Auction> auctions = new ArrayList();
+	private ArrayList<Auction> auctions;
 	private int MAX_DAYS = 2;
 	private int MAX_UPCOMING_AUCTIONS = 25;
 	private int MAX_UPCOMING_AUCTIONS_DAYS = 60;
 	private int MIN_UPCOMING_AUCTIONS_DAYS = 14;
 
 	private LocalDate currentDate;
+	
+	public Calendar(){
+		auctions = new ArrayList<Auction>();
+	}
 	
 	public Calendar(LocalDate theCurrentDate) {
 		currentDate = theCurrentDate;
@@ -81,7 +85,8 @@ public class Calendar implements Serializable {
 //		}
 		return result;
 	}
-	public boolean chekcForMinDays(Auction theAuction) {
+	
+	public boolean checkForMinDays(Auction theAuction) {
 		boolean result = false;
 		long DaysBetween = ChronoUnit.DAYS.between(LocalDate.now(), theAuction.getStartDate());
 		if(DaysBetween <= MIN_UPCOMING_AUCTIONS_DAYS)
@@ -89,6 +94,7 @@ public class Calendar implements Serializable {
 		return result;
 		
 	}
+	
 	public boolean checkForUpComingAuctionNumber() {
 		return auctions.size() <= MAX_UPCOMING_AUCTIONS;
 	}
