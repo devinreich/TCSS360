@@ -38,13 +38,14 @@ public class Calendar implements Serializable {
 	
 
 	public void requestAuction(LocalDate theDate, Auction theAuction) {
-		if (checkDate(theDate)) {
+		if (checkDate(theDate) && checkForUpcomingDays(theAuction) 
+			&& checkForUpComingAuctionNumber()) {
 		addAuction(theAuction);
 		}
 	}
 	
 	private void addAuction(Auction theAuction){
-		auctions.add(theAuction);
+			auctions.add(theAuction);
 	}
 	
 
@@ -58,7 +59,7 @@ public class Calendar implements Serializable {
 		}
 		return(futureAuctions);
 	}
-	public boolean chechForUpcomingDays(Auction theAuction) {
+	public boolean checkForUpcomingDays(Auction theAuction) {
 		int theNextOne;
 		boolean result = false;
 		Auction thePioneer = auiction[0];
