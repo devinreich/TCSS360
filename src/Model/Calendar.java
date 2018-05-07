@@ -1,5 +1,4 @@
 package Model;
-<<<<<<< HEAD
 
 import java.util.ArrayList;
 
