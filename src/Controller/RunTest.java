@@ -7,8 +7,8 @@ import Model.Calendar;
 import Model.Organization;
 import Model.PhoneNumber;
 import Model.User;
-import view.AuctioneerMenu;
-import view.BidderMenu;
+import View.AuctioneerMenu;
+import View.BidderMenu;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

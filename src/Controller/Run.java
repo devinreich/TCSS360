@@ -1,9 +1,16 @@
 package Controller;
 
-import Model.Calendar;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
+import Model.Bidder;
 import Model.User;
-import view.AuctioneerMenu;
-import view.BidderMenu;
+import Model.Calendar;
+import Model.ContactPerson;
+import Model.User;
+import View.AuctioneerMenu;
+import View.BidderMenu;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -18,19 +25,33 @@ public class Run {
 
 	public static void main(String[] args) {
 		login();
-		
-		
-		openMenu("Organization");
-		
 	}
 	
 	private static void login() {
 		System.out.println("Welcome to Auction Central");
-		//System.out.print("Please provide your username:");
-//		Scanner scan = new Scanner(System.in);
-//		String username = scan.nextLine();
-		
-		// retrieve user from serialized object
+		System.out.println("Please provide your username:");
+		Scanner scan = new Scanner(System.in);
+		String username = scan.nextLine();
+		try {
+	         FileInputStream fileIn = new FileInputStream("src/SerializedObjects/" + username +".ser");
+	         ObjectInputStream in = new ObjectInputStream(fileIn);
+	         user = (User) in.readObject();
+	         in.close();
+	         fileIn.close();
+	      } catch (IOException i) {
+	         i.printStackTrace();
+	         return;
+	      } catch (ClassNotFoundException c) {
+	         System.out.println("Class not Found");
+	         c.printStackTrace();
+	         return;
+	      }
+		if (user instanceof Bidder) {
+			System.out.println("You are logged in as: " + user.getName() + " (Bidder)");
+			openMenu("Bidder");
+		} else if (user instanceof ContactPerson) {
+			openMenu("Organization");
+		}
 	}
 	
 	public static void openMenu(String userType) {
@@ -38,8 +59,7 @@ public class Run {
 			BidderMenu bMenu = new BidderMenu();
 			bMenu.launchMenu();
 		} else if (userType == "Organization" ) {
-			//AuctioneerMenu aMenu = new AuctioneerMenu(CALENDAR);
-		//	aMenu.launchMenu();
+			
 		}
 	}
 }

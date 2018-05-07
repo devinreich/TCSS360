@@ -33,7 +33,7 @@ public class BidTest {
 	
 	@Test
 	public void bid_bidBelowMaximunNumberOfBids_true() {
-		bidder.bid(3000, auction.getInvetory().get(0));
+		bidder.bid(3000, auction.getInventory().get(0));
 		ArrayList<Bid> bids = bidder.getBids();
 		assertTrue(bids.size() > 0);
 		assertEquals(bids.get(bids.size() - 1).getBidAmount().doubleValue(), 3000.0d);
@@ -41,7 +41,7 @@ public class BidTest {
 	
 	@Test(expected = RuntimeException.class)
 	public void bid_bidEqualMaximunNumberOfBids_false() {
-		bidder.bid(3000, auction.getInvetory().get(0));
+		bidder.bid(3000, auction.getInventory().get(0));
 	}
 
 }
