@@ -12,10 +12,10 @@ import java.io.Serializable;
 
 public class Calendar implements Serializable {
 	private static final long serialVersionUID = 4438330929983107980L;
-	private ArrayList<Auction> auctions = new ArrayList();
+	private ArrayList<Auction> auctions;
 	private int MAX_DAYS = 2;
-
-
+	private int MAX_UPCOMING_AUCTIONS = 25;
+	private int MAX_UPCOMING_AUCTIONS_DAYS = 60;
 
 	private LocalDate currentDate;
 	
@@ -36,6 +36,7 @@ public class Calendar implements Serializable {
 		return false;
 	}
 	
+
 	public void requestAuction(LocalDate theDate, Auction theAuction) {
 		if (checkDate(theDate)) {
 		addAuction(theAuction);
@@ -46,18 +47,33 @@ public class Calendar implements Serializable {
 		auctions.add(theAuction);
 	}
 	
-	public ArrayList getAllAuctions(){
-		return (ArrayList) auctions.clone();
-	}
-	
-	public ArrayList getUpcomingAuctions(){
-		ArrayList<Auction> futureAuctions = new ArrayList();
-		for(Auction theAuction : auctions){
-			if (theAuction.getStartDate().equals(LocalDate.now()) || 
-					theAuction.getStartDate().isAfter(LocalDate.now())	){
-				futureAuctions.add(theAuction);
+	public boolean chechForUpcomingDays(Auction theAuction) {
+		int theNextOne;
+		boolean result = false;
+		Auction thePioneer = auiction[0];
+		for(int i = 0; i < auctions.size()-1; i++) {
+			if(auctions.getStartDate().isBefore(thePioneer.getStartDate()))
+				thePioneer = aicton[i];
+		}
+		if(thePioneer.year - theauction.year = 0) {
+			if (thePioneer.month - theauction.month < 2 ){
+				result = true;
+			}
+			else if (thePioneer.month - theauction.month == 2) {
+
+				if(thePioneer.day - theauction.day){
+					
+					result = true;
+				}
 			}
 		}
-		return(futureAuctions);
+		return result;
+	}
+
+	public boolean checkForUpComingAuctionNumber() {
+		return Auction.size() <= 25;
+	}
+	public ArrayList getAllAuctions(){
+		return (ArrayList) auctions.clone();
 	}
 }

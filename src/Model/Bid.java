@@ -17,6 +17,7 @@ public class Bid implements Serializable {
 	private LocalDate timeOfBid;
 	private Bidder bidder; // change user to bidder when created
 	private Item forItem;
+	private int MAX_BID = 4;
 	
 	public Bid(Double bidAmount, LocalDate timeOfBid, Bidder bidder, Item item, Auction auction) {
 		this.bidAmount = bidAmount;
@@ -51,6 +52,9 @@ public class Bid implements Serializable {
 		return bidAmount >= item.getBasePrice();	
 	}
 	
+	public boolean isBidNumberLegal() {
+		return getBids().length <= MAX_BID;
+	}
 	public Double getBidAmount() {
 		return bidAmount;
 	}
