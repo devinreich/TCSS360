@@ -82,7 +82,7 @@ public class Calendar implements Serializable {
 		return result;
 	}
 	public boolean checkForUpComingAuctionNumber() {
-		return auctions.size() <= 25;
+		return auctions.size() <= MAX_UPCOMING_AUCTIONS;
 	}
 	public ArrayList getAllAuctions(){
 		return (ArrayList) auctions.clone();
