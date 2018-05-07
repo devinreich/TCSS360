@@ -56,7 +56,7 @@ public class Run {
 	
 	public static void openMenu(String userType) {
 		if (userType == "Bidder") {
-			BidderMenu bMenu = new BidderMenu((Bidder) user);
+			BidderMenu bMenu = new BidderMenu((Bidder) user, CALENDAR);
 			bMenu.launchMenu();
 		} else if (userType == "Organization" ) {
 			

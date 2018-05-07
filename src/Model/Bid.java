@@ -27,10 +27,13 @@ public class Bid implements Serializable {
 		this.auction = auction;
 	}
 	
-	private void PlaceBid() {
+	public void PlaceBid() {
 		
 		if (isBidAmountLegal() && isBidDateLegal() && isBidNumberLegal()) {
 			bidder.addBid(this);
+			System.out.println("Your bid has been successfully placed!");
+		} else {
+			System.out.println("Your bid could not be placed. Bid amount was too low.");
 		}
 	}
 	
@@ -49,7 +52,7 @@ public class Bid implements Serializable {
 	}
 	
 	public boolean isBidAmountLegal() {	
-		return bidAmount >= item.getBasePrice();	
+		return bidAmount >= item.getBasePrice() && bidAmount > item.getHighestBid().getBidAmount();	
 	}
 	
 	public boolean isBidNumberLegal() {
