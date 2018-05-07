@@ -22,12 +22,13 @@ public class Organization implements Serializable {
 	public static Calendar CALENDAR = new Calendar(DATE);
 	
 	public Organization(String theName, PhoneNumber thePhoneNumber, 
-					   String theContactInfo, User[] theStaff,
-					   ArrayList<Auction> theAuctions) {
-		
-		staff = theStaff;
-		auctions = theAuctions;
-		currentAuction = null;
+					   String theContactInfo, User[] theStaff) {
+		this.name = theName;
+		this.phoneNumber = thePhoneNumber;
+		this.contactInfo = theContactInfo;
+		this.staff = theStaff;	
+		//auctions = theAuctions;
+		this.currentAuction = null;
 		
 	}
 	
@@ -77,7 +78,7 @@ public class Organization implements Serializable {
 		Organization testOrganization = new Organization("Goodwill", 
 														organizationNumber,
 														"Contact Robert Smith", 
-														users, auctions);
+														users);
 		//
 		
 		

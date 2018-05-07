@@ -7,16 +7,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-/**
- * Auction Class. 
- * Contains an inventory of Items. 
- * @author PrancingPonies
- * @version 5/3/2018
- */
 public class Auction implements Serializable {
 	
 	private static final long serialVersionUID = -657206927328048783L;
-	private static final Integer DEFAULT_MAX_ITEMS = 5;
+	private static final Integer DEFAULT_MAX_ITEMS = 4;
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private LocalDate createDate;
@@ -24,11 +18,13 @@ public class Auction implements Serializable {
 	private Integer maxItemsPerBidder;
 	private Organization forOrganization;
 	private static ArrayList<Item> inventory;
+	private ArrayList<Bid> auctionBids;
 
 	public Auction() {
 		inventory = new ArrayList<Item>();
 	}
 	
+	// specified max items per bidder
 	public Auction(LocalDate theStartDate, LocalDate theEndDate, LocalDate theCreateDate,
 				   LocalTime theStartTime, Integer theMaxItemsPerBidder, 
 				   Organization theOrganization) {
@@ -40,9 +36,23 @@ public class Auction implements Serializable {
 		maxItemsPerBidder = theMaxItemsPerBidder;
 		forOrganization = theOrganization;
 		inventory = new ArrayList<>();
+		auctionBids = new ArrayList<Bid>();
 	}
+	
+	// no specified max items per bidder- resort to default
+	public Auction(LocalDate theStartDate, LocalDate theEndDate, LocalDate theCreateDate,
+			   LocalTime theStartTime, Organization theOrganization) {
+	
+	startDate = theStartDate;
+	endDate = theEndDate;
+	createDate = theCreateDate;
+	startTime = theStartTime;
+	maxItemsPerBidder = DEFAULT_MAX_ITEMS;
+	forOrganization = theOrganization;
+	inventory = new ArrayList<>();
+	auctionBids = new ArrayList<Bid>();
+}
 				 
-
 	public static void addItem() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Enter Item Name: ");
@@ -63,10 +73,7 @@ public class Auction implements Serializable {
 				index++;
 			}
 		}
-		inventory.remove(index);
-		
-		
-		
+		inventory.remove(index);	
 	}
 	
 	public void addItem(Item theItem) {
@@ -78,6 +85,10 @@ public class Auction implements Serializable {
 		System.out.println("Item Description: " + theItem.getDescription());
 		System.out.println("Item Base Price: "+theItem.getBasePrice());
 		System.out.println("Item Create Date: "+ theItem.getCreationDate());
+	}
+	
+	public void setMaxBiddableItems(Integer maxBiddableItems) {
+		maxItemsPerBidder = maxBiddableItems;
 	}
 	
 	public ArrayList<Item> getInventory() {
@@ -117,4 +128,11 @@ public class Auction implements Serializable {
 		return getInventoryCount() == DEFAULT_MAX_ITEMS;	
 	}
 	
+	public Integer getMaxBiddableItems() {
+		return maxItemsPerBidder;
+	}
+	
+	public ArrayList<Bid> getBidsForAuction(){
+		return auctionBids;
+	}
 }

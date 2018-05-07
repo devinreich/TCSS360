@@ -2,39 +2,26 @@ package Model;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-/**
- * Bid Class. 
- * Enables a Bidder to place Bids on an Item for a specific Auction.
- * @author PrancingPonies
- * @version 5/3/2018
- */
 public class Bid implements Serializable {
 	
 	private static final long serialVersionUID = 8819633818230048886L;
-	private Item item;	/* need Item object to get base price */
-	private Auction auction;	/* need Auction object for auctionStartDate */
+	private Item item;	
+	private Auction auction;	
 	private Double bidAmount;
 	private LocalDate timeOfBid;
-	private Bidder bidder; // change user to bidder when created
+	private Bidder bidder; 
 	private Item forItem;
 	
-	public Bid(Double bidAmount, LocalDate timeOfBid, Bidder bidder, Item item, Auction auction) {
+	public Bid(Double bidAmount, LocalDate timeOfBid, Item item, Auction auction, Bidder bidder) {
 		this.bidAmount = bidAmount;
 		this.timeOfBid = timeOfBid;
-		this.bidder = bidder;
 		this.item = item;
 		this.auction = auction;
-	}
-	
-	private void PlaceBid() {
-		
-		if (isBidAmountLegal() && isBidDateLegal()) {
-			bidder.addBid(this);
-		}
+		this.bidder = bidder;
 	}
 	
 	public boolean isBidDateLegal() {	
-		if ((auction.getStartDate().compareTo(timeOfBid) < 0) || 
+		if ((auction.getStartDate().compareTo(timeOfBid) > 0) || 
 				(auction.getCreateDate().compareTo(timeOfBid) == 0)) {
 			if (timeOfBid.compareTo(auction.getStartDate()) > 0) {
 				return false;

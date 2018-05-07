@@ -1,13 +1,10 @@
 package unit_tests;
 
 import static org.junit.Assert.*;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import Model.Auction;
 import Model.Bid;
 import Model.Bidder;
@@ -33,7 +30,7 @@ public class BidTest {
 	
 	@Test
 	public void bid_bidBelowMaximunNumberOfBids_true() {
-		bidder.bid(3000, auction.getInventory().get(0));
+		bidder.placeBid(new Bid(new Double(3000), LocalDate.now(), auction.getInventory().get(0), auction, bidder));
 		ArrayList<Bid> bids = bidder.getBids();
 		assertTrue(bids.size() > 0);
 		assertEquals(bids.get(bids.size() - 1).getBidAmount().doubleValue(), 3000.0d);
@@ -41,7 +38,7 @@ public class BidTest {
 	
 	@Test(expected = RuntimeException.class)
 	public void bid_bidEqualMaximunNumberOfBids_false() {
-		bidder.bid(3000, auction.getInventory().get(0));
+		bidder.placeBid(new Bid(new Double(3000), LocalDate.now(), auction.getInventory().get(0), auction, bidder));
 	}
 
 }
