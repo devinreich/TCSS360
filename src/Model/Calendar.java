@@ -59,31 +59,10 @@ public class Calendar implements Serializable {
 		}
 		return(futureAuctions);
 	}
-	public boolean checkForUpcomingDays(Auction theAuction) {
-		int theNextOne;
-		boolean result = false;
-		Auction thePioneer = auiction[0];
-		for(int i = 0; i < auctions.size()-1; i++) {
-			if(auctions.getStartDate().isBefore(thePioneer.getStartDate()))
-				thePioneer = aicton[i];
-		}
-		if(thePioneer.year - theauction.year = 0) {
-			if (thePioneer.month - theauction.month < 2 ){
-				result = true;
-			}
-			else if (thePioneer.month - theauction.month == 2) {
-
-				if(thePioneer.day - theauction.day){
-
-					result = true;
-				}
-			}
-		}
-		return result;
-	}
+	
 
 	public boolean checkForUpComingAuctionNumber() {
-		return Auction.size() <= 25;
+		return auctions.size() <= 25;
 	}
 	public ArrayList getAllAuctions(){
 		return (ArrayList) auctions.clone();
