@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.io.Serializable;
 
 import java.time.LocalDate;
-import java.io.Serializable;
+
 
 
 
 
 public class Calendar implements Serializable {
 	private static final long serialVersionUID = 4438330929983107980L;
-	private ArrayList<Auction> auctions = new ArrayList();
+	private ArrayList<Auction> auctions = new ArrayList<Auction>();
 	private int MAX_DAYS = 2;
 
 
@@ -46,12 +46,13 @@ public class Calendar implements Serializable {
 		auctions.add(theAuction);
 	}
 	
-	public ArrayList getAllAuctions(){
-		return (ArrayList) auctions.clone();
+	@SuppressWarnings("unchecked")
+	public ArrayList<Auction> getAllAuctions(){
+		return (ArrayList<Auction>) auctions.clone();
 	}
 	
-	public ArrayList getUpcomingAuctions(){
-		ArrayList<Auction> futureAuctions = new ArrayList();
+	public ArrayList<Auction> getUpcomingAuctions(){
+		ArrayList<Auction> futureAuctions = new ArrayList<Auction>();
 		for(Auction theAuction : auctions){
 			if (theAuction.getStartDate().equals(LocalDate.now()) || 
 					theAuction.getStartDate().isAfter(LocalDate.now())	){
