@@ -2,7 +2,10 @@ package Model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Scanner;
 
 /**
  * Auction Class. 
@@ -17,34 +20,57 @@ public class Auction implements Serializable {
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private LocalDate createDate;
+	private LocalTime startTime;
 	private Integer maxItemsPerBidder;
 	private Organization forOrganization;
-	private ArrayList<Item> inventory;
+	private static ArrayList<Item> inventory;
 
 	public Auction() {
 		inventory = new ArrayList<Item>();
 	}
 	
-	public Auction(LocalDate thestartDate, LocalDate theendDate, LocalDate thecreateDate,
-			Integer theMaxItemsPerBidder, Organization theOrganization) {
+	public Auction(LocalDate theStartDate, LocalDate theEndDate, LocalDate theCreateDate,
+				   LocalTime theStartTime, Integer theMaxItemsPerBidder, 
+				   Organization theOrganization) {
 		
-		startDate = thestartDate;
-		endDate = theendDate;
-		createDate = thecreateDate;
+		startDate = theStartDate;
+		endDate = theEndDate;
+		createDate = theCreateDate;
+		startTime = theStartTime;
 		maxItemsPerBidder = theMaxItemsPerBidder;
 		forOrganization = theOrganization;
 		inventory = new ArrayList<>();
 	}
 				 
 
-	public void addItem(Item item) {
-		// check if legal?
-		inventory.add(item);
+	public static void addItem() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("Enter Item Name: ");
+		String itemName = scanner.nextLine();
+		System.out.print("\nEnter Item Description: ");
+		String itemDescription = scanner.nextLine();
+		System.out.print("\nEnter minimum bid price for item: $");
+		double basePrice = scanner.nextDouble();
+		LocalDate createDate = LocalDate.now();
+		Item item = new Item(itemName, itemDescription, basePrice, createDate);
+		inventory.add(item);		
+	}
+	
+	public void removeItem(Item theItem) {
+		
+	}
+	
+	public void addItem(Item theItem) {
+		inventory.add(theItem);
 	}
 	
 	
-	public ArrayList<Item> getInvetory() {
+	public ArrayList<Item> getInventory() {
 		return inventory;
+	}
+	
+	public void setInventory(ArrayList<Item> theItems) {
+		inventory = theItems;
 	}
 
 	
@@ -75,4 +101,5 @@ public class Auction implements Serializable {
 	public boolean isAuctionAtMaxCapacity() {
 		return getInventoryCount() == DEFAULT_MAX_ITEMS;	
 	}
+	
 }

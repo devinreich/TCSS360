@@ -3,16 +3,27 @@ import java.time.LocalDate;
 
 public class Calendar {
 	private Auction[] auctions;
-	private int MAX_DAYS;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+	private LocalDate currentDate;
+	
+	public Calendar(LocalDate theCurrentDate) {
+		currentDate = theCurrentDate;
+	}
+=======
+	private int MAX_DAYS = 2;
+>>>>>>> 6cf636d16bfbe9ffa2c57c7facc79118c164af0c
+>>>>>>> d496bafb3769c4563980f5bb00984ba05d878699
 	
 	public boolean checkDate(LocalDate theDate){
 		int num = 0;
 		for (Auction theAuction : auctions){
 			if (theAuction.getStartDate().equals(theDate) || 
 					theAuction.getEndDate().equals(theDate))
-				num++;
+				num+=1;
 		}
-		if (num <= MAX_DAYS)
+		if (num <=2)
 			return true;
 		return false;
 	}

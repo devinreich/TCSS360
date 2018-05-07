@@ -15,6 +15,8 @@ import Model.PhoneNumber;
 import Model.User;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -28,6 +30,7 @@ class AuctionTest {
 	LocalDate testStartDate;
 	LocalDate testEndDate;
 	LocalDate testCreationDate;
+	LocalTime testTime;
 	int testMaxItemsPerBidder;
 	Item item1;
 	Item item2;
@@ -46,6 +49,7 @@ class AuctionTest {
 		testEndDate = LocalDate.of(2018, 7, 4);
 		organizationNumber = new PhoneNumber(253, 222, 4516);
 		testCreationDate = LocalDate.now();
+		testTime = LocalTime.now();
 		testMaxItemsPerBidder = 2;
 		item1 = new Item("Antique Chair", "An antique chair from France",
 				  		 100.00, testCreationDate);
@@ -60,14 +64,14 @@ class AuctionTest {
 						1000.00, testCreationDate);
 		
 		User[] users = new User[1];
-		Auction[] auctions = new Auction[1];
+		ArrayList<Auction> auctions = new ArrayList<>();
 		testOrganization = new Organization("Goodwill", 
 											organizationNumber,
 										   "Contact Robert Smith", 
 										   users,
 										   auctions);
 		testAuction = new Auction(testStartDate, testEndDate,
-								 testCreationDate, testMaxItemsPerBidder, 
+								 testCreationDate, testTime, testMaxItemsPerBidder, 
 								 testOrganization);
 	}
 
