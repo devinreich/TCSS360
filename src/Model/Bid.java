@@ -66,4 +66,8 @@ public class Bid implements Serializable {
 	public Item getItem() {
 		return forItem;
 	}
+	
+	public Auction getAuction() {
+		return auction;
+	}
 }
