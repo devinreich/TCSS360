@@ -31,18 +31,19 @@ public class Serializer {
 	      } catch (IOException i) {
 	         i.printStackTrace();
 	      }
+		
 		calendar = new Calendar();
-//		try {
-//			FileOutputStream fileOut =
-//			new FileOutputStream("src/SerializedObjects/calendar.ser");
-//			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-//			out.writeObject(calendar);
-//			out.close();
-//			fileOut.close();
-//			System.out.printf("Serialized data is saved");
-//			} catch (IOException i) {
-//			   i.printStackTrace();
-//			}
+		try {
+			FileOutputStream fileOut =
+			new FileOutputStream("src/SerializedObjects/calendar.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(calendar);
+			out.close();
+			fileOut.close();
+			System.out.printf("Serialized data is saved");
+			} catch (IOException a) {
+			   a.printStackTrace();
+			}
 	}
 
 }
