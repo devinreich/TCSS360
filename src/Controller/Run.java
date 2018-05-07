@@ -8,6 +8,7 @@ import Model.Bidder;
 import Model.User;
 import Model.Calendar;
 import Model.ContactPerson;
+import Model.Organization;
 import Model.User;
 import View.AuctioneerMenu;
 import View.BidderMenu;
@@ -59,7 +60,10 @@ public class Run {
 			BidderMenu bMenu = new BidderMenu((Bidder) user, CALENDAR);
 			bMenu.launchMenu();
 		} else if (userType == "Organization" ) {
-			
+			ContactPerson cPerson = (ContactPerson) user;
+			Organization organization = cPerson.getAffiliatedOrganization();
+			AuctioneerMenu aMenu = new AuctioneerMenu(organization, CALENDAR);
+			aMenu.launchMenu();
 		}
 	}
 }

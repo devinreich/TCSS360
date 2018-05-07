@@ -21,11 +21,12 @@ public class BidderMenu {
 	}
 
 	public void launchMenu() {
+		
 		System.out.println("Which option would you like to choose?");
 		Scanner scanner = new Scanner(System.in);
 		String option;
 		do {
-
+			
 			displayBidderStartMenu(scanner);			
 
 			System.out.println("\nEnter c to continue, q to quit.");
@@ -94,19 +95,24 @@ public class BidderMenu {
 
 	//show all auctions that have bidder can bid on
 	public void displayBiddableAuctions(Scanner theScanner) {
-		System.out.println("These are the auctions that are accepting bids: ");
-		int index = 1;
-		ArrayList<Auction> biddableAuctions = calendar.getUpcomingAuctions();
-		for (Auction a: (ArrayList<Auction>) biddableAuctions) {
-			String orgName = a.getOrganization().getName();
-			System.out.println("   " + index + ") Auction hosted by: " + orgName);
-			System.out.println("      Auction date: " + a.getStartDate());
-			index++;
-		}
-		System.out.println("Enter the number of your auction of choice: ");
-		int choice = theScanner.nextInt();
+		if (calendar.getUpcomingAuctions().isEmpty()) {
+			System.out.println("There are currently no auctions accepting bids.");
+		} else {
 
-		displayAuctionBidMenu(biddableAuctions.get(choice-1), theScanner);
+			System.out.println("These are the auctions that are accepting bids: ");
+			int index = 1;
+			ArrayList<Auction> biddableAuctions = calendar.getUpcomingAuctions();
+			for (Auction a: (ArrayList<Auction>) biddableAuctions) {
+				String orgName = a.getOrganization().getName();
+				System.out.println("   " + index + ") Auction hosted by: " + orgName);
+				System.out.println("      Auction date: " + a.getStartDate());
+				index++;
+			}
+			System.out.println("Enter the number of your auction of choice: ");
+			int choice = theScanner.nextInt();
+
+			displayAuctionBidMenu(biddableAuctions.get(choice-1), theScanner);
+		}
 
 	}
 
