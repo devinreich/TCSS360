@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 public class Calendar implements Serializable {
 	private static final long serialVersionUID = 4438330929983107980L;
-	private ArrayList<Auction> auctions;
+	private ArrayList<Auction> auctions = new ArrayList();
 	private int MAX_DAYS = 2;
 	private int MAX_UPCOMING_AUCTIONS = 25;
 	private int MAX_UPCOMING_AUCTIONS_DAYS = 60;
@@ -47,6 +47,17 @@ public class Calendar implements Serializable {
 		auctions.add(theAuction);
 	}
 	
+
+	public ArrayList getUpcomingAuctions(){
+		ArrayList<Auction> futureAuctions = new ArrayList();
+		for(Auction theAuction : auctions){
+			if (theAuction.getStartDate().equals(LocalDate.now()) || 
+					theAuction.getStartDate().isAfter(LocalDate.now())	){
+				futureAuctions.add(theAuction);
+			}
+		}
+		return(futureAuctions);
+	}
 	public boolean chechForUpcomingDays(Auction theAuction) {
 		int theNextOne;
 		boolean result = false;
@@ -62,7 +73,7 @@ public class Calendar implements Serializable {
 			else if (thePioneer.month - theauction.month == 2) {
 
 				if(thePioneer.day - theauction.day){
-					
+
 					result = true;
 				}
 			}
