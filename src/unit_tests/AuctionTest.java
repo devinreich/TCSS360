@@ -68,8 +68,7 @@ class AuctionTest {
 		testOrganization = new Organization("Goodwill", 
 											organizationNumber,
 										   "Contact Robert Smith", 
-										   users,
-										   auctions);
+										   users);
 		testAuction = new Auction(testStartDate, testEndDate,
 								 testCreationDate, testTime, testMaxItemsPerBidder, 
 								 testOrganization);

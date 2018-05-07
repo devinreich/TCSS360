@@ -5,6 +5,8 @@ package unit_tests;
 
 import static org.junit.Assert.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
+
 import org.junit.Before;
 import org.junit.Test;
 import Model.Auction;
@@ -47,10 +49,10 @@ public class AuctionRequestTest {
 		Auction[] auctions = new Auction[1];
 		testOrganizationNumber = new PhoneNumber(555, 867, 5309);
 		testOrganization = new Organization("Salvation Army", testOrganizationNumber, 
-				"Contact Jane Doe", users, auctions);
+				"Contact Jane Doe", users);
 		
-		testAuction = new Auction(testInitialDate, testInitialDate,
-								 testInitialDate, testMaxItemsPerBidder, 
+		testAuction = new Auction(testInitialDate, testInitialDate,testInitialDate, LocalTime.now(),
+								 new Integer(testMaxItemsPerBidder), 
 								 testOrganization);
 		
 		

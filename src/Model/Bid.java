@@ -11,6 +11,7 @@ public class Bid implements Serializable {
 	private LocalDate timeOfBid;
 	private Bidder bidder; 
 	private Item forItem;
+	private int MAX_BID = 4;
 	
 	public Bid(Double bidAmount, LocalDate timeOfBid, Item item, Auction auction, Bidder bidder) {
 		this.bidAmount = bidAmount;
@@ -19,6 +20,7 @@ public class Bid implements Serializable {
 		this.auction = auction;
 		this.bidder = bidder;
 	}
+	
 	
 	public boolean isBidDateLegal() {	
 		if ((auction.getStartDate().compareTo(timeOfBid) > 0) || 
@@ -35,9 +37,12 @@ public class Bid implements Serializable {
 	}
 	
 	public boolean isBidAmountLegal() {	
-		return bidAmount >= item.getBasePrice();	
+		return bidAmount >= item.getBasePrice() && bidAmount > item.getHighestBid().getBidAmount();	
 	}
 	
+	public boolean isBidNumberLegal() {
+		return bidder.getBids().size() <= MAX_BID;
+	}
 	public Double getBidAmount() {
 		return bidAmount;
 	}

@@ -75,7 +75,9 @@ public class Bidder extends User implements Serializable {
 			allAuctions.add(bid.getAuction()); // add auction to bidder's list of bid auctions
 			allItems.add(bid.getItem()); // add item to bidder's list of bid items
 			bid.getAuction().getBidsForAuction().add(bid); // Add bid to auction
+			System.out.println("Your bid has been successfully placed!");
 		}		
+		System.out.println("Your bid could not be placed.");
 	}
 	
 	// all auctions with bids
