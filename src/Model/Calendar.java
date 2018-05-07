@@ -1,46 +1,46 @@
 package Model;
+import java.util.ArrayList;
 import java.time.LocalDate;
+import java.io.Serializable;
 
-public class Calendar {
-	private Auction[] auctions;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
+
+
+public class Calendar implements Serializable {
+	private static final long serialVersionUID = 4438330929983107980L;
+	private ArrayList<Auction> auctions;
 	private int MAX_DAYS = 2;
->>>>>>> 69b0a646b4d91da43893fdc92b8627c3be1b66a4
+
 	private LocalDate currentDate;
 	
 	public Calendar(LocalDate theCurrentDate) {
 		currentDate = theCurrentDate;
 	}
-<<<<<<< HEAD
-=======
-	private int MAX_DAYS = 2;
->>>>>>> 6cf636d16bfbe9ffa2c57c7facc79118c164af0c
->>>>>>> d496bafb3769c4563980f5bb00984ba05d878699
-=======
->>>>>>> 69b0a646b4d91da43893fdc92b8627c3be1b66a4
+
+
 	
 	public boolean checkDate(LocalDate theDate){
 		int num = 0;
 		for (Auction theAuction : auctions){
 			if (theAuction.getStartDate().equals(theDate) || 
 					theAuction.getEndDate().equals(theDate))
-				num+=1;
+				num++;
 		}
-		if (num <=2)
+		if (num <= MAX_DAYS)
 			return true;
 		return false;
 	}
 	
-	public void requestAuction(LocalDate theDate) {
+	public void requestAuction(LocalDate theDate, Auction theAuction) {
 		if (checkDate(theDate)) {
-		//	makeNewAuction()
+		addAuction(theAuction);
 		}
 	}
-	public void addAuction(Auction theAuction){
-		//method to add an auction into the calendar called by requestAuction.
+	
+	private void addAuction(Auction theAuction){
+		auctions.add(theAuction);
+	}
+	
+	public ArrayList getAllAuctions(){
+		return (ArrayList) auctions.clone();
 	}
 }
