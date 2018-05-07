@@ -24,7 +24,7 @@ public class Item implements Serializable {
 		this.highestBid = initialBid;
 	}
 	
-	public Bid getBid() {
+	public Bid getHighestBid() {
 		return highestBid;
 	}
 	
