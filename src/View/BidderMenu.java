@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import Model.Auction;
+import Model.Bid;
 import Model.Bidder;
+import Model.Calendar;
 import Model.Item;
 
 public class BidderMenu {
 	
 	private Bidder bidder;
+	private Calendar calendar;
 	
 	public BidderMenu(Bidder theBidder) {
 		bidder = theBidder;
@@ -45,13 +48,14 @@ public class BidderMenu {
 			displayAuctionsWithItemBids();
 			
 		case 2:
+			displayItemBids();
+		case 3:
+			displayBiddableAuctions();
 			
 			
 			
 		}
-		
-		
-		
+
 	}
 	
 	public void displayAuctionsWithItemBids() {
@@ -72,6 +76,26 @@ public class BidderMenu {
 				}
 		}
 		
+	}
+	
+	public void displayItemBids() {
+		System.out.println("Displaying Items You Have Bid On: ");
+		for (Bid bid: bidder.getBids()) {
+			System.out.println("Item: " + bid.getItem().getName());
+			
+		}
+		
+	}
+	
+	public void displayBiddableAuctions() {
+		System.out.println("These are the auctions that are accepting bids: ");
+		int index = 1;
+		for (Auction a: (ArrayList<Auction>) calendar.getUpcomingAuctions()) {
+			String orgName = a.getOrganization().getName();
+			System.out.println("   " + index + ") Auction hosted by: " + orgName);
+			System.out.println("      Auction date: " + a.getStartDate());
+			index++;
+		}
 	}
 
 }
