@@ -56,7 +56,7 @@ public class AuctioneerMenu {
 				switch(choice) {
 				case 1: 
 					//add method to organization?
-					auctioneer.submitAuctionRequest();
+					calendar.submitAuctionRequest(auctioneer);
 					break;
 				case 2: 
 					auctioneer.getAuctions();
