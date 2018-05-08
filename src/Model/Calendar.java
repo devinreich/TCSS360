@@ -64,16 +64,17 @@ public class Calendar implements Serializable {
 			
 			
 			if (this.checkDate(start) && this.checkDate(end)) {
-				System.out.println("Enter max number of items per bidder: ");
+				System.out.println("\nEnter max number of items per bidder: ");
 				int maxnum = scanner.nextInt();
 				System.out.println("Enter the start time of your auction: ");
 				
 				LocalTime time = LocalTime.of(1, 2, 0, 0);
 				LocalDate date = LocalDate.now();
-				
+
 				Auction auction = new Auction(start, end, date, time,  maxnum, theOrganization);
-				theOrganization.getAuctions().add(auction);
-				requestAuction(auction);
+
+				theOrganization.addAuction(auction);
+				this.auctions.add(auction);
 				System.out.println("Your organization is currently eligible"
 								   + " to host an auction.");
 				theOrganization.setCurrentAuction(auction);
@@ -90,12 +91,12 @@ public class Calendar implements Serializable {
 		}
 	
 
-	public void requestAuction(Auction theAuction) {
-		if (checkDate(theAuction.getStartDate()) && checkForUpcomingDays(theAuction) 
-			&& checkForUpComingAuctionNumber()) {
-		addAuction(theAuction);
-		}
-	}
+//	public void requestAuction(Auction theAuction) {
+//		if (checkDate(theAuction.getStartDate()) && checkForUpcomingDays(theAuction) 
+//			&& checkForUpComingAuctionNumber()) {
+//		addAuction(theAuction);
+//		}
+//	}
 	
 	public void addAuction(Auction theAuction){
 			auctions.add(theAuction);
