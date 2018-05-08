@@ -77,6 +77,7 @@ public class Calendar implements Serializable {
 				this.auctions.add(auction);
 				System.out.println("Your organization is currently eligible"
 								   + " to host an auction.");
+				System.out.println("Your auction has been scheduled.");
 				theOrganization.setCurrentAuction(auction);
 				
 		
