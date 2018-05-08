@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import Model.Auction;
 import Model.Calendar;
+import Model.ContactPerson;
 import Model.Item;
 import Model.Organization;
 import Model.User;
@@ -14,8 +15,8 @@ public class AuctioneerMenu {
 	private Organization auctioneer;
 	private Calendar calendar;
 	
-	public AuctioneerMenu(Organization theAuctioneer, Calendar theCalendar) {
-		auctioneer = theAuctioneer;
+	public AuctioneerMenu(ContactPerson theAuctioneer, Calendar theCalendar) {
+		auctioneer = theAuctioneer.getAffiliatedOrganization();
 		calendar = theCalendar;
 	}
 
