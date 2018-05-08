@@ -77,6 +77,7 @@ public class Calendar implements Serializable {
 				this.auctions.add(auction);
 				System.out.println("Your organization is currently eligible"
 								   + " to host an auction.");
+				System.out.println("Your auction has been scheduled.");
 				theOrganization.setCurrentAuction(auction);
 				
 		
@@ -116,20 +117,24 @@ public class Calendar implements Serializable {
 	
 	public boolean checkForUpcomingDays(Auction theAuction) {
 		boolean result = false;
-		Auction thePioneer = auctions.get(0);
-		for(int i = 0; i < auctions.size()-1; i++) {
-			if(auctions.get(i).getStartDate().isBefore(thePioneer.getStartDate()))
-				thePioneer = auctions.get(i);
-		}
+		
+
+			Auction thePioneer = auctions.get(0);
+			for(int i = 0; i < auctions.size()-1; i++) {
+				if(auctions.get(i).getStartDate().isBefore(thePioneer.getStartDate()) 
+					&& auctions.get(i).getStartDate().equals(LocalDate.now()))
+					thePioneer = auctions.get(i);
+			}
 //		if(thePioneer.getStartDate().getYear() - theAuction.getStartDate().getYear() == 0) {
 //			if (thePioneer.getStartDate().getMonthValue() - theAuction.getStartDate().getMonthValue() < 2 ){
 //				result = true;
 //			}
 //			else if (thePioneer.getStartDate().getMonthValue() - theAuction.getStartDate().getMonthValue() == 2) {
-				long DaysBetween = ChronoUnit.DAYS.between(thePioneer.getStartDate(), theAuction.getStartDate());
-				if(DaysBetween <= MAX_UPCOMING_AUCTIONS_DAYS)
-					result = true;
-//				}
+					long DaysBetween = ChronoUnit.DAYS.between(thePioneer.getStartDate(), theAuction.getStartDate());
+					if(DaysBetween <= MAX_UPCOMING_AUCTIONS_DAYS)
+						result = true;
+//					}
+				
 //			}
 //		}
 		return result;

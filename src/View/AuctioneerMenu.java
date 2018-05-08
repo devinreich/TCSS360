@@ -3,6 +3,7 @@ package View;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import Controller.Serializer;
 import Model.Auction;
 import Model.Calendar;
 import Model.ContactPerson;
@@ -12,10 +13,13 @@ import Model.User;
 
 public class AuctioneerMenu {
 
+	private ContactPerson contact;
 	private Organization auctioneer;
 	private Calendar calendar;
-	
+	public static Serializer SERIALIZER = new Serializer();
+
 	public AuctioneerMenu(ContactPerson theAuctioneer, Calendar theCalendar) {
+		contact = theAuctioneer;
 		auctioneer = theAuctioneer.getAffiliatedOrganization();
 		calendar = theCalendar;
 	}
@@ -36,13 +40,25 @@ public class AuctioneerMenu {
 
 				case 1:
 					//add method to organization
+					int auctionChoice;
+					
+					do {
 					auctioneer.displayCurrentAuctionDetails();
-					int auctionChoice = displayAuctionDetailMenu(scanner);
+					auctionChoice = displayAuctionDetailMenu(scanner);
 					auctionMenuOptions(auctionChoice, scanner);
+					} while (auctionChoice != 4);
 					break;
 				case 2:
 					//format output for method within organization class
-					auctioneer.getAuctions();
+					ArrayList<Auction> auctioneerAuctions = auctioneer.getAuctions();
+					int j = 1;
+					for (int i = 0; i < auctioneerAuctions.size(); i++) {
+						Auction auction = auctioneerAuctions.get(i);
+						System.out.println("   " + j + ") Start Date: " + auction.getStartDate() 
+						+ ", End Date: " + auction.getEndDate());
+						j++;
+
+					}
 					break;
 				case 3:
 					//add method to organization
@@ -57,7 +73,7 @@ public class AuctioneerMenu {
 				case 1: 
 					//add method to organization?
 					calendar.submitAuctionRequest(auctioneer);
-					
+
 					break;
 				case 2: 
 					auctioneer.getAuctions();
@@ -65,10 +81,15 @@ public class AuctioneerMenu {
 			}
 			System.out.println("\nEnter c to continue, q to quit.");
 			option = scanner.next();
+			
+			SERIALIZER.serializeCalendar(calendar);
+			SERIALIZER.serializeContactPerson(contact);
+			
 		} while (option != "q");
 
 	}
 
+	//Display menu for organization that has an active auction
 	public int displayActiveAuctionMenu(Scanner theScanner) {
 
 		System.out.println("   1) View Current Auction");
@@ -81,6 +102,7 @@ public class AuctioneerMenu {
 		// Should check for error input?
 	}
 
+	//Display menu for organization that has no active auction
 	public int displayInactiveAuctionMenu(Scanner theScanner) {
 
 		System.out.println("   1) Submit New Auction Request");
@@ -92,7 +114,11 @@ public class AuctioneerMenu {
 
 	}
 
+	//Display current auction menu options
 	public int displayAuctionDetailMenu(Scanner theScanner) {
+		
+		/** MUST REPEAT THIS MENU UNTIL USER SELECTS 4*/
+		//!!!!!!!!!!!!
 
 		System.out.println("Which option would you like to choose?");
 		System.out.println("   1) Add Item To Inventory");
@@ -105,46 +131,49 @@ public class AuctioneerMenu {
 
 
 	}
-	
+
+	//complete actions based on auction menu option
 	public void auctionMenuOptions(int theOption, Scanner theScanner) {
-		
+
 		Auction currentAuction = auctioneer.getCurrentAuction();
-		
+
 		while (theOption > 4 || theOption < 1) {
 			System.out.println("Not a valid option, try again.");
 			theOption = theScanner.nextInt();
 		}
 		ArrayList<Item> items = currentAuction.getInventory();
-		
+
 		switch(theOption) {
-		
+
 		//Add item
 		case 1:
 			currentAuction.addItem();
 			break;
-		//Remove item
+			//Remove item
 		case 2:
 			for (int i = 0; i < items.size(); i++) {
 				System.out.println("Item " + ++i + ": " 
-								  + items.get(i));
+						+ items.get(i));
 			}
 			System.out.print("Enter index of item to remove: ");
 			int itemIndex = theScanner.nextInt();
 			currentAuction.removeItem(items.remove(itemIndex));
 			currentAuction.setInventory(items);
 			break;
-		//View all items
+			//View all items
 		case 3:		
 			for (int i = 0; i < items.size(); i++) {
-				System.out.println("Item " + ++i + ": " 
-								  + items.get(i) + ", " + items.get(i).getDescription()
-								  + ", " + items.get(i).getBasePrice());
+				int index = i + 1;
+				System.out.println("Item " + index + ": " 
+						+ items.get(i).getName() + ", " + items.get(i).getDescription()
+						+ ", $" + items.get(i).getBasePrice());
 			}
-			
+
 		case 4:
 			//Return to previous menu
-			
+
 		}
-		
+
+
 	}
 }
