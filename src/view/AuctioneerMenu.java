@@ -3,6 +3,7 @@ package View;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import Controller.Serializer;
 import Model.Auction;
 import Model.Calendar;
 import Model.ContactPerson;
@@ -12,10 +13,13 @@ import Model.User;
 
 public class AuctioneerMenu {
 
+	private ContactPerson contact;
 	private Organization auctioneer;
 	private Calendar calendar;
+	public static Serializer SERIALIZER = new Serializer();
 
 	public AuctioneerMenu(ContactPerson theAuctioneer, Calendar theCalendar) {
+		contact = theAuctioneer;
 		auctioneer = theAuctioneer.getAffiliatedOrganization();
 		calendar = theCalendar;
 	}
@@ -36,9 +40,13 @@ public class AuctioneerMenu {
 
 				case 1:
 					//add method to organization
+					int auctionChoice;
+					
+					do {
 					auctioneer.displayCurrentAuctionDetails();
-					int auctionChoice = displayAuctionDetailMenu(scanner);
+					auctionChoice = displayAuctionDetailMenu(scanner);
 					auctionMenuOptions(auctionChoice, scanner);
+					} while (auctionChoice != 4);
 					break;
 				case 2:
 					//format output for method within organization class
@@ -73,6 +81,9 @@ public class AuctioneerMenu {
 			}
 			System.out.println("\nEnter c to continue, q to quit.");
 			option = scanner.next();
+			
+			SERIALIZER.serializeCalendar(calendar);
+			SERIALIZER.serializeContactPerson(contact);
 			
 		} while (option != "q");
 

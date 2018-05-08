@@ -19,4 +19,6 @@ public class ContactPerson extends User implements Serializable {
 	}
 	
 	
+	
+	
 }

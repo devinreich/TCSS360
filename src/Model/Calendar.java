@@ -117,12 +117,12 @@ public class Calendar implements Serializable {
 	
 	public boolean checkForUpcomingDays(Auction theAuction) {
 		boolean result = false;
-		if（auctions != null) {
+		
 
 			Auction thePioneer = auctions.get(0);
 			for(int i = 0; i < auctions.size()-1; i++) {
 				if(auctions.get(i).getStartDate().isBefore(thePioneer.getStartDate()) 
-					&& acutions.get(i).getStartDate().equals(LocalDate.now()))
+					&& auctions.get(i).getStartDate().equals(LocalDate.now()))
 					thePioneer = auctions.get(i);
 			}
 //		if(thePioneer.getStartDate().getYear() - theAuction.getStartDate().getYear() == 0) {
@@ -134,7 +134,7 @@ public class Calendar implements Serializable {
 					if(DaysBetween <= MAX_UPCOMING_AUCTIONS_DAYS)
 						result = true;
 //					}
-				}
+				
 //			}
 //		}
 		return result;
