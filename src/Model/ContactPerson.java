@@ -8,7 +8,7 @@ public class ContactPerson extends User implements Serializable {
 	private Organization affiliatedOrganization;
 	
 	
-	protected ContactPerson(String name, String loginName, PhoneNumber phoneNumber, String contactInfo,
+	public ContactPerson(String name, String loginName, PhoneNumber phoneNumber, String contactInfo,
 						   Organization organization) {
 		super(name, loginName, phoneNumber, contactInfo);
 		affiliatedOrganization = organization;
