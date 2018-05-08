@@ -23,11 +23,11 @@ public class Organization implements Serializable {
 	
 	public Organization(String theName, PhoneNumber thePhoneNumber, 
 					   String theContactInfo, User[] theStaff) {
+		this.auctions = new ArrayList<Auction>();
 		this.name = theName;
 		this.phoneNumber = thePhoneNumber;
 		this.contactInfo = theContactInfo;
 		this.staff = theStaff;
-		//auctions = theAuctions;
 		this.currentAuction = null;
 		
 	}
@@ -57,10 +57,15 @@ public class Organization implements Serializable {
 		return currentAuction != null;
 	}
 	
+	public void addAuction(Auction theAuction) {
+		if (theAuction != null)
+			auctions.add(theAuction);
+	}
+	
 	//Display details about current auction
 	public void displayCurrentAuctionDetails() {
 		System.out.println("Your current auction is scheduled on " + currentAuction.getStartDate());
-		System.out.println("The auction has " + currentAuction.getInventoryCount() + "items in the inventory.");
+		System.out.println("The auction has " + currentAuction.getInventoryCount() + " items in the inventory.");
 		
 	}
 	
