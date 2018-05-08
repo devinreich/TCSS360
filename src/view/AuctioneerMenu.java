@@ -73,6 +73,7 @@ public class AuctioneerMenu {
 			}
 			System.out.println("\nEnter c to continue, q to quit.");
 			option = scanner.next();
+			
 		} while (option != "q");
 
 	}
@@ -104,6 +105,9 @@ public class AuctioneerMenu {
 
 	//Display current auction menu options
 	public int displayAuctionDetailMenu(Scanner theScanner) {
+		
+		/** MUST REPEAT THIS MENU UNTIL USER SELECTS 4*/
+		//!!!!!!!!!!!!
 
 		System.out.println("Which option would you like to choose?");
 		System.out.println("   1) Add Item To Inventory");
