@@ -21,12 +21,12 @@ public class BidderMenu {
 	}
 
 	public void launchMenu() {
-		
+
 		System.out.println("Which option would you like to choose?");
 		Scanner scanner = new Scanner(System.in);
 		String option;
 		do {
-			
+
 			displayBidderStartMenu(scanner);			
 
 			System.out.println("\nEnter c to continue, q to quit.");
@@ -118,13 +118,15 @@ public class BidderMenu {
 
 	public void displayAuctionBidMenu(Auction theAuction, Scanner theScanner) {
 		String orgName = theAuction.getOrganization().getName();
-		System.out.println("You have selected the auction hosted by" + orgName);
+		System.out.println("You have selected the auction hosted by " + orgName);
 		System.out.println("Auction Inventory: ");
 		int index = 1;
-		for (Item item: theAuction.getInventory()) {
-			System.out.println("   " + index + ") Item Name: " + item.getName());
-			System.out.println("     Starting Price: $" + item.getBasePrice());
-			System.out.println("     Current Price: $" + item.getHighestBid().getBidAmount());
+		if (theAuction.getInventory() != null) {
+			for (Item item: theAuction.getInventory()) {
+				System.out.println("   " + index + ") Item Name: " + item.getName());
+				System.out.println("     Starting Price: $" + item.getBasePrice());
+				System.out.println("     Current Price: $" + item.getHighestBid().getBidAmount());
+			}
 		}
 
 		System.out.println("Enter the number of the item you wish to bid on: ");

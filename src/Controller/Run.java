@@ -22,6 +22,7 @@ public class Run {
 	private static String userType;
 	public static LocalDate DATE = LocalDate.now();
 	public static Calendar calendar;
+	public static Serializer SERIALIZER = new Serializer();
 
 
 	public static void main(String[] args) {
@@ -78,7 +79,7 @@ public class Run {
 			bMenu.launchMenu();
 		} else if (userType == "Organization" ) {
 			ContactPerson cPerson = (ContactPerson) user;
-			AuctioneerMenu aMenu = new AuctioneerMenu(cPerson, calendar);
+			AuctioneerMenu aMenu = new AuctioneerMenu(cPerson, calendar, SERIALIZER);
 			aMenu.launchMenu();
 		}
 	}

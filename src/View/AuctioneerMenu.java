@@ -1,5 +1,6 @@
 package View;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,9 +17,10 @@ public class AuctioneerMenu {
 	private ContactPerson contact;
 	private Organization auctioneer;
 	private Calendar calendar;
-	public static Serializer SERIALIZER = new Serializer();
+	public static Serializer SERIALIZER;
 
-	public AuctioneerMenu(ContactPerson theAuctioneer, Calendar theCalendar) {
+	public AuctioneerMenu(ContactPerson theAuctioneer, Calendar theCalendar, Serializer theSerializer) {
+		SERIALIZER = theSerializer;
 		contact = theAuctioneer;
 		auctioneer = theAuctioneer.getAffiliatedOrganization();
 		calendar = theCalendar;
@@ -83,10 +85,11 @@ public class AuctioneerMenu {
 				scanner.nextLine();
 			}
 			System.out.println("\nEnter c to continue, q to quit.");
-			option = scanner.next();
-			
 			SERIALIZER.serializeCalendar(calendar);
 			SERIALIZER.serializeContactPerson(contact);
+			option = scanner.next();
+			
+			
 		} while (!option.equals("q"));
 
 	}
@@ -149,7 +152,20 @@ public class AuctioneerMenu {
 
 		//Add item
 		case 1:
-			currentAuction.addItem();
+			//currentAuction.addItem();
+			
+		
+				Scanner scanner = new Scanner(System.in);
+				System.out.print("Enter Item Name: ");
+				String itemName = scanner.nextLine();
+				System.out.print("\nEnter Item Description: ");
+				String itemDescription = scanner.nextLine();
+				System.out.print("\nEnter minimum bid price for item: $");
+				double basePrice = scanner.nextDouble();
+				LocalDate createDate = LocalDate.now();
+				Item item = new Item(itemName, itemDescription, basePrice, createDate);
+				items.add(item);	
+	
 			break;
 			//Remove item
 		case 2:
