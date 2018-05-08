@@ -34,4 +34,8 @@ public abstract class User implements Serializable {
 		return contactInfo;
 	}
 	
+	public String getLoginName() {
+		return loginName;
+	}
+	
 }
