@@ -134,12 +134,7 @@ public class BidderMenu {
 		System.out.println("Enter your bid (must be larger than current price):");
 		double bidPrice = theScanner.nextDouble();
 		LocalDate date = LocalDate.now();
-		Bid itemChoiceBid = new Bid(bidPrice, date,  bidder, itemChoice, theAuction);
-		itemChoiceBid.PlaceBid();
-
-
-
-
+		Bid itemChoiceBid = new Bid(new Double(bidPrice), date, itemChoice, theAuction, bidder);
+		bidder.placeBid(itemChoiceBid);
 	}
-
 }
