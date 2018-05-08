@@ -31,7 +31,7 @@ public class BidderMenu {
 
 			System.out.println("\nEnter c to continue, q to quit.");
 			option = scanner.next();
-		} while (option != "q");
+		} while (!option.equals("q"));
 
 	}
 

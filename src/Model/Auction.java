@@ -100,8 +100,8 @@ public class Auction implements Serializable {
 
 	
 	public int getInventoryCount() {
-	
-		return inventory.size();
+
+		return inventory == null ? 0 : inventory.size();
 	}
 	
 	public LocalDate getCreateDate() {
