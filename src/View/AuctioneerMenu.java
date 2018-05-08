@@ -79,13 +79,15 @@ public class AuctioneerMenu {
 					auctioneer.getAuctions();
 				}			
 			}
+			if (scanner.hasNextLine()) {
+				scanner.nextLine();
+			}
 			System.out.println("\nEnter c to continue, q to quit.");
 			option = scanner.next();
 			
 			SERIALIZER.serializeCalendar(calendar);
 			SERIALIZER.serializeContactPerson(contact);
-			
-		} while (option != "q");
+		} while (!option.equals("q"));
 
 	}
 
