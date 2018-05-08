@@ -65,7 +65,7 @@ public class Organization implements Serializable {
 	//Display details about current auction
 	public void displayCurrentAuctionDetails() {
 		if (hasActiveAuction()) {
-			System.out.println("Your current auction is scheduled on " + currentAuction.getStartDate());
+			System.out.println("\nYour current auction is scheduled on " + currentAuction.getStartDate());
 			System.out.println("The auction has " + currentAuction.getInventoryCount() + " items in the inventory.");
 		} else {
 			System.out.println("There are no current acutions.");

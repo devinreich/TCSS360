@@ -66,7 +66,7 @@ public class Calendar implements Serializable {
 			if (this.checkDate(start) && this.checkDate(end)) {
 				System.out.println("\nEnter max number of items per bidder: ");
 				int maxnum = scanner.nextInt();
-				System.out.println("Enter the start time of your auction: ");
+		//		System.out.println("Enter the start time of your auction: ");
 				
 				LocalTime time = LocalTime.of(1, 2, 0, 0);
 				LocalDate date = LocalDate.now();
@@ -85,10 +85,7 @@ public class Calendar implements Serializable {
 				System.out.println("Your organization is ineligible"
 								   + " to host an auction.");	
 			}
-			
-			
-			
-			
+					
 		}
 	
 

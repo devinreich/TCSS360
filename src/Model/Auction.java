@@ -52,7 +52,7 @@ public class Auction implements Serializable {
 	auctionBids = new ArrayList<Bid>();
 }
 				 
-	public static void addItem() {
+	public void addItem() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Enter Item Name: ");
 		String itemName = scanner.nextLine();
@@ -76,10 +76,9 @@ public class Auction implements Serializable {
 	}
 	
 	public void addItem(Item theItem) {
-		if (inventory == null) {
-			inventory = new ArrayList<Item>();
-		}
-		inventory.add(theItem);
+		if (inventory == null) 
+			System.out.println("Inventory null");
+			inventory.add(theItem);
 	}
 	
 	public void viewItem(Item theItem) {

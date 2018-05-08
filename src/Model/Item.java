@@ -17,6 +17,7 @@ public class Item implements Serializable {
 		this.description = description;
 		this.basePrice = basePrice;
 		this.dateCreated = dateCreated;
+		highestBid = null;
 	}
 	
 	public Item(String name, String description, Double basePrice, LocalDate dateCreated, Bid initialBid) {
