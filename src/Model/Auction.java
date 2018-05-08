@@ -28,7 +28,6 @@ public class Auction implements Serializable {
 	public Auction(LocalDate theStartDate, LocalDate theEndDate, LocalDate theCreateDate,
 				   LocalTime theStartTime, Integer theMaxItemsPerBidder, 
 				   Organization theOrganization) {
-		
 		startDate = theStartDate;
 		endDate = theEndDate;
 		createDate = theCreateDate;
@@ -101,6 +100,7 @@ public class Auction implements Serializable {
 
 	
 	public int getInventoryCount() {
+	
 		return inventory.size();
 	}
 	
