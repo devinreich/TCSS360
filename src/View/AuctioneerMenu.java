@@ -3,7 +3,6 @@ package View;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import Controller.Serializer;
 import Model.Auction;
 import Model.Calendar;
 import Model.ContactPerson;
@@ -16,7 +15,6 @@ public class AuctioneerMenu {
 	private ContactPerson contact;
 	private Organization auctioneer;
 	private Calendar calendar;
-	public static Serializer SERIALIZER = new Serializer();
 
 	public AuctioneerMenu(ContactPerson theAuctioneer, Calendar theCalendar) {
 		contact = theAuctioneer;
@@ -84,9 +82,6 @@ public class AuctioneerMenu {
 			}
 			System.out.println("\nEnter c to continue, q to quit.");
 			option = scanner.next();
-			
-			SERIALIZER.serializeCalendar(calendar);
-			SERIALIZER.serializeContactPerson(contact);
 		} while (!option.equals("q"));
 
 	}
@@ -143,7 +138,6 @@ public class AuctioneerMenu {
 			System.out.println("Not a valid option, try again.");
 			theOption = theScanner.nextInt();
 		}
-		ArrayList<Item> items = currentAuction.getInventory();
 
 		switch(theOption) {
 
@@ -153,29 +147,32 @@ public class AuctioneerMenu {
 			break;
 			//Remove item
 		case 2:
-			for (int i = 0; i < items.size(); i++) {
-				System.out.println("Item " + ++i + ": " 
-						+ items.get(i));
+			for (int i = 0; i < currentAuction.getInventory().size(); i++) {
+				System.out.println("Item " + (i + 1) + ": " 
+						+ getItemDescription(currentAuction.getInventory().get(i)));
 			}
 			System.out.print("Enter index of item to remove: ");
 			int itemIndex = theScanner.nextInt();
-			currentAuction.removeItem(items.remove(itemIndex));
-			currentAuction.setInventory(items);
+			if (itemIndex <= currentAuction.getInventoryCount()) {
+				currentAuction.removeItemAt(itemIndex - 1);
+			}
 			break;
 			//View all items
 		case 3:		
-			for (int i = 0; i < items.size(); i++) {
+			for (int i = 0; i < currentAuction.getInventory().size(); i++) {
 				int index = i + 1;
 				System.out.println("Item " + index + ": " 
-						+ items.get(i).getName() + ", " + items.get(i).getDescription()
-						+ ", $" + items.get(i).getBasePrice());
+						+ getItemDescription(currentAuction.getInventory().get(i)));
 			}
 
 		case 4:
 			//Return to previous menu
 
 		}
-
-
+	}
+	
+	public String getItemDescription(Item item) {
+		return item.getName() + ", " + item.getDescription()
+				+ ", $" + item.getBasePrice();
 	}
 }

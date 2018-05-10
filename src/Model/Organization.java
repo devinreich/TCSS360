@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Organization implements Serializable {
 	
-	private static final long serialVersionUID = 8973718656632450810L;
+	private static final long serialVersionUID = -729795345542752084L;
 	private String name;
 	private PhoneNumber phoneNumber;
 	private String contactInfo;
@@ -76,10 +76,6 @@ public class Organization implements Serializable {
 	public void cancelCurrentAuction() {
 		
 	}
-	
-	
-		
-	
 	
 	public Auction getCurrentAuction() {
 		return currentAuction;

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class Bid implements Serializable {
 	
-	private static final long serialVersionUID = 8819633818230048886L;
+	private static final long serialVersionUID = -1147412376153360349L;
 	private Item item;	
 	private Auction auction;	
 	private Double bidAmount;
@@ -37,7 +37,7 @@ public class Bid implements Serializable {
 	}
 	
 	public boolean isBidAmountLegal() {	
-		return bidAmount >= item.getBasePrice() && bidAmount > item.getHighestBid().getBidAmount();	
+		return bidAmount >= item.getBasePrice();	
 	}
 	
 	public boolean isBidNumberLegal() {

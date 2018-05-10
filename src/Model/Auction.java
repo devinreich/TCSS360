@@ -4,12 +4,11 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Auction implements Serializable {
 	
-	private static final long serialVersionUID = -657206927328048783L;
+	private static final long serialVersionUID = -5630295913008886033L;
 	private static final Integer DEFAULT_MAX_ITEMS = 4;
 	private LocalDate startDate;
 	private LocalDate endDate;
@@ -17,12 +16,8 @@ public class Auction implements Serializable {
 	private LocalTime startTime;
 	private Integer maxItemsPerBidder;
 	private Organization forOrganization;
-	private static ArrayList<Item> inventory;
+	private ArrayList<Item> inventory;
 	private ArrayList<Bid> auctionBids;
-
-	public Auction() {
-		inventory = new ArrayList<Item>();
-	}
 	
 	// specified max items per bidder
 	public Auction(LocalDate theStartDate, LocalDate theEndDate, LocalDate theCreateDate,
@@ -52,7 +47,10 @@ public class Auction implements Serializable {
 	auctionBids = new ArrayList<Bid>();
 }
 				 
-	public static void addItem() {
+	public void addItem() {
+		if (inventory == null) {
+			inventory = new ArrayList<Item>();
+		}
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Enter Item Name: ");
 		String itemName = scanner.nextLine();
@@ -62,7 +60,7 @@ public class Auction implements Serializable {
 		double basePrice = scanner.nextDouble();
 		LocalDate createDate = LocalDate.now();
 		Item item = new Item(itemName, itemDescription, basePrice, createDate);
-		inventory.add(item);		
+		inventory.add(item);
 	}
 	
 	public void removeItem(Item theItem) {
@@ -93,6 +91,10 @@ public class Auction implements Serializable {
 		maxItemsPerBidder = maxBiddableItems;
 	}
 	
+	public void removeItemAt(int index) {
+		inventory.remove(index);
+	}
+	
 	public ArrayList<Item> getInventory() {
 		return inventory;
 	}
@@ -103,7 +105,6 @@ public class Auction implements Serializable {
 
 	
 	public int getInventoryCount() {
-
 		return inventory == null ? 0 : inventory.size();
 	}
 	

@@ -1,14 +1,20 @@
 package Controller;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
-
+import Model.Auction;
 import Model.Bidder;
 import Model.Calendar;
 import Model.ContactPerson;
+import Model.Item;
 import Model.Organization;
 import Model.PhoneNumber;
 import Model.User;
@@ -30,7 +36,12 @@ public class Serializer {
 				organizationNumber,
 				"710 22 Ave SW", 
 				users);
-
+		
+		Auction auction = new Auction(LocalDate.of(2018, 6, 6), LocalDate.of(2018, 6, 6), LocalDate.now(), LocalTime.now(), 4, testOrganization);
+		auction.addItem(new Item("CZ P10-C", "Glock Killer", 499.00, LocalDate.now()));
+		testOrganization.addAuction(auction);
+		testOrganization.setCurrentAuction(auction);
+		
 		ContactPerson cPerson =  new ContactPerson("John Ehli", "ehli22", organizationNumber, "108 F St N", testOrganization);
 
 		Calendar calendar;
@@ -56,6 +67,7 @@ public class Serializer {
 		}
 
 		calendar = new Calendar();
+		calendar.addAuction(auction);
 		try {
 			FileOutputStream fileOut3 =
 					new FileOutputStream("src/SerializedObjects/calendar.ser");
@@ -103,6 +115,35 @@ public class Serializer {
 
 	}
 	
-
-
+	public static void serialize(Serializable obj, String path) {
+		FileOutputStream fileOut;
+		try {
+			fileOut = new FileOutputStream("src/SerializedObjects/" + path + ".ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(obj);
+			out.close();
+			fileOut.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static Serializable deserialize(String path) {
+		Serializable ser = null;
+		try {
+			FileInputStream fileIn = new FileInputStream("src/SerializedObjects/" + path +".ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			ser = (Serializable) in.readObject();
+			in.close();
+			fileIn.close();
+		} catch (IOException i) {
+			i.printStackTrace();
+		} catch (ClassNotFoundException c) {
+			System.out.println("Class not Found");
+			c.printStackTrace();
+		}
+		return ser;
+	}
 }

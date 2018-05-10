@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public abstract class User implements Serializable {
 	
-	private static final long serialVersionUID = -898640423353892899L;
+	private static final long serialVersionUID = 106144177927114562L;
 	private String name;
 	private String loginName; // might remove login name, probably will be a key to the value User
 	private PhoneNumber phoneNumber;
@@ -15,11 +15,6 @@ public abstract class User implements Serializable {
 		this.loginName = loginName;
 		this.phoneNumber = phoneNumber;
 		this.contactInfo = contactInfo;
-	}
-
-	// probably wont use this. Login will most likely generate the user
-	public void login() {
-
 	}
 
 	public String getName() {

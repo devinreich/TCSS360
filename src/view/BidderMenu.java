@@ -124,7 +124,6 @@ public class BidderMenu {
 		for (Item item: theAuction.getInventory()) {
 			System.out.println("   " + index + ") Item Name: " + item.getName());
 			System.out.println("     Starting Price: $" + item.getBasePrice());
-			System.out.println("     Current Price: $" + item.getHighestBid().getBidAmount());
 		}
 
 		System.out.println("Enter the number of the item you wish to bid on: ");

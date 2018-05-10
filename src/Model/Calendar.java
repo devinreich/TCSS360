@@ -12,7 +12,8 @@ import java.io.Serializable;
 
 
 public class Calendar implements Serializable {
-	private static final long serialVersionUID = 4438330929983107980L;
+
+	private static final long serialVersionUID = -6465404834362396239L;
 	private ArrayList<Auction> auctions;
 	private int MAX_DAYS = 2;
 	private int MAX_UPCOMING_AUCTIONS = 25;

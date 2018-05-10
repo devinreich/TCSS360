@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class ContactPerson extends User implements Serializable {
 
-	private static final long serialVersionUID = 7989616279774184678L;
+	private static final long serialVersionUID = 1090325710541310923L;
 	private Organization affiliatedOrganization;
 	
 	
