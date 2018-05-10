@@ -15,6 +15,7 @@ public class Run {
 	private static User user;
 	public static LocalDate DATE = LocalDate.now();
 	public static Calendar calendar;
+	public static Serializer SERIALIZER = new Serializer();
 
 
 	public static void main(String[] args) {

@@ -74,10 +74,9 @@ public class Auction implements Serializable {
 	}
 	
 	public void addItem(Item theItem) {
-		if (inventory == null) {
-			inventory = new ArrayList<Item>();
-		}
-		inventory.add(theItem);
+		if (inventory == null) 
+			System.out.println("Inventory null");
+			inventory.add(theItem);
 	}
 	
 	public void viewItem(Item theItem) {

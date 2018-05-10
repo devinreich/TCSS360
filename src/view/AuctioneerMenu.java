@@ -1,5 +1,6 @@
 package View;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -143,7 +144,18 @@ public class AuctioneerMenu {
 
 		//Add item
 		case 1:
-			currentAuction.addItem();
+			//currentAuction.addItem();
+				Scanner scanner = new Scanner(System.in);
+				System.out.print("Enter Item Name: ");
+				String itemName = scanner.nextLine();
+				System.out.print("\nEnter Item Description: ");
+				String itemDescription = scanner.nextLine();
+				System.out.print("\nEnter minimum bid price for item: $");
+				double basePrice = scanner.nextDouble();
+				LocalDate createDate = LocalDate.now();
+				Item item = new Item(itemName, itemDescription, basePrice, createDate);
+				currentAuction.addItem(item);	
+	
 			break;
 			//Remove item
 		case 2:
