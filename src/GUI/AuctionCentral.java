@@ -13,18 +13,19 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 
 
 
 public class AuctionCentral extends Application {
-	
-	
-
+	static Scene scene1;
+	static Stage window;
 	public static void main(String[] args) { launch(args); }
 
 	public AuctionCentral() {
@@ -34,13 +35,13 @@ public class AuctionCentral extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		primaryStage.setTitle("Welcome to Auction Central");
-		
+		window = primaryStage;
+		window.setTitle("Welcome to Auction Central");
 		StackPane root = new StackPane();
 		root.setAlignment(Pos.CENTER);
 		displayLoginPane(root);
-		primaryStage.setScene(new Scene(root, 900, 550));
-		primaryStage.show();
+		window.setScene(new Scene(root, 900, 550));
+		window.show();
 	}
 	protected final static void displayLoginPane(StackPane root) {
 		final GridPane grid = new GridPane();
@@ -63,6 +64,13 @@ public class AuctionCentral extends Application {
 		final Button btn = new Button("Sign in");
 		btn.setDefaultButton(true);
 
+		btn.setOnAction(event -> window.setScene(scene1));
+		VBox layout1 = new VBox(20);
+		final Text title2 = new Text("Auction Central2");
+		final Button btn2 = new Button("This is the second scene");
+		layout1.getChildren().addAll(title2,btn2);
+		scene1 = new Scene(layout1,900,500);
+		
 		final HBox hbBtn = new HBox(10);
 		hbBtn.setAlignment(Pos.BOTTOM_CENTER);
 		hbBtn.getChildren().add(btn);
@@ -71,4 +79,4 @@ public class AuctionCentral extends Application {
 		root.getChildren().add(grid);
 		}
 }
-
+	
