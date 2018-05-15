@@ -75,9 +75,9 @@ public class Bidder extends User implements Serializable {
 			allAuctions.add(bid.getAuction()); // add auction to bidder's list of bid auctions
 			allItems.add(bid.getItem()); // add item to bidder's list of bid items
 			bid.getAuction().getBidsForAuction().add(bid); // Add bid to auction
-			System.out.println("Your bid has been successfully placed!");
+			//System.out.println("Your bid has been successfully placed!");
 		} else {
-			System.out.println("Your bid could not be placed.");
+			//System.out.println("Your bid could not be placed.");
 		}
 	}
 	
@@ -89,7 +89,7 @@ public class Bidder extends User implements Serializable {
 	// bidder cant place more than max allowed bids for specified auction
 	public boolean isAuctionLegal(Auction auction) {
 		
-		if (getNumberBidsAuction(auction) < auction.getMaxBiddableItems()) {
+		if (getNumberBidsAuction(auction) < auction.getMaxItemsPerBidder()) {
 			return true;
 		}
 		return false;

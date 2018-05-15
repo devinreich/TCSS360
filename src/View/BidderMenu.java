@@ -68,14 +68,14 @@ public class BidderMenu {
 
 			ArrayList<Auction> bidderAuctions = bidder.getAuctionsWithBids();
 			for (Auction a: bidderAuctions) {
-				System.out.println("Auction hosted by: " + a.getOrganization() + ".");
+				System.out.println("Auction hosted by: " + a.getOrganization().getName() + ".");
 				System.out.println("Auction date: " + a.getStartDate());
 
-				System.out.println("Item/s: ");
-				for (int j = 0; j < bidderAuctions.size(); j++) {
 
+				for (int j = 0; j < bidderAuctions.size(); j++) {
+					System.out.println("Item/s: ");
 					//checks auction inventory for items the user has bid on
-					if (a.getInventory().contains(bidder.getBids().get(j))){
+					if (a.getInventory().contains(bidder.getBids().get(j).getItem())){
 						Item item = bidder.getBids().get(j).getItem();
 						System.out.println(item.getName());
 					}
@@ -86,11 +86,14 @@ public class BidderMenu {
 
 	//View all items bidder has bid on
 	public void displayItemBids() {
-		System.out.println("Displaying Items You Have Bid On: ");
-		for (Bid bid: bidder.getBids()) {
-			String itemName = bid.getItem().getName();
-			System.out.println("Item: " + itemName);			
-		}		
+
+		if (bidder.getBids() != null) {
+			System.out.println("Displaying Items You Have Bid On: ");
+			for (Bid bid: bidder.getBids()) {
+				String itemName = bid.getItem().getName();
+				System.out.println("Item: " + itemName);			
+			}
+		}
 	}
 
 	//show all auctions that have bidder can bid on

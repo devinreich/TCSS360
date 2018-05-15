@@ -62,4 +62,6 @@ public class Bid implements Serializable {
 	public Auction getAuction() {
 		return auction;
 	}
+	
+	
 }

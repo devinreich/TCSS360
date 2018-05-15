@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Auction implements Serializable {
 	
 	private static final long serialVersionUID = -5630295913008886033L;
-	private static final Integer DEFAULT_MAX_ITEMS = 4;
+	private static final Integer DEFAULT_MAX_ITEMS = 5;
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private LocalDate createDate;
@@ -131,11 +131,15 @@ public class Auction implements Serializable {
 		return getInventoryCount() == DEFAULT_MAX_ITEMS;	
 	}
 	
-	public Integer getMaxBiddableItems() {
+	public Integer getMaxItemsPerBidder() {
 		return maxItemsPerBidder;
 	}
 	
 	public ArrayList<Bid> getBidsForAuction(){
 		return auctionBids;
+	}
+	
+	public boolean canAuctionBeCancelled() {
+		return this.getBidsForAuction().size() == 0;
 	}
 }
