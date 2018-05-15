@@ -154,6 +154,18 @@ public class Calendar implements Serializable {
 		return auctions;
 	}
 	
+	public void changeMaximumUpcomingDays(){
+		Scanner scanner2 = new Scanner(System.in);
+		
+		System.out.print("Enter the new number of days in the future that auctions may be stored: ");
+		int potentialDays = scanner2.nextInt();
+		while (potentialDays < 0){
+			System.out.print("The number of days entered must be positive, enter a new number of days: ");
+			potentialDays = scanner2.nextInt();
+		}
+		MAX_UPCOMING_AUCTIONS_DAYS = potentialDays;
+	}
+	
 	
 	
 
