@@ -24,7 +24,7 @@ public class BidTest {
 	public void setup() {
 		bidder = new Bidder("John", "johnLoginName", new PhoneNumber(360, 555, 5555), "contact info");
 		item = new Item("Toothbrush", "Trump's toothbrush", 3000.0, LocalDate.now());
-		auction = new Auction();
+		//auction = new Auction();
 		auction.addItem(item);
 	}
 	
@@ -40,5 +40,8 @@ public class BidTest {
 	public void bid_bidEqualMaximunNumberOfBids_false() {
 		bidder.placeBid(new Bid(new Double(3000), LocalDate.now(), auction.getInventory().get(0), auction, bidder));
 	}
+	
+	//@Test
+	
 
 }

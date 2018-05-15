@@ -47,6 +47,7 @@ public class Bid implements Serializable {
 		return bidAmount;
 	}
 	
+	
 	public LocalDate getTimeOfBid() {
 		return timeOfBid;
 	}

@@ -1,6 +1,5 @@
 package unit_tests;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,6 @@ import Model.User;
 import Model.Calendar;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 
 public class BidderTest {
 
@@ -40,12 +38,13 @@ public class BidderTest {
 	private Bid testBidAmountUnderMin;
 	private Bid testBidAmountEqualsMin;
 	private Bid testBidAmountAboveMin;
+	private Bid testBidAmountAboveMin2;
 	private Double testBidLessThanBasePrice;
 	private Double testBidEqualToBasePrice;
 	private Double testBidGreaterThanBasePrice;
-	private Bidder testBidderPast;
-	private Bidder testBidderPresent;
-	private Bidder testBidderFuture;
+	private Bidder testBidder1;
+	private Bidder testBidder2;
+	private Bidder testBidder3;
 	private Auction testAuctionPast;
 	private Auction testAuctionPresent;
 	private Auction testAuctionFuture;
@@ -54,9 +53,6 @@ public class BidderTest {
 	private Organization testOrganization;
 	private Organization testOrganization2;
 	private Organization testOrganization3;
-	private ArrayList<Auction> calendar_auctions;
-	private ArrayList<Auction> bidder_auctionsWithBids;
-	private ArrayList<Bid> testBids;
 	private Calendar calendar;
 	
 
@@ -91,12 +87,7 @@ public class BidderTest {
 				testAuctionCreationDate, testStartTime, testMaxItemsPerBidder, testOrganization2);	
 		testAuctionFuture = new Auction(testAuctionStartDateFuture, testAuctionEndDateFuture,
 				testAuctionCreationDate, testStartTime, testMaxItemsPerBidder, testOrganization3);	
-		calendar.requestAuction(testAuctionPast);	
-		calendar.requestAuction(testAuctionPresent);	
-		calendar.requestAuction(testAuctionFuture);	
-		
-		calendar_auctions = calendar.getAllAuctions();
-		
+
 		// bid amounts
 		testBidLessThanBasePrice = new Double(testItem.getBasePrice()/2); 
 		testBidEqualToBasePrice = new Double(testItem.getBasePrice()); 
@@ -106,9 +97,9 @@ public class BidderTest {
 		testBidTimeDayOf = testAuctionStartDatePresent;
 		testBidTimeDayAfter = testAuctionStartDatePresent.plusDays(1);
 		// bidder
-		Bidder testBidder1 = new Bidder("Nadia Polk", "polkn", new PhoneNumber(512, 569, 7725), "polkn@uw.edu");
-		Bidder testBidder2 = new Bidder("Travis Polk", "polkt", new PhoneNumber(512, 569, 7725), "travis email");
-		Bidder testBidder3 = new Bidder("Mulan Polk", "mulancat", new PhoneNumber(512, 569, 7725), "cat email");
+		testBidder1 = new Bidder("Nadia Polk", "polkn", new PhoneNumber(512, 569, 7725), "polkn@uw.edu");
+		testBidder2 = new Bidder("Travis Polk", "polkt", new PhoneNumber(512, 569, 7725), "travis email");
+		testBidder3 = new Bidder("Mulan Polk", "mulancat", new PhoneNumber(512, 569, 7725), "cat email");
 		
 		/*  Create Bids with variable bid dates - use legal bid amount */
 		testBidDayBefore = new Bid(testBidGreaterThanBasePrice, testBidTimeDayBefore, testItem, testAuctionPresent, testBidder1);
@@ -117,32 +108,70 @@ public class BidderTest {
 		/* Create Bids with variable bid amounts- use legal date */
 		testBidAmountUnderMin = new Bid(testBidLessThanBasePrice, testBidTimeDayBefore, testItem, testAuctionPresent, testBidder1);
 		testBidAmountEqualsMin = new Bid(testBidEqualToBasePrice, testBidTimeDayBefore, testItem, testAuctionPresent, testBidder1);
+		testBidAmountAboveMin2 = new Bid(testBidGreaterThanBasePrice, testBidTimeDayBefore, testItem, testAuctionPresent, testBidder1);
 		testBidAmountAboveMin = new Bid(testBidGreaterThanBasePrice, testBidTimeDayBefore, testItem, testAuctionPresent, testBidder1);	
-	
-		testBidder1.placeBid(testBidAmountAboveMin); // Place valid bid
-		bidder_auctionsWithBids = testBidder1.getAuctionsWithBids();
-		ArrayList<Auction> biddableAuctions = testBidder1.getBiddableAuctions(calendar);
-	}
-	
-	@Test
-	public void bidder_getBiddableAuctions() {
-		// return 1 because the other 2 auctions added have invalid dates for bidding
-		assertEquals(bidder_auctionsWithBids.size(), 1);
 	}
 
 	@Test
-	public void bid_isBidAmountLegalTest() {
-		
-		assertFalse(testBidAmountUnderMin.isBidAmountLegal());
-		assertTrue(testBidAmountEqualsMin.isBidAmountLegal());
+	public void isBidAmountLegal_BidAmountAboveMinimum_true() {
 		assertTrue(testBidAmountAboveMin.isBidAmountLegal());
 	}
 	
 	@Test
-	public void bid_isBidDateLegalTest() {
+	public void isBidAmountLegal_BidAmountEqualMinimum_true() {
+		assertTrue(testBidAmountEqualsMin.isBidAmountLegal());
+	}
+	
+	@Test
+	public void isBidAmountLegal_BidAmountUnderMinimum_false() {	
+		assertFalse(testBidAmountUnderMin.isBidAmountLegal());
+	}
 		
+	@Test
+	public void isBidDateLegal_BidPlacedDayBefore_true() {
 		assertTrue(testBidDayBefore.isBidDateLegal());
+	}
+	
+	@Test 
+	public void isBidDateLegal_BidPlacedDayOf_false() {	
 		assertFalse(testBidDayOf.isBidDateLegal());
+	}
+	
+	@Test
+	public void isBidDateLegal_BidPlacedDayAfter_false() {
 		assertFalse(testBidDayAfter.isBidDateLegal());
 	}
+	
+	@Test
+	public void isBidderAtMaxBidsForAuction_OneLessThanMaxBids_false() {
+		testBidder1.placeBid(testBidAmountAboveMin);
+		assertFalse(testBidder1.isBidderAtMaxBidsForAuction(testAuctionPresent));
+	}
+	
+	@Test
+	public void isBidderAtMaxBidsForAuction_MaxBidsForAuction_true() {
+		testBidder1.placeBid(testBidAmountAboveMin);
+		testBidder1.placeBid(testBidAmountEqualsMin);
+		assertTrue(testBidder1.isBidderAtMaxBidsForAuction(testAuctionPresent));
+	}
+	
+	@Test
+	public void isBidderAtMaxBidsForAllAuctions_OneLessThanMaxBids_false() {
+		testBidder1.placeBid(testBidAmountEqualsMin);
+		testBidder1.placeBid(testBidAmountAboveMin);
+		assertFalse(testBidder1.isBidderAtMaxBidsForAllAuctions());
+		
+	}
+	
+	@Test 
+	public void isBidderAtMaxBidsForAllAuctions_MaxBidsForAllAuctions_true() {
+		testBidder1.placeBid(testBidAmountEqualsMin);
+		testBidder1.placeBid(testBidAmountAboveMin);
+		testBidder1.placeBid(testBidAmountAboveMin2);
+		assertTrue(testBidder1.isBidderAtMaxBidsForAllAuctions());
+		
+	}
+	
+	
+	
 }

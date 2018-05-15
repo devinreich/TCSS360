@@ -11,7 +11,7 @@ public class Bidder extends User implements Serializable {
 	private ArrayList<Auction> allAuctions;
 	private ArrayList<Item> allItems;
 	private Integer maxAllowedBids;
-	private static final Integer DEFAULT_MAX_ALLOWED_BIDS = 10;
+	private static final Integer DEFAULT_MAX_ALLOWED_BIDS = 3;
 	
 	public Bidder(String name, String loginName, PhoneNumber phoneNumber, String contactInfo) {
 		super(name, loginName, phoneNumber, contactInfo);
@@ -119,5 +119,13 @@ public class Bidder extends User implements Serializable {
 	
 	public int getNumberTotalBids() {
 		return allBids.size();
+	}
+	
+	public boolean isBidderAtMaxBidsForAuction(Auction theAuction) {
+		return allBids.size() == theAuction.getMaxItemsPerBidder();
+	}
+	
+	public boolean isBidderAtMaxBidsForAllAuctions() {
+		return allBids.size() == DEFAULT_MAX_ALLOWED_BIDS;  
 	}
 }
