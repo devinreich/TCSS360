@@ -166,6 +166,9 @@ public class Calendar implements Serializable {
 		MAX_UPCOMING_AUCTIONS_DAYS = potentialDays;
 	}
 	
+	public int getMaxUpcomingDays(){
+		return MAX_UPCOMING_AUCTIONS_DAYS;
+	}
 	
 	
 
