@@ -9,8 +9,7 @@ public class Bid implements Serializable {
 	private Auction auction;	
 	private Double bidAmount;
 	private LocalDate timeOfBid;
-	private Bidder bidder; 
-	private Item forItem;
+	private Bidder bidder;
 	private int MAX_BID = 4;
 	
 	public Bid(Double bidAmount, LocalDate timeOfBid, Item item, Auction auction, Bidder bidder) {
@@ -57,7 +56,7 @@ public class Bid implements Serializable {
 	}
 	
 	public Item getItem() {
-		return forItem;
+		return item;
 	}
 	
 	public Auction getAuction() {
