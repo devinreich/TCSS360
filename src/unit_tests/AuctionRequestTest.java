@@ -6,13 +6,11 @@ package unit_tests;
 import static org.junit.Assert.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-
 import org.junit.Before;
 import org.junit.Test;
 import Model.Auction;
 import Model.Calendar;
 import Model.Organization;
-import Model.PhoneNumber;
 import Model.User;
 
 /**
@@ -26,9 +24,9 @@ public class AuctionRequestTest {
 	
 	Auction testAuction;
 	LocalDate testInitialDate;
-	PhoneNumber testOrganizationNumber;
 	Organization testOrganization;
 	int testMaxItemsPerBidder;
+	int testMaxItemsSold;
 	
 	Calendar testCalendarNoAuctionsAdded;
 	Calendar testCalendarOneAuctionAdded;
@@ -44,19 +42,10 @@ public class AuctionRequestTest {
 	public void setUp() {
 		testInitialDate = LocalDate.of(2007, 3, 17);
 		testMaxItemsPerBidder = 0;		
-		
-		User[] users = new User[1];
-		Auction[] auctions = new Auction[1];
-		testOrganizationNumber = new PhoneNumber(555, 867, 5309);
-		testOrganization = new Organization("Salvation Army", testOrganizationNumber, 
-				"Contact Jane Doe", users);
-		
-		testAuction = new Auction(testInitialDate, testInitialDate,testInitialDate, LocalTime.now(),
-								 new Integer(testMaxItemsPerBidder), 
-								 testOrganization);
-		
-		
-		
+
+		testOrganization = new Organization("Salvation Army");
+		testAuction = new Auction(testInitialDate, LocalDate.now(),new Integer(testMaxItemsPerBidder), 
+				new Integer(testMaxItemsSold),testOrganization);			
 	}
 	
 	/**
@@ -64,9 +53,7 @@ public class AuctionRequestTest {
 	 */
 	@Test 
 	public void isAuctionRequestDateAllowed_noAuctionsOnDate_true() {
-		assertTrue(testCalendarNoAuctionsAdded.checkDate(testInitialDate));
-		
-		
+		assertTrue(testCalendarNoAuctionsAdded.checkDate(testInitialDate));		
 	}
 	
 	/**
@@ -74,7 +61,7 @@ public class AuctionRequestTest {
 	 */
 	@Test
 	public void isAuctionRequestDateAllowed_oneAuctionsOnDate_true() {
-		testCalendarOneAuctionAdded.addAuction(testAuction);
+		testCalendarOneAuctionAdded.addAuction(testAuction, testOrganization);
 		assertTrue(testCalendarOneAuctionAdded.checkDate(testInitialDate));
 		
 	}
@@ -84,8 +71,8 @@ public class AuctionRequestTest {
 	 */
 	@Test
 	public void isAuctionRequestDateAllowed_twoAuctionsOnDate_false() {
-		testCalendarTwoAuctionsSameDay.addAuction(testAuction);
-		testCalendarTwoAuctionsSameDay.addAuction(testAuction);
+		testCalendarTwoAuctionsSameDay.addAuction(testAuction, testOrganization);
+		testCalendarTwoAuctionsSameDay.addAuction(testAuction, testOrganization);
 		assertFalse(testCalendarTwoAuctionsSameDay.checkDate(testInitialDate));
 	}
 }

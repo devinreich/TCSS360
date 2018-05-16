@@ -7,13 +7,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import Model.Auction;
 import Model.Item;
 import Model.Organization;
-import Model.PhoneNumber;
 import Model.User;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -32,12 +29,12 @@ class AuctionTest {
 	LocalDate testCreationDate;
 	LocalTime testTime;
 	int testMaxItemsPerBidder;
+	int testMaxItemsTotal;
 	Item item1;
 	Item item2;
 	Item item3;
 	Item item4;
 	Item item5;
-	PhoneNumber organizationNumber;
 	Organization testOrganization;
 	
 	/**
@@ -47,10 +44,10 @@ class AuctionTest {
 	void setUp() {
 		testStartDate = LocalDate.of(2018, 7, 3);
 		testEndDate = LocalDate.of(2018, 7, 4);
-		organizationNumber = new PhoneNumber(253, 222, 4516);
 		testCreationDate = LocalDate.now();
 		testTime = LocalTime.now();
 		testMaxItemsPerBidder = 2;
+		testMaxItemsTotal = 10;
 		item1 = new Item("Antique Chair", "An antique chair from France",
 				  		 100.00, testCreationDate);
 		item2 = new Item("Antique Sofa", "An antique sofa from France",
@@ -63,15 +60,9 @@ class AuctionTest {
 						"Antique Table with set of 4 chairs",
 						1000.00, testCreationDate);
 		
-		User[] users = new User[1];
 		ArrayList<Auction> auctions = new ArrayList<>();
-		testOrganization = new Organization("Goodwill", 
-											organizationNumber,
-										   "Contact Robert Smith", 
-										   users);
-		testAuction = new Auction(testStartDate, testEndDate,
-								 testCreationDate, testTime, testMaxItemsPerBidder, 
-								 testOrganization);
+		testOrganization = new Organization("Goodwill");
+		testAuction = new Auction(testStartDate, testCreationDate, testMaxItemsPerBidder, testMaxItemsTotal, testOrganization);
 	}
 
 	/**

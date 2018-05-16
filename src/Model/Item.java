@@ -9,7 +9,7 @@ public class Item implements Serializable {
 	private String name;
 	private String description;
 	private Double basePrice;
-	private Bid highestBid;
+	//private Bid highestBid;
 	private LocalDate dateCreated;
 	
 	public Item(String name, String description, Double basePrice, LocalDate dateCreated) {
@@ -17,21 +17,21 @@ public class Item implements Serializable {
 		this.description = description;
 		this.basePrice = basePrice;
 		this.dateCreated = dateCreated;
-		highestBid = null;
+		//highestBid = null;
 	}
 	
-	public Item(String name, String description, Double basePrice, LocalDate dateCreated, Bid initialBid) {
-		this(name, description, basePrice, dateCreated);
-		this.highestBid = initialBid;
-	}
+	//public Item(String name, String description, Double basePrice, LocalDate dateCreated, Bid initialBid) {
+	//	this(name, description, basePrice, dateCreated);
+		//this.highestBid = initialBid;
+	//}
 	
-	public Bid getHighestBid() {
-		return highestBid;
-	}
-	
-	public void setBid(Bid highestBid) {
-		this.highestBid = highestBid; // do bid comparison here
-	}
+//	public Bid getHighestBid() {
+//		return highestBid;
+//	}
+//	
+//	public void setBid(Bid highestBid) {
+//		this.highestBid = highestBid; // do bid comparison here
+//	}
 	
 	public String getName() {
 		return name;

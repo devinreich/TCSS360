@@ -9,7 +9,7 @@ import Model.Auction;
 import Model.Bid;
 import Model.Bidder;
 import Model.Item;
-import Model.PhoneNumber;
+import Model.Organization;
 
 // Tests the bid 
 public class BidTest {
@@ -18,27 +18,31 @@ public class BidTest {
 	private Item item;
 	private Auction auction;
 	
-	private Item item2 = new Item("Toothbrush", "Trump's toothbrush", 3000.0, LocalDate.now());
+	private Item item2;
 	
 	@Before
 	public void setup() {
-		bidder = new Bidder("John", "johnLoginName", new PhoneNumber(360, 555, 5555), "contact info");
+		
+	
+		item2 =  new Item("Toothbrush", "Trump's toothbrush", new Double(3000.0), LocalDate.now());
+	
+		bidder = new Bidder("John", "johnLoginName");
 		item = new Item("Toothbrush", "Trump's toothbrush", 3000.0, LocalDate.now());
-		auction = new Auction();
+		auction = new Auction(LocalDate.now().plusMonths(1), LocalDate.now(), 2, 2, new Organization("The White House"));
 		auction.addItem(item);
 	}
 	
+
 	@Test
 	public void bid_bidBelowMaximunNumberOfBids_true() {
-		bidder.placeBid(new Bid(new Double(3000), LocalDate.now(), auction.getInventory().get(0), auction, bidder));
-		ArrayList<Bid> bids = bidder.getBids();
+		auction.placeBid(new Double(3000), LocalDate.now(), bidder, auction.getInventory().get(0));
+		ArrayList<Bid> bids = bidder.getAllBids();
 		assertTrue(bids.size() > 0);
 		assertEquals(bids.get(bids.size() - 1).getBidAmount().doubleValue(), 3000.0d);
 	}
 	
 	@Test(expected = RuntimeException.class)
 	public void bid_bidEqualMaximunNumberOfBids_false() {
-		bidder.placeBid(new Bid(new Double(3000), LocalDate.now(), auction.getInventory().get(0), auction, bidder));
+		auction.placeBid(new Double(3000), LocalDate.now(), bidder, auction.getInventory().get(0));
 	}
-
 }
