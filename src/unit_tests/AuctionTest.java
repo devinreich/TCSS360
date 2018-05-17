@@ -7,19 +7,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import Model.Auction;
 import Model.Bid;
 import Model.Bidder;
 import Model.Item;
 import Model.Organization;
-import Model.PhoneNumber;
-import Model.User;
-
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * @author PrancingPonies
@@ -37,17 +30,15 @@ class AuctionTest {
 	double legalBidAmountForItem2 = 250.00;
 	double legalBidAmountForItem3 = 700.00;
 	LocalDate testDateBeforeAuction;
-	LocalDate testStartDate;
-	LocalDate testEndDate;
+	LocalDate testDate;
 	LocalDate testCreationDate;
-	LocalTime testTime;
 	int testMaxItemsPerBidder;
+	int testMaxItemsTotal;
 	Item item1;
 	Item item2;
 	Item item3;
 	Item item4;
 	Item item5;
-	PhoneNumber organizationNumber;
 	Organization testOrganization;
 	
 	/**
@@ -56,12 +47,10 @@ class AuctionTest {
 	@BeforeEach
 	void setUp() {
 		testDateBeforeAuction = LocalDate.of(2018, 7, 2);
-		testStartDate = LocalDate.of(2018, 7, 3);
-		testEndDate = LocalDate.of(2018, 7, 4);
-		organizationNumber = new PhoneNumber(253, 222, 4516);
+		testDate = LocalDate.of(2018, 7, 3);
 		testCreationDate = LocalDate.now();
-		testTime = LocalTime.now();
 		testMaxItemsPerBidder = 2;
+		testMaxItemsTotal = 5;
 		item1 = new Item("Antique Chair", "An antique chair from France",
 				  		 100.00, testCreationDate);
 		item2 = new Item("Antique Sofa", "An antique sofa from France",
@@ -73,23 +62,9 @@ class AuctionTest {
 		item5 = new Item("Antique Dining Set", 
 						"Antique Table with set of 4 chairs",
 						1000.00, testCreationDate);
-		
-		
-		User[] users = new User[1];
-		ArrayList<Auction> auctions = new ArrayList<>();
-		testOrganization = new Organization("Goodwill", 
-											organizationNumber,
-										   "Contact Robert Smith", 
-										   users);
-		testAuction = new Auction(testStartDate, testEndDate,
-								 testCreationDate, testTime, testMaxItemsPerBidder, 
-								 testOrganization);
-		
-		testBidder = new Bidder("Bob", "bobby-from-KOH", organizationNumber, "110 10 Ave. S");
-		
-		bidForItem1 = new Bid(legalBidAmountForItem1, testDateBeforeAuction, item1, testAuction, testBidder);
-		bidForItem2 = new Bid(legalBidAmountForItem2, testDateBeforeAuction, item2, testAuction, testBidder);
-		bidForItem3 = new Bid(legalBidAmountForItem3, testDateBeforeAuction, item3, testAuction, testBidder);
+		testOrganization = new Organization("Goodwill");
+		testAuction = new Auction(testDate, testCreationDate, testMaxItemsPerBidder, testMaxItemsTotal, testOrganization);
+		testBidder = new Bidder("Bob", "bobby-from-KOH");
 	}
 
 	/**
@@ -130,7 +105,7 @@ class AuctionTest {
 		testAuction.addItem(item2);
 		testAuction.addItem(item3);
 		testAuction.addItem(item4);
-		testAuction.addItem(item5);
+		testAuction.addItem(item5);	
 		
 		assertTrue(testAuction.isAuctionAtMaxCapacity());
 	}
@@ -141,7 +116,7 @@ class AuctionTest {
 	@Test
 	public void canAuctionBeCancelled_AuctionHasNoBids_true() {
 		
-		testAuction.addItem(item1);
+		testAuction.addItem(item1);	
 		
 		assertTrue(testAuction.canAuctionBeCancelled());
 	}
@@ -153,10 +128,9 @@ class AuctionTest {
 	public void canAuctionBeCancelled_AuctionHasOneBid_false() {
 		
 		testAuction.addItem(item1);
-		testBidder.placeBid(bidForItem1);
+		testAuction.placeBid(legalBidAmountForItem1, testDateBeforeAuction, testBidder, item1);		
 		
-		assertFalse(testAuction.canAuctionBeCancelled());	
-		
+		assertFalse(testAuction.canAuctionBeCancelled());			
 	}
 	
 	/** 
@@ -168,10 +142,9 @@ class AuctionTest {
 		testAuction.addItem(item1);
 		testAuction.addItem(item2);
 		testAuction.addItem(item3);
-		
-		testBidder.placeBid(bidForItem1);
-		testBidder.placeBid(bidForItem2);
-		testBidder.placeBid(bidForItem3);
+		testAuction.placeBid(legalBidAmountForItem1,  testDateBeforeAuction, testBidder, item1);
+		testAuction.placeBid(legalBidAmountForItem2,  testDateBeforeAuction, testBidder, item2);
+		testAuction.placeBid(legalBidAmountForItem3,  testDateBeforeAuction, testBidder, item3);
 
 		assertFalse(testAuction.canAuctionBeCancelled());	
 	}
