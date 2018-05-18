@@ -39,30 +39,8 @@ public class Auction implements Serializable {
 			Integer theMaxItemsSold, Organization theOrganization) {
 		auctionDate = theAuctionDate;
 		createDate = theCreateDate;
-<<<<<<< HEAD
-		startTime = theStartTime;
 		maxItemsPerBidder = theMaxItemsPerBidder;
 		forOrganization = theOrganization;
-		inventory = new ArrayList<>();
-		auctionBids = new ArrayList<Bid>();
-	}
-	
-	
-	// no specified max items per bidder- resort to default
-	public Auction(LocalDate theStartDate, LocalDate theEndDate, LocalDate theCreateDate,
-			   LocalTime theStartTime, Organization theOrganization) {
-	
-	startDate = theStartDate;
-	endDate = theEndDate;
-	createDate = theCreateDate;
-	startTime = theStartTime;
-	maxItemsPerBidder = DEFAULT_MAX_ITEMS;
-	forOrganization = theOrganization;
-	inventory = new ArrayList<>();
-	auctionBids = new ArrayList<Bid>();
-}
-				 
-=======
 		// Max items per bidder- either use number user gives, or default
 		if (theMaxItemsPerBidder == 0) 
 			maxItemsPerBidder = DEFAULT_MAX_ITEMS_PER_BIDDER;
@@ -79,7 +57,6 @@ public class Auction implements Serializable {
 	 * Add an item to the auction's inventory
 	 * using scanner input from console.
 	 */
->>>>>>> c422dd62581a4440860889ab3e0ba930cb8021cf
 	public void addItem() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Enter Item Name: ");
