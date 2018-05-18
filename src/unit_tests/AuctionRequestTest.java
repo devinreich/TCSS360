@@ -9,6 +9,8 @@ import java.time.LocalTime;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+
 import Model.Auction;
 import Model.Calendar;
 import Model.Organization;
@@ -40,7 +42,7 @@ public class AuctionRequestTest {
 	 * Creates an Auction and a User to add into the Calendar being 
 	 * tested.
 	 */
-	@Before
+	@BeforeEach
 	public void setUp() {
 		testInitialDate = LocalDate.of(2007, 3, 17);
 		testMaxItemsPerBidder = 0;		

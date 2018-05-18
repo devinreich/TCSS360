@@ -89,12 +89,12 @@ public class Calendar implements Serializable {
 		}
 	
 
-//	public void requestAuction(Auction theAuction) {
-//		if (checkDate(theAuction.getStartDate()) && checkForUpcomingDays(theAuction) 
-//			&& checkForUpComingAuctionNumber()) {
-//		addAuction(theAuction);
-//		}
-//	}
+	public void requestAuction(Auction theAuction) {
+		if (checkDate(theAuction.getStartDate()) && checkForUpcomingDays(theAuction) 
+			&& checkForUpComingAuctionNumber()) {
+		addAuction(theAuction);
+		}
+	}
 	
 	public void addAuction(Auction theAuction){
 			auctions.add(theAuction);
