@@ -4,174 +4,163 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import Controller.Run;
 import Model.Auction;
-import Model.Bid;
 import Model.Bidder;
 import Model.Item;
 import Model.Organization;
-import Model.PhoneNumber;
-import Model.User;
-import Model.Calendar;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
+/**
+ * Tests the validation logic in the Bidder class. 
+ * @author nadiapolk
+ */
 public class BidderTest {
 
-	private LocalDate testAuctionStartDatePast;
-	private LocalDate testAuctionStartDatePresent;
-	private LocalDate testAuctionStartDateFuture;
-	private LocalDate testAuctionEndDatePast;
-	private LocalDate testAuctionEndDatePresent;
-	private LocalDate testAuctionEndDateFuture;
-	private LocalDate testAuctionCreationDate;
-	private LocalDate testBidTimeDayBefore;
-	private LocalDate testBidTimeDayOf;
-	private LocalDate testBidTimeDayAfter;	
-	private LocalTime testStartTime;
-	private LocalTime testCurrentTime;
+	private LocalDate testAuctionDatePresent;
+	private LocalDate testAuctionDateFuture;
 	private Item testItem;
 	private Item testItem2;
 	private Item testItem3;
-	private Bid testBidDayBefore;
-	private Bid testBidDayOf;
-	private Bid testBidDayAfter;
-	private Bid testBidAmountUnderMin;
-	private Bid testBidAmountEqualsMin;
-	private Bid testBidAmountAboveMin;
-	private Bid testBidAmountAboveMin2;
-	private Double testBidLessThanBasePrice;
-	private Double testBidEqualToBasePrice;
-	private Double testBidGreaterThanBasePrice;
 	private Bidder testBidder1;
-	private Bidder testBidder2;
-	private Bidder testBidder3;
-	private Auction testAuctionPast;
 	private Auction testAuctionPresent;
 	private Auction testAuctionFuture;
 	private Integer testMaxItemsPerBidder;
-	private PhoneNumber organizationNumber;
+	private Integer testMaxItemsSold;
 	private Organization testOrganization;
-	private Organization testOrganization2;
-	private Organization testOrganization3;
-	private Calendar calendar;
 	
 
 	@BeforeEach
 	void setUp() {
-		testAuctionStartDatePresent = LocalDate.now();
-		testAuctionStartDatePast = testAuctionStartDatePresent.minusMonths(2);
-		testAuctionStartDateFuture = testAuctionStartDatePresent.plusMonths(2);
+		testAuctionDatePresent = LocalDate.now();
+		testAuctionDateFuture = testAuctionDatePresent.plusMonths(1);
 		
-		testAuctionEndDatePast = testAuctionStartDatePast.plusDays(1);
-		testAuctionEndDatePresent = testAuctionStartDatePresent.plusDays(1);
-		testAuctionEndDateFuture= testAuctionStartDateFuture.plusDays(1);
-		
-		testAuctionCreationDate = LocalDate.now();
-		
+		/* Test Items*/
 		testItem = new Item("Antique Magic 8 Ball", "Guaruntees your future", 1000.00, LocalDate.now());
 		testItem2 = new Item("Toothbrush", "Trump's toothbrush", 3000.0, LocalDate.now());
 		testItem3 = new Item("Cat", "A new cat!", 250.00, LocalDate.now());
 		
-		testMaxItemsPerBidder = 2;
-		organizationNumber = new PhoneNumber(253, 222, 4516);
-		User[] users = new User[1];
-
-		calendar = new Calendar();
-		testOrganization = new Organization("Goodwill", organizationNumber, "Contact Robert Smith", users);
-		testOrganization2 = new Organization("SpaceX", organizationNumber, "Astronaut", users);
-		testOrganization3 = new Organization("The Moon", organizationNumber, "Moon man", users);
+		testMaxItemsPerBidder = 3;
+		testMaxItemsSold = 10;
 		
-		testAuctionPast = new Auction(testAuctionStartDatePast, testAuctionEndDatePast,
-				testAuctionCreationDate, testStartTime, testMaxItemsPerBidder, testOrganization);	
-		testAuctionPresent = new Auction(testAuctionStartDatePresent, testAuctionEndDatePresent,
-				testAuctionCreationDate, testStartTime, testMaxItemsPerBidder, testOrganization2);	
-		testAuctionFuture = new Auction(testAuctionStartDateFuture, testAuctionEndDateFuture,
-				testAuctionCreationDate, testStartTime, testMaxItemsPerBidder, testOrganization3);	
+		/* Test organizations */
+		testOrganization = new Organization("Goodwill");
+			
+		testAuctionPresent = new Auction(testAuctionDatePresent, LocalDate.now(), testMaxItemsPerBidder, 
+				testMaxItemsSold, testOrganization);		
+		testAuctionFuture = new Auction(testAuctionDateFuture, LocalDate.now(), testMaxItemsPerBidder, 
+				testMaxItemsSold, testOrganization);		
 
-		// bid amounts
-		testBidLessThanBasePrice = new Double(testItem.getBasePrice()/2); 
-		testBidEqualToBasePrice = new Double(testItem.getBasePrice()); 
-		testBidGreaterThanBasePrice =new Double(testItem.getBasePrice() * 2);		
-		// bid times (present day auction)
-		testBidTimeDayBefore = testAuctionStartDatePresent.minusDays(1);
-		testBidTimeDayOf = testAuctionStartDatePresent;
-		testBidTimeDayAfter = testAuctionStartDatePresent.plusDays(1);
-		// bidder
-		testBidder1 = new Bidder("Nadia Polk", "polkn", new PhoneNumber(512, 569, 7725), "polkn@uw.edu");
-		testBidder2 = new Bidder("Travis Polk", "polkt", new PhoneNumber(512, 569, 7725), "travis email");
-		testBidder3 = new Bidder("Mulan Polk", "mulancat", new PhoneNumber(512, 569, 7725), "cat email");
+		/* Add Auction to schedule */
+		Run.calendar.submitAuctionRequestWithAuction(testOrganization, testAuctionFuture);
+
+		/* Set maximum amount legal active bids for bidder to 3 */
+		testBidder1 = new Bidder("Nadia Polk", "polkn");
+		testBidder1.setMaxAllowedBids(3);
 		
-		/*  Create Bids with variable bid dates - use legal bid amount */
-		testBidDayBefore = new Bid(testBidGreaterThanBasePrice, testBidTimeDayBefore, testItem, testAuctionPresent, testBidder1);
-		testBidDayOf = new Bid(testBidGreaterThanBasePrice, testBidTimeDayOf, testItem, testAuctionPresent, testBidder1);
-		testBidDayAfter = new Bid(testBidGreaterThanBasePrice, testBidTimeDayAfter, testItem, testAuctionPresent, testBidder1);
-		/* Create Bids with variable bid amounts- use legal date */
-		testBidAmountUnderMin = new Bid(testBidLessThanBasePrice, testBidTimeDayBefore, testItem, testAuctionPresent, testBidder1);
-		testBidAmountEqualsMin = new Bid(testBidEqualToBasePrice, testBidTimeDayBefore, testItem, testAuctionPresent, testBidder1);
-		testBidAmountAboveMin2 = new Bid(testBidGreaterThanBasePrice, testBidTimeDayBefore, testItem, testAuctionPresent, testBidder1);
-		testBidAmountAboveMin = new Bid(testBidGreaterThanBasePrice, testBidTimeDayBefore, testItem, testAuctionPresent, testBidder1);	
+		/* Add items to legal auction */
+		testAuctionFuture.addItem(testItem);
+		testAuctionFuture.addItem(testItem2);
+		testAuctionFuture.addItem(testItem3);
 	}
 
+	/**
+	 * Tests that bidder can place a bid above the minimum
+	 * accepted base price for the item.
+	 */
 	@Test
 	public void isBidAmountLegal_BidAmountAboveMinimum_true() {
-		assertTrue(testBidAmountAboveMin.isBidAmountLegal());
+		System.out.println(testItem.getBasePrice() + "amount: " + testItem.getBasePrice() *2);
+		assertTrue(testBidder1.isBidAmountLegal(testItem.getBasePrice() *2, testItem));
 	}
 	
+	/**
+	 * Tests that bidder can place a bid equal to the minimum
+	 * accepted base price for the item.
+	 */
 	@Test
 	public void isBidAmountLegal_BidAmountEqualMinimum_true() {
-		assertTrue(testBidAmountEqualsMin.isBidAmountLegal());
+		assertTrue(testBidder1.isBidAmountLegal(testItem.getBasePrice(), testItem));
 	}
 	
+	/**
+	 * Tests that bidder cannot place a bid below the minimum
+	 * accepted base price for the item.
+	 */
 	@Test
 	public void isBidAmountLegal_BidAmountUnderMinimum_false() {	
-		assertFalse(testBidAmountUnderMin.isBidAmountLegal());
+		assertFalse(testBidder1.isBidAmountLegal(testItem.getBasePrice()/2, testItem));
 	}
 		
+	/**
+	 * Tests that bidder can place a bid the day before the auction.
+	 */
 	@Test
 	public void isBidDateLegal_BidPlacedDayBefore_true() {
-		assertTrue(testBidDayBefore.isBidDateLegal());
+		assertTrue(testBidder1.isBidDateLegal(testAuctionPresent.getDate().minusDays(1), testAuctionPresent));
 	}
 	
+	/**
+	 * Tests that bidder cannot place a bid the day of the auction.
+	 */
 	@Test 
 	public void isBidDateLegal_BidPlacedDayOf_false() {	
-		assertFalse(testBidDayOf.isBidDateLegal());
+		assertFalse(testBidder1.isBidDateLegal(testAuctionPresent.getDate(), testAuctionPresent));
 	}
 	
+	/**
+	 * Tests that bidder cannot place a bid the day after the auction.
+	 */
 	@Test
 	public void isBidDateLegal_BidPlacedDayAfter_false() {
-		assertFalse(testBidDayAfter.isBidDateLegal());
+		assertFalse(testBidder1.isBidDateLegal(testAuctionPresent.getDate().plusDays(1), testAuctionPresent));
 	}
-	
-	@Test
-	public void isBidderAtMaxBidsForAuction_OneLessThanMaxBids_false() {
-		testBidder1.placeBid(testBidAmountAboveMin);
-		assertFalse(testBidder1.isBidderAtMaxBidsForAuction(testAuctionPresent));
-	}
-	
-	@Test
-	public void isBidderAtMaxBidsForAuction_MaxBidsForAuction_true() {
-		testBidder1.placeBid(testBidAmountAboveMin);
-		testBidder1.placeBid(testBidAmountEqualsMin);
-		assertTrue(testBidder1.isBidderAtMaxBidsForAuction(testAuctionPresent));
-	}
-	
-	@Test
-	public void isBidderAtMaxBidsForAllAuctions_OneLessThanMaxBids_false() {
-		testBidder1.placeBid(testBidAmountEqualsMin);
-		testBidder1.placeBid(testBidAmountAboveMin);
-		assertFalse(testBidder1.isBidderAtMaxBidsForAllAuctions());
 		
+	/**
+	 * Tests that bidder can place a bid on a specific auction while
+	 * they are under the maximum allowed number of items bidders
+	 * can bid on for that auction.
+	 */
+	@Test
+	public void isBidderUnderMaxBidsForAuction_OneLessThanMaxBids_true() {
+		testAuctionFuture.placeBid(testItem.getBasePrice()*1.5, LocalDate.now(), testBidder1, testItem);
+		assertTrue(testBidder1.isAuctionLegalForBidder(testAuctionFuture));
 	}
 	
+	/**
+	 * Tests that bidder cannot place a bid on a specific auction if they have
+	 * bid on the maximum number of allowed items for that auction.
+	 */
+	@Test
+	public void isBidderUnderMaxBidsForAuction_AtMaxBidsForAuction_false() {
+		// Maximum allowed items for bidders on this auction is set to 2
+		testAuctionFuture.placeBid(testItem.getBasePrice()*1.5, LocalDate.now(), testBidder1, testItem);
+		testAuctionFuture.placeBid(testItem2.getBasePrice()*1.5, LocalDate.now(), testBidder1, testItem2);
+		testAuctionFuture.placeBid(testItem3.getBasePrice()*1.5, LocalDate.now(), testBidder1, testItem3);
+		assertFalse(testBidder1.isAuctionLegalForBidder(testAuctionFuture));
+	}
+	
+	/**
+	 * Tests that bidder can bid on any auction while they are under the
+	 * maximum allowed active bids. 
+	 */
+	@Test
+	public void isBidderUnderMaxBidsForAllAuctions_OneLessThanMaxBids_true() {
+		testAuctionFuture.placeBid(testItem.getBasePrice()*1.5, LocalDate.now(), testBidder1, testItem);
+		testAuctionFuture.placeBid(testItem2.getBasePrice()*1.5, LocalDate.now(), testBidder1, testItem2);
+		assertTrue(testBidder1.isBidderLegal());
+	}
+	
+	/**
+	 * Tests that bidder cannot place a bid on any auction while they are
+	 * at maximum allowed active bids.
+	 */
 	@Test 
-	public void isBidderAtMaxBidsForAllAuctions_MaxBidsForAllAuctions_true() {
-		testBidder1.placeBid(testBidAmountEqualsMin);
-		testBidder1.placeBid(testBidAmountAboveMin);
-		testBidder1.placeBid(testBidAmountAboveMin2);
-		assertTrue(testBidder1.isBidderAtMaxBidsForAllAuctions());
-		
-	}
-	
-	
-	
+	public void isBidderUnderMaxBidsForAllAuctions_MaxBidsForAllAuctions_false() {
+		// Maximum allowed active bids is set to 3
+		testAuctionFuture.placeBid(testItem.getBasePrice()*1.5, LocalDate.now(), testBidder1, testItem);
+		testAuctionFuture.placeBid(testItem2.getBasePrice()*1.5, LocalDate.now(), testBidder1, testItem2);
+		testAuctionFuture.placeBid(testItem3.getBasePrice()*1.5, LocalDate.now(), testBidder1, testItem3);
+		assertFalse(testBidder1.isBidderLegal());		
+	}	
 }

@@ -2,6 +2,10 @@ package Model;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+/**
+ * Bid Class. Stores information about a Bid. 
+ * @author prancingponies
+ */
 public class Bid implements Serializable {
 	
 	private static final long serialVersionUID = -1147412376153360349L;
@@ -9,47 +13,33 @@ public class Bid implements Serializable {
 	private Auction auction;	
 	private Double bidAmount;
 	private LocalDate timeOfBid;
-	private Bidder bidder; 
-	private Item forItem;
+	private Bidder bidder;
 	private int MAX_BID = 4;
+	private LocalDate bidDate;
 	
-	public Bid(Double bidAmount, LocalDate timeOfBid, Item item, Auction auction, Bidder bidder) {
-		this.bidAmount = bidAmount;
-		this.timeOfBid = timeOfBid;
-		this.item = item;
-		this.auction = auction;
-		this.bidder = bidder;
+	/**
+	 * Constructs a Bid
+	 * @param theBidAmount
+	 * @param theBidDate
+	 * @param theItem
+	 * @param theAuction
+	 * @param theBidder
+	 */
+	public Bid(Double theBidAmount, LocalDate theBidDate, Item theItem, Auction theAuction, Bidder theBidder) {
+		this.bidAmount = theBidAmount;
+		this.bidDate = theBidDate;
+		this.item = theItem;
+		this.auction = theAuction;
+		this.bidder = theBidder;
 	}
 	
-	
-	public boolean isBidDateLegal() {	
-		if ((auction.getStartDate().compareTo(timeOfBid) > 0) || 
-				(auction.getCreateDate().compareTo(timeOfBid) == 0)) {
-			if (timeOfBid.compareTo(auction.getStartDate()) > 0) {
-				return false;
-			} else if  (timeOfBid.compareTo(auction.getStartDate()) == 0) {
-				return false;
-			} else if  (timeOfBid.compareTo(auction.getStartDate()) < 0) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public boolean isBidAmountLegal() {	
-		return bidAmount >= item.getBasePrice();	
-	}
-	
-	public boolean isBidNumberLegal() {
-		return bidder.getBids().size() <= MAX_BID;
-	}
 	public Double getBidAmount() {
 		return bidAmount;
 	}
 	
-	
-	public LocalDate getTimeOfBid() {
-		return timeOfBid;
+	public LocalDate getBidDate() {
+		return bidDate;
+
 	}
 	
 	public User getBidder() {
@@ -57,12 +47,10 @@ public class Bid implements Serializable {
 	}
 	
 	public Item getItem() {
-		return forItem;
+		return item;
 	}
 	
 	public Auction getAuction() {
 		return auction;
 	}
-	
-	
 }
