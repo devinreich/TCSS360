@@ -249,4 +249,12 @@ public class Bidder extends User implements Serializable {
 		}
 		return itemAuction;
 	}
+	
+	/**
+	 * Removes a bid from the list of bids.
+	 * @param theBid
+	 */
+	public void removeBid(Bid theBid) {
+		allBidsForBidder.remove(theBid);
+	}
 }

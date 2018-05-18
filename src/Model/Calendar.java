@@ -59,6 +59,38 @@ public class Calendar implements Serializable {
 		minimumUpcomingDays = theInt;
 	}
 	
+	/** 
+	 * Cancel an auction. Only used by AuctionCentral Employees.
+	 * @param theAuction
+	 */
+	public void cancelAuction(Auction theAuction) {
+		if (theAuction.canAuctionBeCancelled()) {
+			//remove bids pertaining to auction
+			//remove items from auction
+			//remove auction from organization
+			//remove auction from calendar
+			ArrayList<ArrayList<Bid>> bidLists = (ArrayList<ArrayList<Bid>>) theAuction.getBids();
+
+			//remove bids pertaining to auction from bidders
+			for (ArrayList<Bid> lists: bidLists) {
+				for (Bid bid: lists) {
+					Bidder bidder = (Bidder) bid.getBidder();
+					bidder.removeBid(bid);
+				}
+			}
+			//remove items from auction
+			for (Item item: theAuction.getInventory()) {
+				theAuction.removeItem(item);
+			}
+			
+			//remove auction from organization
+			theAuction.getOrganization().getAuctions().remove(theAuction);
+			
+			//remove auction from calendar
+			ArrayList<Auction> auctions = auctionCentralAuctions.get(theAuction.getOrganization());
+			auctions.remove(theAuction);
+		}
+	}
 	
 	/**
 	 * Performs validation on Organization and date legality

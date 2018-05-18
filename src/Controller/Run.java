@@ -41,11 +41,11 @@ public class Run {
 	public static void openMenu(String userType) {
 		calendar = (Calendar) Serializer.deserialize("calendar");
 		if (userType == "Bidder") {
-			BidderMenu bMenu = new BidderMenu((Bidder) user, calendar);
+			BidderMenu bMenu = new BidderMenu((Bidder) user);
 			bMenu.launchMenu();
 		} else if (userType == "Organization" ) {
 			ContactPerson cPerson = (ContactPerson) user;
-			AuctioneerMenu aMenu = new AuctioneerMenu(cPerson, calendar);
+			AuctioneerMenu aMenu = new AuctioneerMenu(cPerson);
 			aMenu.launchMenu();
 		}
 		Serializer.serialize(user, user.getLoginName());
