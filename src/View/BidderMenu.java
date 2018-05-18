@@ -6,12 +6,7 @@ import java.util.Scanner;
 import Controller.Run;
 import Model.Auction;
 import Model.Bidder;
-import Model.Calendar;
 import Model.Item;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 /**
  * Bidder menu class. User(Bidder) can place bids on valid auctions
@@ -168,45 +163,5 @@ public class BidderMenu {
 		System.out.println("Enter your bid (must be larger than current price):");
 		double bidPrice = theScanner.nextDouble();
 		theAuction.placeBid(bidPrice, LocalDate.now(), bidder, itemChoice);
-	}
-	
-	public static Scene getBidderMenu(Scene scene, Bidder user, Calendar calendar) {
-		Text title = new Text("Welcome Bidder: " + user.getName());
-		VBox layout = new VBox(20);
-		layout.getChildren().add(title);
-		scene = new Scene(layout,900,500);
-		
-		// this will need to change to upcoming auctions with bids available 
-		if (calendar.checkForUpComingAuctionNumber()) { 
-			final Button btn = new Button("View Biddable Auctions");
-
-			btn.setOnAction(event -> 
-				System.out.println(btn.getText())
-			);
-			layout.getChildren().add(btn);
-		}
-		
-		if (user.getAllBids().size() > 0) {
-			final Button btn = new Button("View all items you have bid on");
-
-			btn.setOnAction(event -> 
-				System.out.println(btn.getText())
-			);
-			layout.getChildren().add(btn);
-			
-			final Button btn2 = new Button("View all Auctions which contain items you have bid on");
-
-			btn2.setOnAction(event -> 
-				System.out.println(btn2.getText())
-			);
-			layout.getChildren().add(btn2);
-		}
-		
-		if (layout.getChildren().size() == 1) {
-			Text warning = new Text("There are no actions! Please wait for an auction to be posted");
-			layout.getChildren().add(warning);
-		}
-		
-		return scene;
 	}
 }

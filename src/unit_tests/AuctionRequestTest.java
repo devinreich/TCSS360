@@ -7,15 +7,7 @@ import static org.junit.Assert.*;
 import java.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
-<<<<<<< HEAD
-<<<<<<< HEAD
-import org.junit.jupiter.api.BeforeEach;
-
-=======
 import Controller.Run;
->>>>>>> c422dd62581a4440860889ab3e0ba930cb8021cf
-=======
->>>>>>> parent of 8964111... Merge conflicts
 import Model.Auction;
 import Model.Organization;
 
@@ -59,28 +51,6 @@ public class AuctionRequestTest {
 	 * Tests that an organization can book an auction when they had an auction
 	 * exactly one year ago.
 	 */
-<<<<<<< HEAD
-<<<<<<< HEAD
-	@BeforeEach
-=======
-	@Before
->>>>>>> parent of 8964111... Merge conflicts
-	public void setUp() {
-		testInitialDate = LocalDate.of(2007, 3, 17);
-		testMaxItemsPerBidder = 0;		
-		
-		User[] users = new User[1];
-		Auction[] auctions = new Auction[1];
-		testOrganizationNumber = new PhoneNumber(555, 867, 5309);
-		testOrganization = new Organization("Salvation Army", testOrganizationNumber, 
-				"Contact Jane Doe", users);
-		
-		testAuction = new Auction(testInitialDate, testInitialDate,testInitialDate, LocalTime.now(),
-								 new Integer(testMaxItemsPerBidder), 
-								 testOrganization);
-		
-		
-=======
 	@Test 
 	public void hasItBeenAYearSinceLastAuction_requestOneYearAhead_true() {
 		Run.calendar.wipeSchedule();
@@ -94,7 +64,6 @@ public class AuctionRequestTest {
 		LocalDate yearOutDate = LocalDate.now().plusYears(1).plusDays(Run.calendar.getMinimumUpcomingDays());
 		assertTrue(Run.calendar.checkBeenYearForOrg(testOrganization, yearOutDate));	
 	}
->>>>>>> c422dd62581a4440860889ab3e0ba930cb8021cf
 		
 	
 	/**

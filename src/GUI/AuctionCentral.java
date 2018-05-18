@@ -1,14 +1,6 @@
 package GUI;
 
-import Controller.Serializer;
-import Model.Bidder;
-import Model.Calendar;
-import Model.ContactPerson;
-import Model.User;
-import View.BidderMenu;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -27,13 +19,13 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.stage.WindowEvent;
+
+
+
 
 public class AuctionCentral extends Application {
 	static Scene scene1;
 	static Stage window;
-	static User user;
-	static Calendar calendar;
 	public static void main(String[] args) { launch(args); }
 
 	public AuctionCentral() {
@@ -43,34 +35,14 @@ public class AuctionCentral extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		calendar = (Calendar) Serializer.deserialize("calendar");
 		window = primaryStage;
 		window.setTitle("Welcome to Auction Central");
 		StackPane root = new StackPane();
 		root.setAlignment(Pos.CENTER);
 		displayLoginPane(root);
 		window.setScene(new Scene(root, 900, 550));
-		window.setOnCloseRequest(new EventHandler<WindowEvent>() {
-		    @Override
-		    public void handle(WindowEvent event) {
-		        try {
-		        		if (user != null) {
-		        			Serializer.serialize(user, user.getLoginName());
-		        		}
-		        		if (calendar != null) {
-		        			Serializer.serialize(calendar, "calendar");
-		        		}
-					stop();
-					Platform.exit();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		    }
-		});
 		window.show();
 	}
-	
 	protected final static void displayLoginPane(StackPane root) {
 		final GridPane grid = new GridPane();
 
@@ -92,9 +64,12 @@ public class AuctionCentral extends Application {
 		final Button btn = new Button("Sign in");
 		btn.setDefaultButton(true);
 
-		btn.setOnAction(event -> 
-			setScene(userTextField.getText())
-		);
+		btn.setOnAction(event -> window.setScene(scene1));
+		VBox layout1 = new VBox(20);
+		final Text title2 = new Text("Auction Central2");
+		final Button btn2 = new Button("This is the second scene");
+		layout1.getChildren().addAll(title2,btn2);
+		scene1 = new Scene(layout1,900,500);
 		
 		final HBox hbBtn = new HBox(10);
 		hbBtn.setAlignment(Pos.BOTTOM_CENTER);
@@ -102,26 +77,6 @@ public class AuctionCentral extends Application {
 		grid.add(hbBtn, 1, 4);
 
 		root.getChildren().add(grid);
-	}
-	
-	public static void setScene(String text) {
-		user = (User) Serializer.deserialize(text);
-		Text title;
-		if (user instanceof Bidder) {
-			window.setScene(BidderMenu.getBidderMenu(scene1, (Bidder) user, calendar));
-		} else if (user instanceof ContactPerson) {
-			title = new Text("Welcome Contact Person: " + user.getName());
-			VBox layout1 = new VBox(20);
-			layout1.getChildren().addAll(title);
-			scene1 = new Scene(layout1,900,500);
-			window.setScene(scene1);
-		} else {
-			title = new Text("Welcome Employee: " + user.getName());
-			VBox layout1 = new VBox(20);
-			layout1.getChildren().addAll(title);
-			scene1 = new Scene(layout1,900,500);
-			window.setScene(scene1);
 		}
-	}
 }
 	
