@@ -47,7 +47,6 @@ public class Auction implements Serializable {
 		auctionBids = new ArrayList<Bid>();
 	}
 	
-	
 	// no specified max items per bidder- resort to default
 	public Auction(LocalDate theStartDate, LocalDate theEndDate, LocalDate theCreateDate,
 			   LocalTime theStartTime, Organization theOrganization) {

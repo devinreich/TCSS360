@@ -149,6 +149,7 @@ public class Calendar implements Serializable {
 	
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	public void requestAuction(Auction theAuction) {
 		if (checkDate(theAuction.getStartDate()) && checkForUpcomingDays(theAuction) 
 			&& checkForUpComingAuctionNumber()) {
@@ -156,17 +157,22 @@ public class Calendar implements Serializable {
 		}
 	}
 =======
+=======
+>>>>>>> parent of 8964111... Merge conflicts
 //	public void requestAuction(Auction theAuction) {
 //		if (checkDate(theAuction.getStartDate()) && checkForUpcomingDays(theAuction) 
 //			&& checkForUpComingAuctionNumber()) {
 //		addAuction(theAuction);
 //		}
 //	}
+<<<<<<< HEAD
 //	
 //	public void addAuction(Auction theAuction){
 //			auctions.add(theAuction);
 //	}
 >>>>>>> c422dd62581a4440860889ab3e0ba930cb8021cf
+=======
+>>>>>>> parent of 8964111... Merge conflicts
 	
 	
 	/**

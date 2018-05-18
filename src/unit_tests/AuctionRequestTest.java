@@ -8,11 +8,14 @@ import java.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import org.junit.jupiter.api.BeforeEach;
 
 =======
 import Controller.Run;
 >>>>>>> c422dd62581a4440860889ab3e0ba930cb8021cf
+=======
+>>>>>>> parent of 8964111... Merge conflicts
 import Model.Auction;
 import Model.Organization;
 
@@ -57,7 +60,11 @@ public class AuctionRequestTest {
 	 * exactly one year ago.
 	 */
 <<<<<<< HEAD
+<<<<<<< HEAD
 	@BeforeEach
+=======
+	@Before
+>>>>>>> parent of 8964111... Merge conflicts
 	public void setUp() {
 		testInitialDate = LocalDate.of(2007, 3, 17);
 		testMaxItemsPerBidder = 0;		
