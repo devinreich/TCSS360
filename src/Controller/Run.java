@@ -2,10 +2,12 @@ package Controller;
 
 import Model.Bidder;
 import Model.User;
+import Model.Employee;
 import Model.Calendar;
 import Model.ContactPerson;
 import View.AuctioneerMenu;
 import View.BidderMenu;
+import View.EmployeeMenu;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -35,6 +37,9 @@ public class Run {
 		} else if (user instanceof ContactPerson) {
 			System.out.println("You are logged in as: " + user.getName() + " (Contact Person)");
 			openMenu("Organization");
+		} else if (user instanceof Employee) {
+			System.out.println("You are logged in as: " + user.getName() + " (Employee)");
+			openMenu("Employee");
 		}
 	}
 
@@ -47,6 +52,10 @@ public class Run {
 			ContactPerson cPerson = (ContactPerson) user;
 			AuctioneerMenu aMenu = new AuctioneerMenu(cPerson);
 			aMenu.launchMenu();
+		} else if (userType == "Employee" ) {
+			Employee ePerson = (Employee) user;
+			EmployeeMenu eMenu = new EmployeeMenu(ePerson);
+			eMenu.launchMenu();
 		}
 		Serializer.serialize(user, user.getLoginName());
 		Serializer.serialize(calendar, "calendar");
