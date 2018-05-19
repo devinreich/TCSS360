@@ -41,7 +41,9 @@ public class EmployeeMenu {
 		switch(theScanner.nextInt()) {
 		
 		case 1:
-			Run.calendar.changeMaximumUpcomingDays();
+			System.out.println("Current System Auction Capacity: " + Run.calendar.getMaximumUpcomingAuctions());
+			System.out.println("Enter New System Auction Capacity: ");
+			Run.calendar.setMaximumUpcomingAuctions(theScanner.nextInt());
 			break;					
 		case 2: 
 			ArrayList<LocalDate> auctionDates = getDatesFromUser(theScanner);

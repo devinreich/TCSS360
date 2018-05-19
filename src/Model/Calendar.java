@@ -321,17 +321,17 @@ public class Calendar implements Serializable  {
 
 
 	public void changeMaximumUpcomingDays(){
-		Scanner scanner2 = new Scanner(System.in);
-
+		Scanner scanner = new Scanner(System.in);
 		System.out.print("Enter the new number of days in the future that auctions may be stored: ");
-		int potentialDays = scanner2.nextInt();
+		int potentialDays = scanner.nextInt();
 		while (potentialDays < 0){
 			System.out.print("The number of days entered must be positive, enter a new number of days: ");
-			potentialDays = scanner2.nextInt();
+			potentialDays = scanner.nextInt();
 		}
+		//scanner.close();
 		setMaximumUpcomingDays(potentialDays);
+		
 	}
-
 
 	/**
 	 * Set current date.
@@ -399,6 +399,14 @@ public class Calendar implements Serializable  {
 				}
 			}
 		}
+		auctionsBetweenDates.sort(new Comparator<Auction>() {
+			public int compare(Auction o1, Auction o2)  {
+				LocalDate Date1 = o1.getDate();
+				LocalDate Date2 = o2.getDate();
+				int v = Date1.compareTo(Date2);
+				return v;           
+			}
+		});
 		return auctionsBetweenDates;		 
 	}
 
@@ -441,6 +449,10 @@ public class Calendar implements Serializable  {
 		auctionCentralAuctions.put(theOrganization, theAuctions);	
 	}
 
+	/**
+	 * Returns a list of all auctions past, present, and future in chronological order.
+	 * @return list of all auctions
+	 */
 	public ArrayList<Auction> getAuctionsInChronologicalOrder() {
 		ArrayList<Auction> auctionsInOrder = new ArrayList<Auction>();
 
