@@ -58,13 +58,12 @@ public class ReadTextFile {
 			}
 			
 		}
-//		FileInputStream input = new FileInputStream("src/Files/input.txt");
-//		Scanner scanner = new Scanner(input);
+
 		
 	}
 
 	private static void makeCalendar(Scanner theScanner, File theFile) {
-			
+		// TODO Auto-generated method stub
 	}
 
 	private static void makeItem(Scanner theScanner, File theFile) {
@@ -73,7 +72,17 @@ public class ReadTextFile {
 	}
 
 	private static void makeEmployee(Scanner theScanner, File theFile) {
-		// TODO Auto-generated method stub
+		theScanner.nextLine();	
+		String name = theScanner.nextLine();
+		System.out.println("name = "+ name);
+		String logInName = theScanner.nextLine();
+		System.out.println("logInName = "+ logInName);
+		
+		
+		Employee ePerson = new Employee(name,logInName);
+		System.out.println(ePerson);
+		Serializer.serialize(ePerson, logInName);
+		System.out.println("Serialized");
 		
 	}
 
@@ -100,7 +109,17 @@ public class ReadTextFile {
 	}
 
 	private static void makeBidder(Scanner theScanner, File theFile) {
-		// TODO Auto-generated method stub
+		theScanner.nextLine();	
+		String name = theScanner.nextLine();
+		System.out.println("name = "+ name);
+		String logInName = theScanner.nextLine();
+		System.out.println("logInName = "+ logInName);
+		
+		
+		Bidder bPerson = new Bidder(name,logInName);
+		System.out.println(bPerson);
+		Serializer.serialize(bPerson, logInName);
+		System.out.println("Serialized");
 		
 	}
 
