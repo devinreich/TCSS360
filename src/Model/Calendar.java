@@ -383,6 +383,15 @@ public class Calendar implements Serializable {
 		 return minimumUpcomingDays;
 	 }
 	 
+	 /**
+	  * Returns a list of all auctions that take place between two dates, inclusive.
+	  * @param theStartDate
+	  * @return a list of auctions between two dates, ordered
+	  */
+	 public ArrayList<Auction> getAuctionsBetweenTwoDates(LocalDate theStartDate, LocalDate theEndDate) {
+		 return null;
+	 }
+	 
 	 
 	/**
 	 * Add Auction directly to calendar.
