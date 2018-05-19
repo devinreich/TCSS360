@@ -1,16 +1,18 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+
 /**
  * Calendar. Lets you submit an auction to the schedule, and validates the legality. 
  * @author prancingponies
  */
-public class Calendar implements Serializable {
+public class Calendar implements Serializable  {
 
 	private static final long serialVersionUID = -6465404834362396239L;
 	HashMap<Organization, ArrayList<Auction>> auctionCentralAuctions;
@@ -22,7 +24,7 @@ public class Calendar implements Serializable {
 	private Integer maximumUpcomingDays;
 	private Integer minimumUpcomingDays;
 	LocalDate entryPoint;
-	
+
 	/**
 	 * Construct a Calendar
 	 * Only one calendar used at any time throughout program
@@ -33,7 +35,7 @@ public class Calendar implements Serializable {
 		maximumUpcomingDays = MAX_UPCOMING_AUCTIONS_DAYS;
 		minimumUpcomingDays = MIN_UPCOMING_AUCTIONS_DAYS;
 	}
-	
+
 	/**
 	 * Set maximum number of allowed active upcoming auctions
 	 * @param theInt
@@ -41,7 +43,7 @@ public class Calendar implements Serializable {
 	public void setMaximumUpcomingAuctions(Integer theInt) {
 		maximumUpcomingAuctions = theInt;
 	}
-	
+
 	/**
 	 * Set maximum number of allowed days out
 	 * @param theInt
@@ -49,8 +51,8 @@ public class Calendar implements Serializable {
 	public void setMaximumUpcomingDays(Integer theInt) {
 		maximumUpcomingDays = theInt;
 	}
-	
-	
+
+
 	/**
 	 * Set maximum number of allowed days out
 	 * @param theInt
@@ -58,7 +60,7 @@ public class Calendar implements Serializable {
 	public void setMinimumUpcomingDays(Integer theInt) {
 		minimumUpcomingDays = theInt;
 	}
-	
+
 	/** 
 	 * Cancel an auction. Only used by AuctionCentral Employees.
 	 * @param theAuction
@@ -82,16 +84,16 @@ public class Calendar implements Serializable {
 			for (Item item: theAuction.getInventory()) {
 				theAuction.removeItem(item);
 			}
-			
+
 			//remove auction from organization
 			theAuction.getOrganization().getAuctions().remove(theAuction);
-			
+
 			//remove auction from calendar
 			ArrayList<Auction> auctions = auctionCentralAuctions.get(theAuction.getOrganization());
 			auctions.remove(theAuction);
 		}
 	}
-	
+
 	/**
 	 * Performs validation on Organization and date legality
 	 * and then creates and Auction.
@@ -99,15 +101,15 @@ public class Calendar implements Serializable {
 	 * @param theOrganization
 	 */
 	public void submitAuctionRequest(Organization theOrganization) {
-		
+
 		Scanner scanner = new Scanner(System.in);
 		String[] auctionDateArr = new String[3];
 		System.out.print("Enter start date of auction (mm/dd/yyyy): ");
 		String auctionDateString = scanner.next();
 		auctionDateArr = auctionDateString.split("/");
 		LocalDate auctionDate = LocalDate.of(Integer.parseInt(auctionDateArr[2]), 
-										Integer.parseInt(auctionDateArr[0]),
-									    Integer.parseInt(auctionDateArr[1]));
+				Integer.parseInt(auctionDateArr[0]),
+				Integer.parseInt(auctionDateArr[1]));
 		// Make sure one year between any two auctions by same non-profit
 		// No more than two auctinos occur on same day in entire system
 		// No more than maximum number auctions in entire system
@@ -141,8 +143,8 @@ public class Calendar implements Serializable {
 			System.out.println("Your organization is ineligible to host an auction.");	
 		}
 	}
-	
-	
+
+
 	/**
 	 * Accepts a specific auction to verify.
 	 * Performs validation on Organization and Auction.
@@ -178,20 +180,20 @@ public class Calendar implements Serializable {
 			System.out.println("Your organization is ineligible to host an auction.");	
 		}
 	}
-	
 
-//	public void requestAuction(Auction theAuction) {
-//		if (checkDate(theAuction.getStartDate()) && checkForUpcomingDays(theAuction) 
-//			&& checkForUpComingAuctionNumber()) {
-//		addAuction(theAuction);
-//		}
-//	}
-//	
-//	public void addAuction(Auction theAuction){
-//			auctions.add(theAuction);
-//	}
-	
-	
+
+	//	public void requestAuction(Auction theAuction) {
+	//		if (checkDate(theAuction.getStartDate()) && checkForUpcomingDays(theAuction) 
+	//			&& checkForUpComingAuctionNumber()) {
+	//		addAuction(theAuction);
+	//		}
+	//	}
+	//	
+	//	public void addAuction(Auction theAuction){
+	//			auctions.add(theAuction);
+	//	}
+
+
 	/**
 	 * Checks to make sure that no more than two auctions
 	 * fall on the requested date.
@@ -217,8 +219,8 @@ public class Calendar implements Serializable {
 		//System.out.println("Calendar not at max capacity for specified date: " + dateAllowed);
 		return dateAllowed;
 	}
-	
-	
+
+
 	/**
 	 *  Make sure a year has passed between auctions for individual organizations
 	 * @param theOganization
@@ -231,7 +233,7 @@ public class Calendar implements Serializable {
 		if (latestAuctionDate != null) {
 			LocalDate oneYearOut = latestAuctionDate.plusYears(1);
 			if (theDate.isAfter(oneYearOut) || theDate.isEqual(oneYearOut)) {
-				
+
 				result = true;
 			} else {
 				System.out.println("It has not yet been a year since your last auction.");
@@ -243,8 +245,8 @@ public class Calendar implements Serializable {
 		//System.out.println("Requesed date: " + theDate + " current date: " + getCurrentDate() + " last auction date: " + theOrganization.getLatestAuctionDate());
 		return result;
 	}
-	
-	
+
+
 	/**
 	 * Checks to make sure the requested auction date is legal
 	 * by checking that it falls before the maximum schedule-out 
@@ -254,7 +256,7 @@ public class Calendar implements Serializable {
 	 */
 	public boolean checkForMaxDays(LocalDate theDate) {
 		boolean result = false;
-		
+
 		if (theDate.isAfter(getCurrentDate().plusDays(maximumUpcomingDays)) || 
 				theDate.isEqual(getCurrentDate().plusDays(maximumUpcomingDays))) {
 			System.out.println("The requested auction date is too far out to schedule.");
@@ -265,8 +267,8 @@ public class Calendar implements Serializable {
 		//System.out.println("Request is before max days out: " + result);
 		return result;
 	}
-	
-	
+
+
 	/**
 	 * Checks to make sure the requested auction date is legal
 	 * by checking that it falls after the minimum schedule-out 
@@ -287,8 +289,8 @@ public class Calendar implements Serializable {
 		//System.out.println("Request date: " + theDate + " current date: " + getCurrentDate());
 		return result;	
 	}
-	
-	
+
+
 	/**
 	 * Checks to make sure the requested auction is legal
 	 * by making sure there are less than the maximum
@@ -300,8 +302,8 @@ public class Calendar implements Serializable {
 		//System.out.println("Calendar less tham max capacity: " + (getUpcomingAuctions().size() < maximumUpcomingAuctions));
 		return getUpcomingAuctions().size() < maximumUpcomingAuctions;
 	}
-	
-	
+
+
 	/**
 	 * @return Auctions on the schedule after today.
 	 */
@@ -316,11 +318,11 @@ public class Calendar implements Serializable {
 		}
 		return(futureAuctions);
 	}
-	
+
 
 	public void changeMaximumUpcomingDays(){
 		Scanner scanner2 = new Scanner(System.in);
-		
+
 		System.out.print("Enter the new number of days in the future that auctions may be stored: ");
 		int potentialDays = scanner2.nextInt();
 		while (potentialDays < 0){
@@ -329,8 +331,8 @@ public class Calendar implements Serializable {
 		}
 		setMaximumUpcomingDays(potentialDays);
 	}
-	
-	
+
+
 	/**
 	 * Set current date.
 	 * FOR TESTING PURPOSES ONLY
@@ -338,61 +340,69 @@ public class Calendar implements Serializable {
 	public void setCurrentDate(LocalDate theDate){
 		entryPoint = theDate;
 	}
-	
-	
+
+
 	/**
 	 * Get current date.
 	 */
 	public LocalDate getCurrentDate(){
-		
+
 		if (entryPoint != null) {
 			return entryPoint;
 		} else
 			return LocalDate.now();
 	}
-	
-	
-	 /**
-	  * @return Maximum number of auctions allowed on a single day.
-	  */
-	 public Integer getMaxAuctionsOnSingleDay() {
-		 return new Integer(MAX_DAYS);
-	 }
-	 
-	 
-	 /**
-	  * @return Maximum number of allowed upcoming auctions
-	  */
-	 public Integer getMaximumUpcomingAuctions() {
-		 return maximumUpcomingAuctions;
-	 }
-	 
-	 
-	 /**
-	  * @return Maximum number of days cant schedule past
-	  */
-	 public Integer getMaximumUpcomingDays() {
-		 return maximumUpcomingDays;
-	 }
-	 
-	 
-	 /**
-	  * @return Maximum number of days cant schedule before
-	  */
-	 public Integer getMinimumUpcomingDays() {
-		 return minimumUpcomingDays;
-	 }
-	 
-	 /**
-	  * Returns a list of all auctions that take place between two dates, inclusive.
-	  * @param theStartDate
-	  * @return a list of auctions between two dates, ordered
-	  */
-	 public ArrayList<Auction> getAuctionsBetweenTwoDates(LocalDate theStartDate, LocalDate theEndDate) {
-		 return null;
-	 }
-	 
-	 
+
+
+	/**
+	 * @return Maximum number of auctions allowed on a single day.
+	 */
+	public Integer getMaxAuctionsOnSingleDay() {
+		return new Integer(MAX_DAYS);
+	}
+
+
+	/**
+	 * @return Maximum number of allowed upcoming auctions
+	 */
+	public Integer getMaximumUpcomingAuctions() {
+		return maximumUpcomingAuctions;
+	}
+
+
+	/**
+	 * @return Maximum number of days cant schedule past
+	 */
+	public Integer getMaximumUpcomingDays() {
+		return maximumUpcomingDays;
+	}
+
+
+	/**
+	 * @return Maximum number of days cant schedule before
+	 */
+	public Integer getMinimumUpcomingDays() {
+		return minimumUpcomingDays;
+	}
+
+	/**
+	 * Returns a list of all auctions that take place between two dates, inclusive.
+	 * @param theStartDate
+	 * @return a list of auctions between two dates, ordered
+	 */
+	public ArrayList<Auction> getAuctionsBetweenTwoDates(LocalDate theStartDate, LocalDate theEndDate) {		 
+		ArrayList<Auction> auctionsBetweenDates = new ArrayList<Auction>();
+		for (ArrayList<Auction> auctions: auctionCentralAuctions.values()) {
+			for (Auction auction: auctions) {
+				if (!auction.getDate().isBefore(theStartDate) && !auction.getDate().isAfter(theEndDate)) {
+					auctionsBetweenDates.add(auction);
+				}
+			}
+		}
+		return auctionsBetweenDates;		 
+	}
+
+
 	/**
 	 * Add Auction directly to calendar.
 	 * FOR TESTING PURPOSES ONLY. 
@@ -400,9 +410,9 @@ public class Calendar implements Serializable {
 	 * @param theOrganization
 	 */
 	public void addAuction(Auction theAuction, Organization theOrganization) {
-		
+
 		ArrayList<Auction> auctions = new ArrayList<Auction>();
-		
+
 		if (auctionCentralAuctions.containsKey(theOrganization)) {
 			ArrayList<Auction> currAuctionsOrg = auctionCentralAuctions.get(theOrganization);
 			currAuctionsOrg.add(theAuction);
@@ -412,22 +422,47 @@ public class Calendar implements Serializable {
 			auctionCentralAuctions.put(theOrganization, auctions);
 		}
 	}
-	 
-		
+
+
 	/**
-	* Wipe schedule
-	* TESTING PURPOSES ONLY
-	*/
+	 * Wipe schedule
+	 * TESTING PURPOSES ONLY
+	 */
 	public void wipeSchedule() {
 		auctionCentralAuctions = new HashMap<Organization, ArrayList<Auction>>();
 	}
-	 
-	 
+
+
 	/**
-	* Add directly to schedule
-	* TESTING PURPOSES ONLY
-	*/
+	 * Add directly to schedule
+	 * TESTING PURPOSES ONLY
+	 */
 	public void addToSchedule(Organization theOrganization, ArrayList<Auction> theAuctions) {	
 		auctionCentralAuctions.put(theOrganization, theAuctions);	
 	}
+
+	public ArrayList<Auction> getAuctionsInChronologicalOrder() {
+		ArrayList<Auction> auctionsInOrder = new ArrayList<Auction>();
+
+		for (ArrayList<Auction> auctions: auctionCentralAuctions.values()) {
+			for (Auction auction: auctions) {
+				auctionsInOrder.add(auction);
+			}
+		}
+		auctionsInOrder.sort(new Comparator<Auction>() {
+
+			public int compare(Auction o1, Auction o2)  {
+				LocalDate Date1 = o1.getDate();
+				LocalDate Date2 = o2.getDate();
+
+				int v = Date1.compareTo(Date2);
+
+				return v;           
+			}
+		});
+	
+	return auctionsInOrder;
+}
+
+
 }

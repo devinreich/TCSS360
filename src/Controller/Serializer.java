@@ -30,11 +30,18 @@ public class Serializer {
 		Bidder bidder = new Bidder("John Doe", "johnny");
 
 		Organization testOrganization = new Organization("Ehli Auctions");
+		
+		Organization testOrg2 = new Organization("Goodwill");
+		Organization testOrg3 = new Organization("Car Pros");
 
-		Employee employee = new Employee("Bobert", "bobbyHILL");
+		Employee employee = new Employee("Bobert Hill", "bobbyHILL");
 		ContactPerson cPerson =  new ContactPerson("John Ehli", "ehli22", testOrganization);
+		ContactPerson cPerson2 = new ContactPerson("Bill Parsons", "billyBob", testOrg2);
+		ContactPerson cPerson3 = new ContactPerson("Georgie", "georgie", testOrg3);
 		
 		Serializer.serialize(employee, "bobbyHILL");
+		Serializer.serialize(cPerson2, "billyBob");
+		Serializer.serialize(cPerson3, "georgie");
 
 		Calendar calendar;
 		try {

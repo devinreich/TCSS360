@@ -14,7 +14,7 @@ import Model.Bidder;
  * @author prancingponies
  */
 public class Auction implements Serializable {
-	
+
 	private static final long serialVersionUID = -5630295913008886033L;
 	private static final Integer DEFAULT_MAX_ITEMS_SOLD = 10;
 	private static final Integer DEFAULT_MAX_ITEMS_PER_BIDDER = 4;
@@ -24,7 +24,7 @@ public class Auction implements Serializable {
 	private Integer maxItemsSold;
 	private Organization forOrganization;
 	private HashMap<Item, ArrayList<Bid>> inventory;
-	
+
 	/**
 	 * Constructor to create an Auction.
 	 * If the user inputs 0 for Max Items, then the number specifies to default 
@@ -50,7 +50,7 @@ public class Auction implements Serializable {
 		forOrganization = theOrganization;	
 		HashMap<Item, ArrayList<Bidder>> inventory = new HashMap<Item, ArrayList<Bidder>>();
 	}		
-	
+
 	/**
 	 * Add an item to the auction's inventory
 	 * using scanner input from console.
@@ -67,8 +67,8 @@ public class Auction implements Serializable {
 		Item item = new Item(itemName, itemDescription, basePrice, createDate);
 		addItem(item);
 	}
-	
-	
+
+
 	/**
 	 * Add a specific item to an Auction.
 	 * @param theItem
@@ -91,8 +91,8 @@ public class Auction implements Serializable {
 			inventory.put(theItem, new ArrayList<Bid>());				
 		} 						
 	}
-	
-	
+
+
 	/**
 	 * Places a bid and adds it to the Inventory map for 
 	 * the Item & the item's associated list of bids. 
@@ -106,7 +106,7 @@ public class Auction implements Serializable {
 		if (theBidder.isAuctionLegalForBidder(this) && theBidder.isBidderLegal() 
 				&& theBidder.isBidAmountLegal(theAmount, theItem) 
 				&& theBidder.isBidDateLegal(theDate, this)) {
-			
+
 			Bid bid = new Bid(theAmount, theDate, theItem, this, theBidder);
 			theBidder.addBidToBidderBids(bid);; 
 			theBidder.addItemToBidderItems(theItem);
@@ -119,8 +119,8 @@ public class Auction implements Serializable {
 			System.out.println("Your bid could not be placed.");
 		}
 	}
-	
-	
+
+
 	/**
 	 * @param theItem The Item you want details about. 
 	 */
@@ -130,8 +130,8 @@ public class Auction implements Serializable {
 		System.out.println("Item Base Price: "+theItem.getBasePrice());
 		System.out.println("Item Create Date: "+ theItem.getCreationDate());
 	}
-		
-	
+
+
 	/**
 	 * Remove item at a specific index in the presented menu. 
 	 * @param theIndex index of the Item the user wants to remove from
@@ -142,8 +142,8 @@ public class Auction implements Serializable {
 		Item item = keys.get(theIndex);
 		inventory.remove(item);		
 	}
-	
-	
+
+
 	/**
 	 * Can remove Item directly from Auction inventory as 
 	 * the item is a key. 
@@ -152,21 +152,21 @@ public class Auction implements Serializable {
 	public void removeItem(Item theItem) {
 		inventory.remove(theItem);	
 	}
-	
-	
+
+
 	/**
 	 * @return A list containing Items in this auction.
 	 */
 	public ArrayList<Item> getInventory() {
 		return new ArrayList<Item>(inventory.keySet());
 	}
-	
-	
+
+
 	/**
 	 * @return Number of bids placed on this auction.
 	 */
 	public Integer getNumberOfBidsForAuction() {
-		
+
 		Integer numberBids = 0;
 		for (ArrayList<Bid> bids: this.getBids()) {
 			for (Bid bid: bids) {
@@ -177,26 +177,26 @@ public class Auction implements Serializable {
 		}
 		return numberBids;
 	}
-	
-	
+
+
 	/**
 	 * @return A list of ArrayLists containing the bids. 
 	 */
 	public Collection<ArrayList<Bid>> getBids() {
 		return inventory.values();
 	}
-	
-	
+
+
 	//	public void setInventory(ArrayList<Item> theItems) {
 	//		inventory = theItems;
 	//	}
-		
-		
+
+
 	//	public void setMaxBiddableItems(Integer maxBiddableItems) {
 	//	maxItemsPerBidder = maxBiddableItems;
 	//}
 
-	
+
 	/**
 	 * @return Auction create date
 	 */
@@ -211,7 +211,7 @@ public class Auction implements Serializable {
 	public LocalDate getDate() {
 		return auctionDate;
 	}
-	
+
 
 	/**
 	 * @return Organization this Auction belongs to. 
@@ -219,7 +219,7 @@ public class Auction implements Serializable {
 	public Organization getOrganization(){
 		return forOrganization;
 	}
-	
+
 
 	/**
 	 * Make sure auction under max capacity of Items
@@ -228,7 +228,7 @@ public class Auction implements Serializable {
 	public boolean isAuctionAtMaxCapacity() {
 		return getInventoryCount() == maxItemsSold;	
 	}
-	
+
 
 	/**
 	 * Return integer inventory coutn
@@ -237,16 +237,16 @@ public class Auction implements Serializable {
 	public int getInventoryCount() {
 		return inventory == null ? 0 : inventory.size();
 	}
-	
-	
+
+
 	/**
 	 * @return Max number of items bidders can bid on
 	 */
 	public Integer getMaxBiddableItems() {
 		return maxItemsPerBidder;
 	}
-	
-	
+
+
 	/**
 	 * @return True if no bids currently on auction
 	 */
