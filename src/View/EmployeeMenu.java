@@ -1,21 +1,4 @@
-<<<<<<< HEAD
-package View;
 
-import Model.Employee;
-
-public class EmployeeMenu {
-	
-	private Employee employee;
-	
-	public EmployeeMenu(Employee theEmployee){
-		employee = theEmployee;
-	}
-	
-	public void launchMenu(){
-		System.out.println("Launched Employee Menu");
-	}
-}
-=======
 package View;
 
 import java.time.LocalDate;
@@ -141,4 +124,3 @@ public class EmployeeMenu {
 	}
 
 }
->>>>>>> 071c1d2e3ad1e9c4d71d239fb0fc1b0aaec5e769
