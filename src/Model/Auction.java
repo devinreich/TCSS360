@@ -17,7 +17,7 @@ public class Auction implements Serializable {
 
 	private static final long serialVersionUID = -5630295913008886033L;
 	private static final Integer DEFAULT_MAX_ITEMS_SOLD = 10;
-	private static final Integer DEFAULT_MAX_ITEMS_PER_BIDDER = 4;
+	private static final Integer DEFAULT_MAX_ITEMS_PER_BIDDER = 8;
 	private LocalDate auctionDate;
 	private LocalDate createDate;
 	private Integer maxItemsPerBidder;
@@ -252,5 +252,19 @@ public class Auction implements Serializable {
 	 */
 	public boolean canAuctionBeCancelled() {
 		return this.getNumberOfBidsForAuction() == 0;
+	}
+	
+	public Boolean canBidderBid(Bidder bidder) {
+		int count = 0;
+		ArrayList<Item> items = bidder.getAllItems();
+		ArrayList<Item> auctionItems = getInventory();
+		for (Item item : items) {
+			for (Item auctionItem : auctionItems) {
+				if (auctionItem.equals(item)) {
+					count++;
+				}
+			}
+		}
+		return count < DEFAULT_MAX_ITEMS_PER_BIDDER;
 	}
 }

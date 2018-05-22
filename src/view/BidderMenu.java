@@ -8,9 +8,13 @@ import Model.Auction;
 import Model.Bidder;
 import Model.Calendar;
 import Model.Item;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 /**
@@ -171,17 +175,36 @@ public class BidderMenu {
 	}
 	
 	public static Scene getBidderMenu(Scene scene, Bidder user, Calendar calendar) {
+		BorderPane pane = new BorderPane();
 		Text title = new Text("Welcome Bidder: " + user.getName());
 		VBox layout = new VBox(20);
+		layout.setPadding(new Insets(10));
 		layout.getChildren().add(title);
-		scene = new Scene(layout,900,500);
+		pane.setLeft(layout);
+		scene = new Scene(pane,900,500);
 		
-		// this will need to change to upcoming auctions with bids available 
-		if (calendar.checkForUpComingAuctionNumber()) { 
+		ArrayList<Auction> auctions = calendar.getUpcomingAuctions();
+		ArrayList<Auction> biddableAuction = new ArrayList<>();
+		ArrayList<Auction> biddedAuctions = new ArrayList<>();
+		ArrayList<Item> bidderItems = user.getAllItems();
+		for (int i = 0; i < auctions.size(); i++) {
+			ArrayList<Item> invetory = auctions.get(i).getInventory();
+			for (Item item : invetory) {
+				if (!user.containsItem(item) && auctions.get(i).canBidderBid(user)) {
+					biddableAuction.add(auctions.get(i));
+					break;
+				} else {
+					if (!biddedAuctions.contains(auctions.get(i))) {
+						biddedAuctions.add(auctions.get(i));
+					}
+				}
+			}
+		}
+		if (biddableAuction.size() > 0 && user.canBid()) { 
 			final Button btn = new Button("View Biddable Auctions");
 
 			btn.setOnAction(event -> 
-				System.out.println(btn.getText())
+				viewAuctions(pane, biddableAuction, user)
 			);
 			layout.getChildren().add(btn);
 		}
@@ -190,14 +213,14 @@ public class BidderMenu {
 			final Button btn = new Button("View all items you have bid on");
 
 			btn.setOnAction(event -> 
-				System.out.println(btn.getText())
+				viewItems(user, pane)
 			);
 			layout.getChildren().add(btn);
 			
 			final Button btn2 = new Button("View all Auctions which contain items you have bid on");
 
 			btn2.setOnAction(event -> 
-				System.out.println(btn2.getText())
+				viewAuctions(pane, biddedAuctions, user)
 			);
 			layout.getChildren().add(btn2);
 		}
@@ -208,5 +231,66 @@ public class BidderMenu {
 		}
 		
 		return scene;
+	}
+	
+	public static void viewAuctions(BorderPane pane, ArrayList<Auction> auctions, Bidder user) {
+		VBox oldMenu = (VBox) pane.getLeft();
+		VBox newMenu = new VBox();
+		
+		Text title = new Text("Biddable Auctions");
+		newMenu.setPadding(new Insets(10));
+		newMenu.getChildren().add(title);
+		Button back = new Button("Back");
+		
+		back.setOnAction(event -> 
+			back(pane, oldMenu)
+		);
+		newMenu.getChildren().add(back);
+		
+		for (Auction acution: auctions) {
+			Button btn = new Button(acution.getOrganization().getName());
+			
+			btn.setOnAction(event -> 
+				viewAuction(pane, acution, user)
+			);
+			
+			newMenu.getChildren().add(btn);
+		}
+		pane.setLeft(newMenu);
+	}
+	
+	public static void viewAuction(BorderPane pane, Auction auction, Bidder user) {
+		VBox Auction = new VBox();
+		
+		Text title = new Text(auction.getOrganization().getName());
+		title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		Auction.setPadding(new Insets(30));
+		Auction.getChildren().add(title);
+		
+		for (Item item : auction.getInventory()) {
+			Auction.getChildren().add(ItemView.makeItemView(item, user, auction));
+		}
+		
+		pane.setCenter(Auction);
+	}
+	
+	public static void back(BorderPane pane, VBox oldMenu) {
+		pane.setLeft(oldMenu);
+		pane.setCenter(new VBox());;
+	}
+	
+	public static void viewItems(Bidder user, BorderPane pane) {
+		VBox Items = new VBox();
+		
+		Text title = new Text("Items you have bid on:");
+		title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		Items.setPadding(new Insets(30));
+		Items.getChildren().add(title);
+		
+		for (Item item : user.getAllItems()) {
+			Items.getChildren().add(ItemView.makeItemView(item, user, null));
+		}
+		
+		pane.setCenter(Items);
 	}
 }
