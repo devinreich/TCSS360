@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import Model.Bidder;
@@ -166,16 +167,22 @@ public class Auction implements Serializable {
 	 * @return Number of bids placed on this auction.
 	 */
 	public Integer getNumberOfBidsForAuction() {
-
 		Integer numberBids = 0;
-		for (ArrayList<Bid> bids: this.getBids()) {
+		Collection<ArrayList<Bid>> bidCollection = inventory.values();
+
+		Iterator<ArrayList<Bid>> itr = bidCollection.iterator(); 
+
+		while (itr.hasNext()) {
+			ArrayList<Bid> bids = itr.next();
 			for (Bid bid: bids) {
-				if (bid != null) {
-					numberBids++;
-				}
-			}	
+				numberBids++;
+			}
 		}
-		return numberBids;
+
+		if (numberBids > 0)
+			return numberBids;
+		else 
+			return 0;
 	}
 
 
@@ -183,6 +190,8 @@ public class Auction implements Serializable {
 	 * @return A list of ArrayLists containing the bids. 
 	 */
 	public Collection<ArrayList<Bid>> getBids() {
+		if (inventory.values().equals(null))
+			System.out.println("Inventory is null");
 		return inventory.values();
 	}
 
@@ -251,6 +260,6 @@ public class Auction implements Serializable {
 	 * @return True if no bids currently on auction
 	 */
 	public boolean canAuctionBeCancelled() {
-		return this.getNumberOfBidsForAuction() == 0;
+		return getNumberOfBidsForAuction() == 0;
 	}
 }

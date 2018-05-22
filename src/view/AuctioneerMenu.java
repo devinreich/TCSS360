@@ -93,10 +93,6 @@ public class AuctioneerMenu {
 						System.out.println();
 					}
 					
-//					auctioneer.getAuctions();
-//					for (Auction auction: auctioneer.getAuctions()) {
-//						System.out.println("Date: " + auction.getDate());
-//					}
 				}			
 			}
 			if (scanner.hasNextLine()) {

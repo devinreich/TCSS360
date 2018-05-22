@@ -1,9 +1,15 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Scanner;
+
+import Controller.Run;
+import Controller.Serializer;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -71,15 +77,19 @@ public class Calendar implements Serializable  {
 			//remove items from auction
 			//remove auction from organization
 			//remove auction from calendar
-			ArrayList<ArrayList<Bid>> bidLists = (ArrayList<ArrayList<Bid>>) theAuction.getBids();
+			Collection<ArrayList<Bid>> bidLists = theAuction.getBids();
+			Iterator<ArrayList<Bid>> itr = bidLists.iterator();
 
-			//remove bids pertaining to auction from bidders
-			for (ArrayList<Bid> lists: bidLists) {
-				for (Bid bid: lists) {
-					Bidder bidder = (Bidder) bid.getBidder();
-					bidder.removeBid(bid);
+			while (itr.hasNext()) {
+				ArrayList<Bid> bids = itr.next();
+				if (!bids.isEmpty()) {
+					for (Bid bid: bids) {
+						Bidder bidder = (Bidder) bid.getBidder();
+						bidder.removeBid(bid);
+					}
 				}
 			}
+
 			//remove items from auction
 			for (Item item: theAuction.getInventory()) {
 				theAuction.removeItem(item);
@@ -91,6 +101,9 @@ public class Calendar implements Serializable  {
 			//remove auction from calendar
 			ArrayList<Auction> auctions = auctionCentralAuctions.get(theAuction.getOrganization());
 			auctions.remove(theAuction);
+			Serializer.serialize(Run.calendar, "calendar");
+		} else {
+			System.out.println("Auction cannot be canceled.");
 		}
 	}
 
@@ -330,7 +343,7 @@ public class Calendar implements Serializable  {
 		}
 		//scanner.close();
 		setMaximumUpcomingDays(potentialDays);
-		
+
 	}
 
 	/**
@@ -390,26 +403,37 @@ public class Calendar implements Serializable  {
 	 * @param theStartDate
 	 * @return a list of auctions between two dates, ordered
 	 */
-	public ArrayList<Auction> getAuctionsBetweenTwoDates(LocalDate theStartDate, LocalDate theEndDate) {		 
+	public ArrayList<Auction> getAuctionsBetweenTwoDates(LocalDate theStartDate, LocalDate theEndDate) {
+		
 		ArrayList<Auction> auctionsBetweenDates = new ArrayList<Auction>();
-		for (ArrayList<Auction> auctions: auctionCentralAuctions.values()) {
-			for (Auction auction: auctions) {
-				if (!auction.getDate().isBefore(theStartDate) && !auction.getDate().isAfter(theEndDate)) {
-					auctionsBetweenDates.add(auction);
+		if (canGetAuctionsBetweenTwoDates(theStartDate, theEndDate)) { 
+			for (ArrayList<Auction> auctions: auctionCentralAuctions.values()) {
+				for (Auction auction: auctions) {
+					if (!auction.getDate().isBefore(theStartDate) && !auction.getDate().isAfter(theEndDate)) {
+						auctionsBetweenDates.add(auction);
+					}
 				}
 			}
+			auctionsBetweenDates.sort(new Comparator<Auction>() {
+				public int compare(Auction o1, Auction o2)  {
+					LocalDate Date1 = o1.getDate();
+					LocalDate Date2 = o2.getDate();
+					int v = Date1.compareTo(Date2);
+					return v;           
+				}
+			});
 		}
-		auctionsBetweenDates.sort(new Comparator<Auction>() {
-			public int compare(Auction o1, Auction o2)  {
-				LocalDate Date1 = o1.getDate();
-				LocalDate Date2 = o2.getDate();
-				int v = Date1.compareTo(Date2);
-				return v;           
-			}
-		});
 		return auctionsBetweenDates;		 
 	}
 
+	/**
+	 * Checks if the second date occurs earlier than the first.
+	 */
+	public boolean canGetAuctionsBetweenTwoDates(LocalDate theStartDate, LocalDate theEndDate) {
+
+		return theEndDate.isAfter(theStartDate);
+
+	}
 
 	/**
 	 * Add Auction directly to calendar.
@@ -472,9 +496,9 @@ public class Calendar implements Serializable  {
 				return v;           
 			}
 		});
-	
-	return auctionsInOrder;
-}
+
+		return auctionsInOrder;
+	}
 
 
 }

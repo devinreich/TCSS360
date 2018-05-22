@@ -11,14 +11,14 @@ import Controller.Run;
  * @author prancingponies
  */
 public class Bidder extends User implements Serializable {  
-	
+
 	private static final long serialVersionUID = -5785811298050496048L;
 	private ArrayList<Bid> allBidsForBidder;
 	private ArrayList<Auction> allAuctionsForBidder;
 	private ArrayList<Item> allItemsForBidder;
 	private Integer maxAllowedBids;
 	private static final Integer DEFAULT_MAX_ALLOWED_BIDS = 10;
-	
+
 	/**
 	 * Construct a Bidder
 	 * @param name
@@ -31,7 +31,7 @@ public class Bidder extends User implements Serializable {
 		allItemsForBidder = new ArrayList<Item>();	// bidders list of items
 		maxAllowedBids = DEFAULT_MAX_ALLOWED_BIDS;
 	}
-	
+
 	/**
 	 * User can change max allowed active total bids for a bidder. 
 	 * @param allowedBids
@@ -39,7 +39,7 @@ public class Bidder extends User implements Serializable {
 	public void setMaxAllowedBids(Integer allowedBids) {
 		maxAllowedBids = allowedBids;
 	}
-	
+
 
 	/**
 	 * @return the upcoming auctions available to be bid on 
@@ -55,19 +55,19 @@ public class Bidder extends User implements Serializable {
 		}
 		return biddableAuctions;
 	}
-		
-	
+
+
 	// all items bid on in an auction
 	public ArrayList<Item> getItemsInAuction(Auction auction) {
-		
+
 		ArrayList<Item> itemsInThisAuction = new ArrayList<Item>();
-		
+
 		for (Item auctionObject: auction.getInventory()) {
-		    for (Item bidderObject: allItemsForBidder) {
-		    	if (bidderObject.equals(auctionObject)) {
-		    		itemsInThisAuction.add(auctionObject);
-		    	}
-		    }    
+			for (Item bidderObject: allItemsForBidder) {
+				if (bidderObject.equals(auctionObject)) {
+					itemsInThisAuction.add(auctionObject);
+				}
+			}    
 		}		
 		return itemsInThisAuction;
 	}
@@ -83,7 +83,7 @@ public class Bidder extends User implements Serializable {
 		//System.out.println("Auction is legal: " + (getNumberBidsAuction(theAuction) < theAuction.getMaxBiddableItems()));
 		return  (getNumberBidsAuction(theAuction) < theAuction.getMaxBiddableItems());
 	}
-	
+
 
 	/**
 	 * Bidder cant place any more than maximum allowed number
@@ -95,8 +95,8 @@ public class Bidder extends User implements Serializable {
 		//System.out.println("Active Bids: " + getActiveBids().size());
 		return (getActiveBids().size() < maxAllowedBids);
 	}
-	
-	
+
+
 	/**
 	 * No bids can be placed after 12am on starting date of auction.
 	 * @return true if date is before auction starting date
@@ -105,8 +105,8 @@ public class Bidder extends User implements Serializable {
 		//System.out.println("Bid date is legal: " + theDate.isBefore(theAuction.getDate()));
 		return theDate.isBefore(theAuction.getDate());
 	}
-	
-	
+
+
 	/**
 	 * Bid amount must be greater than minimum bid amount
 	 * @return true if bid amount is greater than or equal to minimum accepted amount
@@ -115,8 +115,8 @@ public class Bidder extends User implements Serializable {
 		//System.out.println("Bid amount is legal: " + (theAmount >= theItem.getBasePrice()));
 		return theAmount >= theItem.getBasePrice();	
 	}
-	
-		
+
+
 	/**
 	 * @return ArrayList of Bids of this bidder's active bids. 
 	 */
@@ -135,8 +135,8 @@ public class Bidder extends User implements Serializable {
 		}
 		return activeBids;
 	}
-	
-	
+
+
 	/**
 	 * Finding out how many bids this user has active in an auction.
 	 * @param theAuction
@@ -144,27 +144,26 @@ public class Bidder extends User implements Serializable {
 	 */
 	public int getNumberBidsAuction(Auction theAuction) {
 		int numBids = 0;
-		if (theAuction.getBids() != null) {
-			for (ArrayList<Bid> bids: theAuction.getBids()) {
-				for (Bid theBid: bids) {
-					if (theBid.getBidder().equals(this)) {
-						numBids++;
-					}
+		for (ArrayList<Bid> bids: theAuction.getBids()) {
+			for (Bid theBid: bids) {
+				if (theBid.getBidder().equals(this)) {
+					numBids++;
 				}
 			}
 		}
+
 		return numBids;
 	}
-	
-	
+
+
 	/**
 	 * @return total number of bids user has ever placed. 
 	 */
 	public int getNumberTotalBids() {
 		return allBidsForBidder.size();
 	}
-	
-	
+
+
 	/**
 	 * Add given auction to list of auctions this bidder has interacted with. 
 	 * @param theAuction
@@ -174,16 +173,16 @@ public class Bidder extends User implements Serializable {
 			allAuctionsForBidder = new ArrayList<Auction>();
 		allAuctionsForBidder.add(theAuction);
 	}
-	
-	
+
+
 	/**
 	 * @return All auctions this bidder has ever participated in. 
 	 */
 	public ArrayList<Auction> getAuctionsWithBids() {
 		return allAuctionsForBidder;
 	}
-	
-	
+
+
 	/**
 	 * Add given item to list of items this bidder has interacted with. 
 	 * @param theItem
@@ -193,16 +192,16 @@ public class Bidder extends User implements Serializable {
 			allItemsForBidder = new ArrayList<Item>();
 		allItemsForBidder.add(theItem);
 	}
-	
-	
+
+
 	/**
 	 * @return All items this bidder has ever bid on. 
 	 */
 	public ArrayList<Item> getAllItems() {
 		return allItemsForBidder;
 	}
-	
-	
+
+
 	/**
 	 * Add given bid to list of bids this bidder has interacted with. 
 	 * @param theBid
@@ -212,16 +211,16 @@ public class Bidder extends User implements Serializable {
 			allBidsForBidder = new ArrayList<Bid>();
 		allBidsForBidder.add(theBid);
 	}
-	
-	
+
+
 	/**
 	 * @return All bids this bidder has ever placed
 	 */
 	public ArrayList<Bid> getAllBids() {
 		return allBidsForBidder;
 	}
-	
-	
+
+
 	/**
 	 * @return Amount the user bid on that item
 	 */
@@ -232,11 +231,11 @@ public class Bidder extends User implements Serializable {
 				bidAmt = bid.getBidAmount();
 			}
 		}
-			
+
 		return bidAmt;
 	}
-	
-	
+
+
 	/**
 	 * @return Auction an item belonged to.  
 	 */
@@ -249,7 +248,7 @@ public class Bidder extends User implements Serializable {
 		}
 		return itemAuction;
 	}
-	
+
 	/**
 	 * Removes a bid from the list of bids.
 	 * @param theBid

@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-package View;
-
-import Model.Employee;
-
-public class EmployeeMenu {
-	
-	private Employee employee;
-	
-	public EmployeeMenu(Employee theEmployee){
-		employee = theEmployee;
-	}
-	
-	public void launchMenu(){
-		System.out.println("Launched Employee Menu");
-	}
-}
-=======
 package View;
 
 import java.time.LocalDate;
@@ -122,11 +104,11 @@ public class EmployeeMenu {
 		System.out.println("Enter your choice: ");
 		int choice = theScanner.nextInt();
 		
-		while (choice < 0 || choice >= upcomingAuctions.size()) {
+		while (choice < 1 || choice > upcomingAuctions.size()) {
 			System.out.println("Choice invalid. Enter your choice: ");
 			choice = theScanner.nextInt();
 		}
-		return upcomingAuctions.get(choice);	
+		return upcomingAuctions.get(choice-1);	
 	}
 	
 	/**
@@ -141,4 +123,3 @@ public class EmployeeMenu {
 	}
 
 }
->>>>>>> 071c1d2e3ad1e9c4d71d239fb0fc1b0aaec5e769
