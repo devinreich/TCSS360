@@ -158,6 +158,9 @@ public class Auction implements Serializable {
 	 * @return A list containing Items in this auction.
 	 */
 	public ArrayList<Item> getInventory() {
+		if (inventory  == null) {
+			return new ArrayList<Item>();
+		}
 		return new ArrayList<Item>(inventory.keySet());
 	}
 
@@ -183,6 +186,9 @@ public class Auction implements Serializable {
 	 * @return A list of ArrayLists containing the bids. 
 	 */
 	public Collection<ArrayList<Bid>> getBids() {
+		if (inventory == null || inventory.values() == null) {
+			return new ArrayList<ArrayList<Bid>>();
+		}
 		return inventory.values();
 	}
 

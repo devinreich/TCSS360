@@ -105,11 +105,11 @@ public class EmployeeMenu {
 		System.out.println("Enter your choice: ");
 		int choice = theScanner.nextInt();
 		
-		while (choice < 0 || choice >= upcomingAuctions.size()) {
+		while (choice < 0 || choice >= upcomingAuctions.size() + 1) {
 			System.out.println("Choice invalid. Enter your choice: ");
 			choice = theScanner.nextInt();
 		}
-		return upcomingAuctions.get(choice);	
+		return upcomingAuctions.get(choice - 1);	
 	}
 	
 	/**
