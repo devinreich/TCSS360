@@ -256,12 +256,7 @@ public class Bidder extends User implements Serializable {
 	}
 	
 	public Boolean containsItem(Item item) {
-		for (Item bidItem : getAllItems()) {
-			if (item.equals(bidItem)) {
-				return true;
-			}
-		}
-		return false;
+		return getAllItems().contains(item);
 	}
 	
 	/**

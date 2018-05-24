@@ -49,10 +49,14 @@ public class Item implements Serializable {
 		return dateCreated;
 	}
 	
-	public Boolean equals(Item otherItem) {
-		if (this.name.equals(otherItem.name) && this.description.equals(otherItem.description)
-				&& this.basePrice.equals(otherItem.basePrice) && this.dateCreated.equals(otherItem.dateCreated)) {
-			return true;
+	public boolean equals(Object obj) {
+		if (this == obj) { return true; }
+		if (obj instanceof Item) {
+			Item otherItem = (Item) obj;
+			if (this.name.equals(otherItem.name) && this.description.equals(otherItem.description)
+					&& this.basePrice.equals(otherItem.basePrice) && this.dateCreated.equals(otherItem.dateCreated)) {
+				return true;
+			}
 		}
 		return false;
 	}

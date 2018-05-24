@@ -19,14 +19,8 @@ public class ItemView {
 		VBox itemView = new VBox();
 		
 		addDetails(itemView, item);
-		
-		Boolean didBid = false;
-		for (Item auctionItem : bidder.getAllItems()) {
-			if (auctionItem.equals(item)) {
-				didBid = true;
-			}
-		}
-		if (didBid || !auction.canBidderBid(bidder)) {
+	
+		if (bidder.getAllItems().contains(item) || !auction.canBidderBid(bidder)) {
 			addAlreadyBidField(itemView, item, bidder);
 		} else {
 			addBidField(itemView, item, bidder, auction);
