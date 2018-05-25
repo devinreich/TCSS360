@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import Controller.Run;
+import GUI.AuctionCentral;
 
 /**
  * Bidder class. Creates a Bidder, stores related information
@@ -17,8 +18,7 @@ public class Bidder extends User implements Serializable {
 	private ArrayList<Auction> allAuctionsForBidder;
 	private ArrayList<Item> allItemsForBidder;
 	private Integer maxAllowedBids;
-	private static final Integer DEFAULT_MAX_ALLOWED_BIDS = 10;
-
+	private static final Integer DEFAULT_MAX_ALLOWED_BIDS = 12;
 	/**
 	 * Construct a Bidder
 	 * @param name
@@ -122,7 +122,11 @@ public class Bidder extends User implements Serializable {
 	 */
 	public ArrayList<Bid> getActiveBids() {
 		ArrayList<Bid> activeBids = new ArrayList<Bid>();
-		if (!Run.calendar.getUpcomingAuctions().isEmpty() && Run.calendar.getUpcomingAuctions() != null) {
+		Calendar calendar = Run.calendar;
+		if (calendar == null) {
+			calendar = AuctionCentral.calendar;
+		}
+		if (!calendar.getUpcomingAuctions().isEmpty() && calendar.getUpcomingAuctions() != null) {
 			if (allBidsForBidder != null) {
 				for (Bid theBid: allBidsForBidder) {
 					if (theBid.getAuction().getDate().isAfter(LocalDate.now().plusDays(1))) {
@@ -248,6 +252,15 @@ public class Bidder extends User implements Serializable {
 		}
 		return itemAuction;
 	}
+	
+	public Boolean containsItem(Item item) {
+		for (Item bidItem : getAllItems()) {
+			if (item.equals(bidItem)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Removes a bid from the list of bids.
@@ -255,5 +268,9 @@ public class Bidder extends User implements Serializable {
 	 */
 	public void removeBid(Bid theBid) {
 		allBidsForBidder.remove(theBid);
+	}
+	
+	public Boolean canBid() {
+		return Integer.compare(getNumberTotalBids(), maxAllowedBids) < 0;
 	}
 }
