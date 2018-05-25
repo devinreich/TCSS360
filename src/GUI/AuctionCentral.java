@@ -4,8 +4,10 @@ import Controller.Serializer;
 import Model.Bidder;
 import Model.Calendar;
 import Model.ContactPerson;
+import Model.Employee;
 import Model.User;
 import View.BidderMenu;
+import View.EmployeeMenu;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -116,11 +118,12 @@ public class AuctionCentral extends Application {
 			scene1 = new Scene(layout1,900,500);
 			window.setScene(scene1);
 		} else {
-			title = new Text("Welcome Employee: " + user.getName());
-			VBox layout1 = new VBox(20);
-			layout1.getChildren().addAll(title);
-			scene1 = new Scene(layout1,900,500);
-			window.setScene(scene1);
+			window.setScene(EmployeeMenu.getEmployeeMenu(scene1, (Employee) user, calendar));
+//			title = new Text("Welcome Employee: " + user.getName());
+//			VBox layout1 = new VBox(20);
+//			layout1.getChildren().addAll(title);
+//			scene1 = new Scene(layout1,900,500);
+//			window.setScene(scene1);
 		}
 	}
 }
