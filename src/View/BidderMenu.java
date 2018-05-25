@@ -55,8 +55,8 @@ public class BidderMenu {
 	 */
 	public void displayBidderStartMenu(Scanner theScanner) {
 
-		System.out.println("   1) View Auctions Pertaining To Your Bids");
-		System.out.println("   2) View All Items Pertaining To Your Bids");
+		System.out.println("   1) View Auctions Pertaining To Your Active Bids");
+		System.out.println("   2) View All Items Pertaining To Your Active Bids");
 		System.out.println("   3) View All Biddable Auctions\n");
 		System.out.println("Enter Your Choice: ");
 
@@ -229,7 +229,7 @@ public class BidderMenu {
 			Text warning = new Text("There are no actions! Please wait for an auction to be posted");
 			layout.getChildren().add(warning);
 		}
-		
+		 
 		return scene;
 	}
 	

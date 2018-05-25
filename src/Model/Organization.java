@@ -36,10 +36,7 @@ public class Organization implements Serializable {
 //	
 
 	public ArrayList<Auction> getAuctions() {
-		if (organizationAuctions != null)
-			return organizationAuctions;
-		else 
-			return null;
+		return organizationAuctions;
 	}
 	
 	//Figure out how to determine if a organization has a current auction
@@ -70,13 +67,13 @@ public class Organization implements Serializable {
 	}
 	
 	
-//	/**
-//	 * Lets user cancel current auction.
-//	 */
-//	public void cancelCurrentAuction() {	
+	/**
+	 * Lets user cancel current auction.
+	 */
+	public void cancelCurrentAuction() {	
 //		// Remove auction	
 //		currentAuction = null;
-//	}
+	}
 	
 	
 	/** 

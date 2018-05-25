@@ -78,8 +78,6 @@ public class Serializer {
 			a.printStackTrace();
 		}
 	}
-
-	
 	public static void serialize(Serializable obj, String path) {
 		FileOutputStream fileOut;
 		try {
