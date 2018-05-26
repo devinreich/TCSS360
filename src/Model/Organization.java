@@ -126,4 +126,14 @@ public class Organization implements Serializable {
 			currentAuction = null;
 		}
 	}
+	
+	public boolean equals(Object obj) {
+		if (obj != null) {
+			if (obj instanceof Organization) {
+				Organization otherOrg = (Organization) obj;
+				return this.organizationName.equals(otherOrg.organizationName);
+			}
+		}
+		return false;
+	}
 }

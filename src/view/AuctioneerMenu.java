@@ -20,12 +20,14 @@ public class AuctioneerMenu {
 	 * @param theAuctioneer
 	 * @param theCalendar
 	 */
-	//public AuctioneerMenu(ContactPerson theAuctioneer, Calendar theCalendar) {
 	public AuctioneerMenu(ContactPerson theAuctioneer) {
 		contact = theAuctioneer;
 		System.out.println("Auctioneer: " + contact.getName());
 		auctioneer = theAuctioneer.getAffiliatedOrganization();
-		//calendar = theCalendar;
+		Auction auction = Run.calendar.syncCurrentAuction(auctioneer, auctioneer.getCurrentAuction());
+		if (auction != null) {
+			auctioneer.setCurrentAuction(auction);
+		}
 	}
 
 	public void launchMenu() {

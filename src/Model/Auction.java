@@ -273,4 +273,18 @@ public class Auction implements Serializable {
 		}
 		return count < DEFAULT_MAX_ITEMS_PER_BIDDER;
 	}
+	
+	public boolean equals(Object obj) {
+		if (obj != null && obj instanceof Auction) {
+			Auction otherAuction = (Auction) obj;
+			if (this.auctionDate.equals(otherAuction.auctionDate)
+					&& this.createDate.equals(otherAuction.createDate) 
+					&& this.maxItemsPerBidder.equals(otherAuction.maxItemsPerBidder)
+					&& this.maxItemsSold.equals(otherAuction.maxItemsSold)
+					&& this.forOrganization.equals(otherAuction.forOrganization)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

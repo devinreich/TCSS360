@@ -473,8 +473,26 @@ public class Calendar implements Serializable  {
 			}
 		});
 	
-	return auctionsInOrder;
-}
+		return auctionsInOrder;
+	}
 
+	// grab last auction for organization and if its equal to auction assign it to auction
+	// implement equals for organization and auction
+	public Auction syncCurrentAuction(Organization organization, Auction auction) {
+		if (auction != null && organization != null) {
+			Organization org = organization;
+			for (Organization syncOrg : auctionCentralAuctions.keySet()) {
+				if (organization.equals(syncOrg)) {
+					org = syncOrg;
+				}
+			}
+			ArrayList<Auction> auctions = auctionCentralAuctions.get(org);
+			if (auctions != null && auctions.contains(auction)) {
+				int index = auctions.indexOf(auction);
+				return auctions.get(index);
+			}
+		}
+		return null;
+	}
 
 }
