@@ -229,7 +229,7 @@ public class BidderMenu {
 			Text warning = new Text("There are no actions! Please wait for an auction to be posted");
 			layout.getChildren().add(warning);
 		}
-		
+		 
 		return scene;
 	}
 	

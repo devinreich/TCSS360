@@ -72,14 +72,13 @@ public class Calendar implements Serializable  {
 			//remove auction from organization
 			//remove auction from calendar
 			ArrayList<ArrayList<Bid>> bidLists = (ArrayList<ArrayList<Bid>>) theAuction.getBids();
-
 			//remove bids pertaining to auction from bidders
 			for (ArrayList<Bid> lists: bidLists) {
 				for (Bid bid: lists) {
 					Bidder bidder = (Bidder) bid.getBidder();
 					bidder.removeBid(bid);
 				}
-			}
+			}  
 			//remove items from auction
 			for (Item item: theAuction.getInventory()) {
 				theAuction.removeItem(item);
@@ -170,7 +169,7 @@ public class Calendar implements Serializable  {
 				auctionCentralAuctions.replace(theOrganization, theOrganization.getAuctions());
 				System.out.println("Organization has been updated");
 			} else {
-				// Add Organization to Auction Map
+				// Add Organization to Auction Map 
 				auctionCentralAuctions.put(theOrganization, theOrganization.getAuctions());
 			}
 			System.out.println("Your organization is currently eligible to host an auction.");
@@ -180,7 +179,7 @@ public class Calendar implements Serializable  {
 			System.out.println("Your organization is ineligible to host an auction.");	
 		}
 	}
-
+ 
 
 	//	public void requestAuction(Auction theAuction) {
 	//		if (checkDate(theAuction.getStartDate()) && checkForUpcomingDays(theAuction) 
@@ -495,4 +494,14 @@ public class Calendar implements Serializable  {
 		return null;
 	}
 
+	public ArrayList<Auction> getAuction(){
+		ArrayList<Auction> Auctions = new ArrayList<Auction>();
+
+		for (ArrayList<Auction> auctions: auctionCentralAuctions.values()) {
+			for (Auction auction: auctions) {
+				Auctions.add(auction);
+			}
+		}
+		return Auctions;
+	}
 }

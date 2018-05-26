@@ -4,10 +4,9 @@ import Controller.Serializer;
 import Model.Bidder;
 import Model.Calendar;
 import Model.ContactPerson;
-import Model.Employee;
 import Model.User;
+import View.AuctioneerMenu;
 import View.BidderMenu;
-import View.EmployeeMenu;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -19,6 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -30,6 +30,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
+
 
 public class AuctionCentral extends Application {
 	static Scene scene1;
@@ -112,18 +113,20 @@ public class AuctionCentral extends Application {
 		if (user instanceof Bidder) {
 			window.setScene(BidderMenu.getBidderMenu(scene1, (Bidder) user, calendar));
 		} else if (user instanceof ContactPerson) {
-			title = new Text("Welcome Contact Person: " + user.getName());
-			VBox layout1 = new VBox(20);
-			layout1.getChildren().addAll(title);
-			scene1 = new Scene(layout1,900,500);
-			window.setScene(scene1);
-		} else {
-			window.setScene(EmployeeMenu.getEmployeeMenu(scene1, (Employee) user, calendar));
-//			title = new Text("Welcome Employee: " + user.getName());
+			window.setScene(AuctioneerMenu.getContactMenu(scene1, (ContactPerson) user, calendar));
+//			title = new Text("Welcome Contact Person: " + user.getName());
 //			VBox layout1 = new VBox(20);
 //			layout1.getChildren().addAll(title);
 //			scene1 = new Scene(layout1,900,500);
 //			window.setScene(scene1);
+		} else {
+			title = new Text("Welcome Employee: " + user.getName());
+			VBox layout1 = new VBox(20);
+			layout1.getChildren().addAll(title);
+			scene1 = new Scene(layout1,900,500);
+			window.setScene(scene1);
 		}
 	}
+	
+
 }

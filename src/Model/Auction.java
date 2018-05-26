@@ -67,7 +67,18 @@ public class Auction implements Serializable {
 		Item item = new Item(itemName, itemDescription, basePrice, createDate);
 		addItem(item);
 	}
+	/**
+	 * Add an item to the auction's inventory
+	 * using scanner input from console.
+	 */
+	public void addItem(String Name,String Description, String MinBid) {
+		LocalDate createDate = LocalDate.now();
+		Double baseBid = Double.parseDouble(MinBid);
+		Item item = new Item(Name, Description, baseBid, createDate);
+		addItem(item);
+	}
 
+	
 
 	/**
 	 * Add a specific item to an Auction.
@@ -92,7 +103,7 @@ public class Auction implements Serializable {
 		} 						
 	}
 
-
+ 
 	/**
 	 * Places a bid and adds it to the Inventory map for 
 	 * the Item & the item's associated list of bids. 
@@ -100,7 +111,7 @@ public class Auction implements Serializable {
 	 * @param theDate
 	 * @param theBidder
 	 * @param theItem
-	 */
+	 */ 
 	public void placeBid(Double theAmount, LocalDate theDate, Bidder theBidder, Item theItem) {		
 		//is bid date legal, is bid amount legal, is auction legal, is bidder legal
 		if (theBidder.isAuctionLegalForBidder(this) && theBidder.isBidderLegal() 

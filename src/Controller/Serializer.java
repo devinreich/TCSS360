@@ -1,4 +1,3 @@
-
 package Controller;
 
 import java.io.FileInputStream;
@@ -10,7 +9,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
-
 import Model.Auction;
 import Model.Bidder;
 import Model.Calendar;
@@ -80,8 +78,6 @@ public class Serializer {
 			a.printStackTrace();
 		}
 	}
-
-	
 	public static void serialize(Serializable obj, String path) {
 		FileOutputStream fileOut;
 		try {
