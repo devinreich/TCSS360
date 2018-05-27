@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import Controller.Run;
+import GUI.AuctionCentral;
 import Model.Auction;
 import Model.Bidder;
 import Model.Calendar;
@@ -14,11 +15,14 @@ import Model.Item;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.util.converter.NumberStringConverter;
 
 public class EmployeeMenu {
 
@@ -143,9 +147,11 @@ public class EmployeeMenu {
 		pane.setLeft(layout);
 		scene = new Scene(pane,900,500);
 		
+	
+		
 		final Button btn = new Button("Change Maximum Number Of Upcoming Auctions System Can Hold");
 		btn.setOnAction(event -> 
-			changeMaxAuctions(pane, user)
+			changeMaxAuctions(pane)
 		);
 		layout.getChildren().add(btn);
 			
@@ -178,18 +184,25 @@ public class EmployeeMenu {
 		return scene;
 	}
 	
-	public static void changeMaxAuctions(BorderPane pane, Employee user) {
+	public static void changeMaxAuctions(BorderPane pane) {
 		VBox oldMenu = (VBox) pane.getLeft();
-		VBox newMenu = new VBox();
-		
-		Text title = new Text("Current System Auction Capacity: "  + Run.calendar.getMaximumUpcomingAuctions());
+		VBox newMenu = new VBox(20);
+
+		Text title = new Text("Current System Auction Capacity: " + 
+				AuctionCentral.calendar.getMaximumUpcomingAuctions());
 		newMenu.setPadding(new Insets(10));
 		newMenu.getChildren().add(title);
 		Button back = new Button("Back");
+		Button change = new Button("Change Capacity");
 		
 		back.setOnAction(event -> 
 			back(pane, oldMenu)
 		);
+		
+		change.setOnAction(event -> 
+			changeMax(pane)
+		);
+		newMenu.getChildren().add(change);
 		newMenu.getChildren().add(back);
 		pane.setLeft(newMenu);
 	}
@@ -198,7 +211,7 @@ public class EmployeeMenu {
 		VBox oldMenu = (VBox) pane.getLeft();
 		VBox newMenu = new VBox();
 		
-		Text title = new Text("Current System Auction Capacity: " + Run.calendar.getMaximumUpcomingAuctions());
+		Text title = new Text("Current System Auction Capacity: " + AuctionCentral.calendar.getMaximumUpcomingAuctions());
 		newMenu.setPadding(new Insets(10));
 		newMenu.getChildren().add(title);
 		Button back = new Button("Back");
@@ -212,13 +225,19 @@ public class EmployeeMenu {
 	
 	public static void viewAllAuctions(BorderPane pane, Employee user) {
 		VBox oldMenu = (VBox) pane.getLeft();
-		VBox newMenu = new VBox();
+		VBox newMenu = new VBox(20);
 		
-		Text title = new Text("Current System Auction Capacity: " + Run.calendar.getMaximumUpcomingAuctions());
+		
 		newMenu.setPadding(new Insets(10));
-		newMenu.getChildren().add(title);
 		Button back = new Button("Back");
-		
+		ArrayList<Auction> upcomingAuctions = AuctionCentral.calendar.getAuctionsInChronologicalOrder();
+		for (Auction auction: upcomingAuctions) {
+			Text auctionText = new Text("Name: " + auction.getOrganization().getName() +
+					"\nDate Created: " + auction.getCreateDate() + "\nDate of Auction: " +
+					auction.getDate());
+						
+			newMenu.getChildren().add(auctionText);
+		}
 		back.setOnAction(event -> 
 			back(pane, oldMenu)
 		);
@@ -230,7 +249,8 @@ public class EmployeeMenu {
 		VBox oldMenu = (VBox) pane.getLeft();
 		VBox newMenu = new VBox();
 		
-		Text title = new Text("Current System Auction Capacity: " + Run.calendar.getMaximumUpcomingAuctions());
+		ArrayList<Auction> upcomingAuctions = AuctionCentral.calendar.getUpcomingAuctions();
+		Text title = new Text("All Auctions in System: ");
 		newMenu.setPadding(new Insets(10));
 		newMenu.getChildren().add(title);
 		Button back = new Button("Back");
@@ -238,6 +258,7 @@ public class EmployeeMenu {
 		back.setOnAction(event -> 
 			back(pane, oldMenu)
 		);
+		
 		newMenu.getChildren().add(back);
 		pane.setLeft(newMenu);
 	}
@@ -275,6 +296,47 @@ public class EmployeeMenu {
 		}
 		
 		pane.setCenter(Items);
+	}
+	
+	private static void changeMax(BorderPane oldPane) {
+		final TextField userTextField = new TextField();
+	
+		VBox oldMenu = (VBox) oldPane.getLeft();
+		VBox newMenu = new VBox(20);
+
+		Text title = new Text("Enter New System Auction Capacity: ");
+		newMenu.setPadding(new Insets(10));
+		newMenu.getChildren().add(title);
+		
+		userTextField.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
+		userTextField.setMaxSize(100, 50);
+		
+		Button back = new Button("Back");
+		Button change = new Button("Change");
+		
+		back.setOnAction(event -> 
+			back(oldPane, oldMenu)
+		);
+		
+		change.setOnAction(event -> 
+			changeAndRebuild(oldPane, userTextField.getText(), oldMenu)
+		);
+		newMenu.getChildren().add(userTextField);
+		newMenu.getChildren().add(change);
+		newMenu.getChildren().add(back);
+		oldPane.setLeft(newMenu);
+	}
+	
+	private static void changeAndRebuild(BorderPane oldPane, String number, VBox oldMenu) {
+		try {
+			int newMax = Integer.parseInt(number);
+			AuctionCentral.calendar.setMaximumUpcomingAuctions(newMax);
+//			oldPane.setLeft(oldMenu);
+//			oldPane.setCenter(new VBox());
+			changeMaxAuctions(oldPane);
+		} catch (NumberFormatException e) {
+			
+		}
 	}
 
 }
