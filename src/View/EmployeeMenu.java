@@ -200,7 +200,7 @@ public class EmployeeMenu {
 		);
 		
 		change.setOnAction(event -> 
-			changeMax(pane)
+			changeMax(pane, oldMenu)
 		);
 		newMenu.getChildren().add(change);
 		newMenu.getChildren().add(back);
@@ -208,20 +208,78 @@ public class EmployeeMenu {
 	}
 	
 	public static void viewAuctionRange(BorderPane pane, Employee user) {
+		final TextField userTextField1 = new TextField();
+		final TextField userTextField2 = new TextField();
 		VBox oldMenu = (VBox) pane.getLeft();
-		VBox newMenu = new VBox();
+		VBox newMenu = new VBox(20);
 		
-		Text title = new Text("Current System Auction Capacity: " + AuctionCentral.calendar.getMaximumUpcomingAuctions());
+		Text title1 = new Text("Enter start date of interval: (mm/dd/yyyy)");
 		newMenu.setPadding(new Insets(10));
-		newMenu.getChildren().add(title);
+		newMenu.getChildren().add(title1);
+
+		userTextField1.setMaxSize(100, 50);
+		newMenu.getChildren().add(userTextField1);
+
+		Text title2 = new Text("Enter end date of interval: (mm/dd/yyyy)");
+		newMenu.getChildren().add(title2);
+
+		userTextField2.setMaxSize(100, 50);
+		newMenu.getChildren().add(userTextField2);
+
+		Button viewBtn = new Button("View");
 		Button back = new Button("Back");
+		
+		viewBtn.setOnAction(event -> 
+			parseDates(userTextField1.getText(), userTextField2.getText(), pane, oldMenu)		
+				);
 		
 		back.setOnAction(event -> 
 			back(pane, oldMenu)
-		);
+				);
+		newMenu.getChildren().add(viewBtn);
 		newMenu.getChildren().add(back);
 		pane.setLeft(newMenu);
 	}
+	
+	public static void parseDates(String stringDate1, String stringDate2, BorderPane oldPane, VBox oldMenu){
+
+			String[] auctionDateArr = stringDate1.split("/");
+
+			LocalDate theStartDate = LocalDate.of(Integer.parseInt(auctionDateArr[2]), 
+										Integer.parseInt(auctionDateArr[0]),
+									    Integer.parseInt(auctionDateArr[1]));
+			auctionDateArr = stringDate2.split("/");
+			LocalDate theEndDate = LocalDate.of(Integer.parseInt(auctionDateArr[2]), 
+										Integer.parseInt(auctionDateArr[0]),
+									    Integer.parseInt(auctionDateArr[1]));
+
+		
+		viewRange(theStartDate, theEndDate, oldPane, oldMenu);
+	}
+	public static void viewRange(LocalDate theStartDate, LocalDate theEndDate, BorderPane oldPane, VBox oldMenu){
+		
+			VBox lastMenu = (VBox) oldPane.getLeft();
+			VBox newMenu = new VBox(20);
+			ArrayList<Auction> auctionsInRange 
+			= AuctionCentral.calendar.getAuctionsBetweenTwoDates(theStartDate, theEndDate);
+		
+			for (Auction auction: auctionsInRange) {
+				Text auctionText = new Text("Auction hosted by : " + auction.getOrganization().getName() +
+						"\nDate Created: " + auction.getCreateDate() + "\nDate of Auction: " +
+						auction.getDate());
+						
+				newMenu.getChildren().add(auctionText);
+			}
+			Button back = new Button("Back");
+			back.setOnAction(event -> 
+				back(oldPane, oldMenu)
+					);
+			newMenu.getChildren().add(back);
+			oldPane.setLeft(newMenu);
+		
+	}
+	
+
 	
 	public static void viewAllAuctions(BorderPane pane, Employee user) {
 		VBox oldMenu = (VBox) pane.getLeft();
@@ -230,9 +288,9 @@ public class EmployeeMenu {
 		
 		newMenu.setPadding(new Insets(10));
 		Button back = new Button("Back");
-		ArrayList<Auction> upcomingAuctions = AuctionCentral.calendar.getAuctionsInChronologicalOrder();
-		for (Auction auction: upcomingAuctions) {
-			Text auctionText = new Text("Name: " + auction.getOrganization().getName() +
+		ArrayList<Auction> allAuctions = AuctionCentral.calendar.getAuctionsInChronologicalOrder();
+		for (Auction auction: allAuctions) {
+			Text auctionText = new Text("Auction hosted by : " + auction.getOrganization().getName() +
 					"\nDate Created: " + auction.getCreateDate() + "\nDate of Auction: " +
 					auction.getDate());
 						
@@ -240,7 +298,7 @@ public class EmployeeMenu {
 		}
 		back.setOnAction(event -> 
 			back(pane, oldMenu)
-		);
+				);
 		newMenu.getChildren().add(back);
 		pane.setLeft(newMenu);
 	}
@@ -253,55 +311,44 @@ public class EmployeeMenu {
 		Text title = new Text("All Auctions in System: ");
 		newMenu.setPadding(new Insets(10));
 		newMenu.getChildren().add(title);
+		for (Auction auction: upcomingAuctions) {
+			Text auctionText = new Text("Auction hosted by : " + auction.getOrganization().getName() +
+					"\nDate Created: " + auction.getCreateDate() + "\nDate of Auction: " +
+					auction.getDate());
+			Button btn = new Button("Cancel This Auction");
+			
+			newMenu.getChildren().add(auctionText);
+			newMenu.getChildren().add(btn);
+		
+		btn.setOnAction(event -> 
+		AuctionCentral.calendar.cancelAuction(auction)
+				);
+							
+		}
 		Button back = new Button("Back");
 		
 		back.setOnAction(event -> 
 			back(pane, oldMenu)
-		);
+				);
 		
 		newMenu.getChildren().add(back);
 		pane.setLeft(newMenu);
 	}
 	
-	public static void viewAuction(BorderPane pane, Auction auction, Bidder user) {
-		VBox Auction = new VBox();
-		
-		Text title = new Text(auction.getOrganization().getName());
-		title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		Auction.setPadding(new Insets(30));
-		Auction.getChildren().add(title);
-		
-		for (Item item : auction.getInventory()) {
-			Auction.getChildren().add(ItemView.makeItemView(item, user, auction));
-		}
-		
-		pane.setCenter(Auction);
-	}
+
+
 	
 	public static void back(BorderPane pane, VBox oldMenu) {
 		pane.setLeft(oldMenu);
 		pane.setCenter(new VBox());;
 	}
 	
-	public static void viewItems(Bidder user, BorderPane pane) {
-		VBox Items = new VBox();
-		
-		Text title = new Text("Items you have bid on:");
-		title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		Items.setPadding(new Insets(30));
-		Items.getChildren().add(title);
-		
-		for (Item item : user.getAllItems()) {
-			Items.getChildren().add(ItemView.makeItemView(item, user, null));
-		}
-		
-		pane.setCenter(Items);
-	}
+
 	
-	private static void changeMax(BorderPane oldPane) {
+	private static void changeMax(BorderPane oldPane, VBox oldMenu) {
 		final TextField userTextField = new TextField();
 	
-		VBox oldMenu = (VBox) oldPane.getLeft();
+		VBox lastMenu = (VBox) oldPane.getLeft();
 		VBox newMenu = new VBox(20);
 
 		Text title = new Text("Enter New System Auction Capacity: ");
@@ -331,12 +378,15 @@ public class EmployeeMenu {
 		try {
 			int newMax = Integer.parseInt(number);
 			AuctionCentral.calendar.setMaximumUpcomingAuctions(newMax);
-//			oldPane.setLeft(oldMenu);
-//			oldPane.setCenter(new VBox());
-			changeMaxAuctions(oldPane);
+			
+			oldPane.setLeft(oldMenu);
+			oldPane.setCenter(new VBox());
+			back(oldPane, oldMenu);
+			
 		} catch (NumberFormatException e) {
 			
 		}
 	}
+
 
 }
