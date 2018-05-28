@@ -243,10 +243,32 @@ public class AuctioneerMenu {
 		return item.getName() + ", " + item.getDescription() 
 			+ ", $" + item.getBasePrice();
 	}
+	
+	/**
+	 * Return the Scene of the welcoming for the user
+	 * @param scene
+	 * @param user
+	 * @param calendar
+	 * @return scene
+	 */
 	public static  Scene getContactMenu(Scene scene, ContactPerson user, Calendar calendar) {
 		BorderPane pane = new BorderPane();
 		ArrayList<Auction> Allauctions = calendar.getAuction();
-		if(Allauctions.size() != 0 ) {
+		LocalDate today = LocalDate.now();
+		if(Allauctions.size() != 0 && today.isBefore(Allauctions.get(0).getDate())) {
+			Text title = new Text("Welcome Contact Person : " + user.getName());
+			VBox layout = new VBox(20);
+			final Label cannotSub = new Label("Since your auction has not occurred "
+					+ "you can not submit an auction at this time.");
+			layout.setPadding(new Insets(10));
+			final Button ViewBtn = new Button("View My Auction");
+			layout.getChildren().addAll(title,ViewBtn,cannotSub);
+			pane.setLeft(layout);
+			scene = new Scene(pane,1300,500);
+			ViewBtn.setOnAction(event ->
+			pane.setCenter(getmyAuction(pane,Allauctions,calendar)));
+		}
+		else if(Allauctions.size() != 0 && today.isAfter(Allauctions.get(0).getDate())) {
 			Text title = new Text("Welcome Contact Person : " + user.getName());
 			VBox layout = new VBox(20);
 			layout.setPadding(new Insets(10));
@@ -254,12 +276,12 @@ public class AuctioneerMenu {
 			final Button SubmitBtn = new Button("Submit an Auction");
 			layout.getChildren().addAll(title,ViewBtn,SubmitBtn);
 			pane.setLeft(layout);
-			scene = new Scene(pane,1100,500);
+			scene = new Scene(pane,1300,500);
 			ViewBtn.setOnAction(event ->
 			pane.setCenter(getmyAuction(pane,Allauctions,calendar)));
 	
 			SubmitBtn.setOnAction(event ->
-			pane.setCenter(submiteAuction(pane,Allauctions,calendar)));
+			pane.setCenter(submiteAuction(pane,Allauctions,calendar,user)));
 		
 		}
 		else {
@@ -271,13 +293,21 @@ public class AuctioneerMenu {
 			final Button SubmitBtn = new Button("Submit an Auction");
 			layout.getChildren().addAll(title,noAuctionWaring,SubmitBtn);
 			pane.setLeft(layout);
-			scene = new Scene(pane,1100,500);
+			scene = new Scene(pane,1300,500);
 			SubmitBtn.setOnAction(event ->
-			pane.setCenter(submiteAuction(pane,Allauctions,calendar)));
+			pane.setCenter(submiteAuction(pane,Allauctions,calendar,user)));
 		}
 		
 		return scene;
 	}
+	
+	/**
+	 * return the scroll pane for viewing the auction.
+	 * @param pane
+	 * @param Allauctions
+	 * @param calendar
+	 * @return
+	 */
 	public static  ScrollPane getmyAuction(BorderPane pane, ArrayList<Auction> Allauctions, 
 			Calendar calendar ) {
 		final VBox myAuction = new VBox();
@@ -325,7 +355,13 @@ public class AuctioneerMenu {
 		
 	}
 
-	
+
+	/**
+	 * 
+	 * @param pane
+	 * @param theAuction
+	 * @return
+	 */
 	public static  ScrollPane viewItem(BorderPane pane,Auction theAuction) {
 		final VBox myuItem = new VBox();
 		myuItem.setSpacing(15);
@@ -373,10 +409,8 @@ public class AuctioneerMenu {
 		
 	}
 	public static ScrollPane submiteAuction(BorderPane pane,ArrayList<Auction> allauctions,
-			Calendar thecalendar) {
+			Calendar thecalendar, ContactPerson user) {
 		final VBox myAuction = new VBox();
-//		final Label organzation = new Label("Enter the name of the organization: ");
-//		TextField Organzation= new TextField();
 		final Label dateofMonth = new Label("Please Enter the Month for the auction: ");
 		TextField month= new TextField();
 		final Label dateofdays = new Label("Please Enter the day for the auction: ");
@@ -388,6 +422,7 @@ public class AuctioneerMenu {
 		final Label maxIbtn = new Label("Enter max number of items total allowed for sale (0 for default): ");
 		TextField maxitem= new TextField();
 		final Button submit = new Button("Submit");
+		
 		myAuction.getChildren().addAll(dateofMonth,month,dateofdays,
 				day,dateofYear,year,maxIBbtn,maxitembid,maxIbtn,maxitem,submit);
 	
@@ -399,14 +434,17 @@ public class AuctioneerMenu {
 			int MaxItemSell=Integer.parseInt(maxitem.getText());
 			LocalDate auctionDate = LocalDate.of(Years,Months,Days);
 			LocalDate createDate = LocalDate.now();
-			
-			Organization theOrg = allauctions.get(0).getOrganization();
-					//new Organization(Organzation.getText());
-			Auction theauction = new Auction(auctionDate,createDate,MaxperBid,MaxItemSell,theOrg);
-			thecalendar.submitAuctionRequestWithAuction(theOrg, theauction);
-			AuctionCentral.setScene("ehli22");
-			//pane.setCenter(getmyAuction(pane,allauctions,thecalendar));
-			
+			if(allauctions.size()== 0) {
+				Organization theOrg = new Organization("ehli22");
+				Auction theauction = new Auction(auctionDate,createDate,MaxperBid,MaxItemSell,theOrg);
+				thecalendar.submitAuctionRequestWithAuction(theOrg, theauction);
+			}
+			else {
+				Organization theOrg = allauctions.get(0).getOrganization();
+				Auction theauction = new Auction(auctionDate,createDate,MaxperBid,MaxItemSell,theOrg);
+				thecalendar.submitAuctionRequestWithAuction(theOrg, theauction);
+			}
+			AuctionCentral.setScene(user.getLoginName());
 		});
 		final ScrollPane sp = new ScrollPane();
 		sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -416,47 +454,4 @@ public class AuctioneerMenu {
 		return sp;
 		
 	}
-
-
-//	public static ScrollPane CancleAuction(ArrayList<Auction> Allauctions,Calendar calendar ) {
-//	
-//	final VBox myAuction = new VBox();
-//	final Label label = new Label("My Auction");
-//	myAuction.setSpacing(15);
-////	Button backBtn = new Button("Back");
-////	myAuction.getChildren().add(backBtn);
-//	myAuction.getChildren().add(label);
-//	for (final Auction theauction : Allauctions ) {
-//		final HBox Auction = new HBox();
-//		final Label name = new Label(theauction.getOrganization().getName());
-//		final Label creatdate = new Label("The Auction created date " +
-//				theauction.getCreateDate().getMonth() + " " + theauction
-//				.getCreateDate().getDayOfMonth() + ", " + theauction
-//				.getCreateDate().getYear());
-//		final Label dateForAuction =new Label("The Date For the auction" + 
-//				theauction.getDate().getMonth() + " " + theauction
-//				.getDate().getDayOfMonth() + ", " + theauction
-//				.getDate().getYear());
-//		final Button viewItemInAuction = new Button("View Item");
-//		final Button cancleAuction = new Button("cancle auction");
-//		final Button addItem = new Button ("Add Item");
-//		Scanner theScanner = new Scanner(System.in);
-//		addItem.setOnAction(event -> addItem(theauction, theScanner));
-//		viewItemInAuction.setOnAction(event -> viewItem(theauction));
-//		cancleAuction.setOnAction(event -> CancleAuction(Allauctions,calendar));
-//		Auction.getChildren().addAll(name, creatdate, dateForAuction,
-//				viewItemInAuction,addItem,cancleAuction);
-//		Auction.setSpacing(10);
-//		myAuction.getChildren().add(Auction);
-//	}
-//	
-//	
-//	
-//	final ScrollPane sp = new ScrollPane();
-//	sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-//	sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-//	sp.setContent(myAuction);
-//	return sp;
-//
-//}
 }
