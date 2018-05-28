@@ -148,4 +148,5 @@ class AuctionTest {
 
 		assertFalse(testAuction.canAuctionBeCancelled());	
 	}
+
 }

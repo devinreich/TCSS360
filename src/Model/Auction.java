@@ -246,9 +246,8 @@ public class Auction implements Serializable {
 		return getInventoryCount() == maxItemsSold;	
 	}
 
-
 	/**
-	 * Return integer inventory coutn
+	 * Return integer inventory count
 	 * @return
 	 */
 	public int getInventoryCount() {
