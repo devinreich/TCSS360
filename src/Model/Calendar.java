@@ -177,16 +177,16 @@ public class Calendar implements Serializable  {
 			if (auctionCentralAuctions.containsKey(theOrganization)) {
 				// Organization already exists, so update Arraylist with current auction
 				auctionCentralAuctions.replace(theOrganization, theOrganization.getAuctions());
-				System.out.println("Organization has been updated");
+//				System.out.println("Organization has been updated");
 			} else {
 				// Add Organization to Auction Map 
 				auctionCentralAuctions.put(theOrganization, theOrganization.getAuctions());
 			}
-			System.out.println("Your organization is currently eligible to host an auction.");
-			System.out.println("Your auction has been scheduled.");
+//			System.out.println("Your organization is currently eligible to host an auction.");
+//			System.out.println("Your auction has been scheduled.");
 			theOrganization.setCurrentAuction(theAuction);
 		} else {
-			System.out.println("Your organization is ineligible to host an auction.");	
+//			System.out.println("Your organization is ineligible to host an auction.");	
 		}
 	}
  
@@ -223,7 +223,7 @@ public class Calendar implements Serializable  {
 		if (num < MAX_DAYS) {
 			dateAllowed = true;
 		} else {
-			System.out.println("We are at max capacity for that date. Please pick another.");
+			//System.out.println("We are at max capacity for that date. Please pick another.");
 		}	
 		//System.out.println("Calendar not at max capacity for specified date: " + dateAllowed);
 		return dateAllowed;
@@ -245,7 +245,7 @@ public class Calendar implements Serializable  {
 
 				result = true;
 			} else {
-				System.out.println("It has not yet been a year since your last auction.");
+//				System.out.println("It has not yet been a year since your last auction.");
 			}
 		} else { 	// hasnt been a last auction, so its true that it hasnt been a year
 			result = true;
@@ -268,7 +268,7 @@ public class Calendar implements Serializable  {
 
 		if (theDate.isAfter(getCurrentDate().plusDays(maximumUpcomingDays)) || 
 				theDate.isEqual(getCurrentDate().plusDays(maximumUpcomingDays))) {
-			System.out.println("The requested auction date is too far out to schedule.");
+			//System.out.println("The requested auction date is too far out to schedule.");
 		} else if (theDate.isBefore(getCurrentDate().plusDays(maximumUpcomingDays)) || 
 				theDate.isEqual(getCurrentDate().plusDays(maximumUpcomingDays))) {
 			result = true;
@@ -292,7 +292,7 @@ public class Calendar implements Serializable  {
 			return true;
 		}else if (theDate.isBefore(getCurrentDate().plusDays(minimumUpcomingDays)) || 
 				theDate.isEqual(getCurrentDate().plusDays(minimumUpcomingDays))) {
-			System.out.println("The requested auction date is too soon to schedule.");
+			//System.out.println("The requested auction date is too soon to schedule.");
 		}
 		//System.out.println("Request is after min days out: " + result);
 		//System.out.println("Request date: " + theDate + " current date: " + getCurrentDate());
