@@ -363,8 +363,8 @@ public class AuctioneerMenu {
 	public static ScrollPane submiteAuction(BorderPane pane,ArrayList<Auction> allauctions,
 			Calendar thecalendar) {
 		final VBox myAuction = new VBox();
-		final Label organzation = new Label("Enter the name of the organization: ");
-		TextField Organzation= new TextField();
+//		final Label organzation = new Label("Enter the name of the organization: ");
+//		TextField Organzation= new TextField();
 		final Label dateofMonth = new Label("Please Enter the Month for the auction: ");
 		TextField month= new TextField();
 		final Label dateofdays = new Label("Please Enter the day for the auction: ");
@@ -376,7 +376,7 @@ public class AuctioneerMenu {
 		final Label maxIbtn = new Label("Enter max number of items total allowed for sale (0 for default): ");
 		TextField maxitem= new TextField();
 		final Button submit = new Button("Submit");
-		myAuction.getChildren().addAll(organzation,Organzation,dateofMonth,month,dateofdays,
+		myAuction.getChildren().addAll(dateofMonth,month,dateofdays,
 				day,dateofYear,year,maxIBbtn,maxitembid,maxIbtn,maxitem,submit);
 	
 		submit.setOnAction(event -> {
@@ -387,7 +387,9 @@ public class AuctioneerMenu {
 			int MaxItemSell=Integer.parseInt(maxitem.getText());
 			LocalDate auctionDate = LocalDate.of(Years,Months,Days);
 			LocalDate createDate = LocalDate.now();
-			Organization theOrg = new Organization(Organzation.getText());
+			
+			Organization theOrg = allauctions.get(0).getOrganization();
+					//new Organization(Organzation.getText());
 			Auction theauction = new Auction(auctionDate,createDate,MaxperBid,MaxItemSell,theOrg);
 			thecalendar.submitAuctionRequestWithAuction(theOrg, theauction);
 			AuctionCentral.setScene("ehli22");
