@@ -269,7 +269,7 @@ public class AuctioneerMenu {
 			pane.setLeft(layout);
 			scene = new Scene(pane,1300,500);
 			ViewBtn.setOnAction(event ->
-			pane.setCenter(getmyAuction(pane,Allauctions,calendar)));
+			pane.setCenter(getmyAuction(pane,Allauctions,calendar,user)));
 		}
 		else if(Allauctions.size() != 0 && today.isAfter(Allauctions.get(0).getDate())) {
 			Text title = new Text("Welcome Contact Person : " + user.getName());
@@ -281,7 +281,7 @@ public class AuctioneerMenu {
 			pane.setLeft(layout);
 			scene = new Scene(pane,1300,500);
 			ViewBtn.setOnAction(event ->
-			pane.setCenter(getmyAuction(pane,Allauctions,calendar)));
+			pane.setCenter(getmyAuction(pane,Allauctions,calendar,user)));
 	
 			SubmitBtn.setOnAction(event ->
 			pane.setCenter(submiteAuction(pane,Allauctions,calendar,user)));
@@ -312,7 +312,7 @@ public class AuctioneerMenu {
 	 * @return the scroll pane
 	 */
 	public static  ScrollPane getmyAuction(BorderPane pane, ArrayList<Auction> Allauctions, 
-			Calendar calendar ) {
+			Calendar calendar,ContactPerson user ) {
 		final VBox myAuction = new VBox();
 		final Label label = new Label("My Auction");
 		myAuction.setSpacing(15);
@@ -340,7 +340,7 @@ public class AuctioneerMenu {
 			viewItemInAuction.setOnAction(event -> pane.setCenter(viewItem(pane,theauction)));
 			cancleAuction.setOnAction(event -> {
 				calendar.cancelAuction(theauction);
-				AuctionCentral.setScene("ehli22");
+				AuctionCentral.setScene(user.getLoginName());
 			});
 			Auction.getChildren().addAll(name, creatdate, dateForAuction,
 					viewItemInAuction,addItem);
