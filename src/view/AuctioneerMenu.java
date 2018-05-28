@@ -251,8 +251,8 @@ public class AuctioneerMenu {
 		layout.setPadding(new Insets(10));
 		final Button ViewBtn = new Button("View My Auction");
 		final Button SubmitBtn = new Button("Submit an Auction");
-		final Button logOutBtn = new Button("Log out");
-		layout.getChildren().addAll(title,ViewBtn,SubmitBtn,logOutBtn);
+	//	final Button logOutBtn = new Button("Log out");
+		layout.getChildren().addAll(title,ViewBtn,SubmitBtn);
 		pane.setLeft(layout);
 		scene = new Scene(pane,1100,500);
 		ViewBtn.setOnAction(event ->
@@ -285,7 +285,7 @@ public class AuctioneerMenu {
 					.getDate().getDayOfMonth() + ", " + theauction
 					.getDate().getYear());
 			final Button viewItemInAuction = new Button("View Item");
-//			final Button cancleAuction = new Button("cancle auction");
+			final Button cancleAuction = new Button("cancle auction");
 			final Button addItem = new Button ("Add Item");
 			Scanner theScanner = new Scanner(System.in);
 			addItem.setOnAction(event -> {
@@ -293,10 +293,10 @@ public class AuctioneerMenu {
 				
 			});
 			viewItemInAuction.setOnAction(event -> pane.setCenter(viewItem(pane,theauction)));
-//			cancleAuction.setOnAction(event -> {
-//				calendar.cancelAuction(theauction);
-//				pane.setCenter(getmyAuction(pane,Allauctions,calendar));
-//			});
+			cancleAuction.setOnAction(event -> {
+				calendar.cancelAuction(theauction);
+				pane.setCenter(getmyAuction(pane,Allauctions,calendar));
+			});
 			Auction.getChildren().addAll(name, creatdate, dateForAuction,
 					viewItemInAuction,addItem);
 			Auction.setSpacing(10);
@@ -360,7 +360,8 @@ public class AuctioneerMenu {
 		return sp; 
 		
 	}
-	public static ScrollPane submiteAuction(BorderPane pane,ArrayList<Auction> allauctions, Calendar thecalendar) {
+	public static ScrollPane submiteAuction(BorderPane pane,ArrayList<Auction> allauctions,
+			Calendar thecalendar) {
 		final VBox myAuction = new VBox();
 		final Label organzation = new Label("Enter the name of the organization: ");
 		TextField Organzation= new TextField();
@@ -389,7 +390,8 @@ public class AuctioneerMenu {
 			Organization theOrg = new Organization(Organzation.getText());
 			Auction theauction = new Auction(auctionDate,createDate,MaxperBid,MaxItemSell,theOrg);
 			thecalendar.submitAuctionRequestWithAuction(theOrg, theauction);
-			pane.setCenter(getmyAuction(pane,allauctions,thecalendar));
+			AuctionCentral.setScene("ehli22");
+			//pane.setCenter(getmyAuction(pane,allauctions,thecalendar));
 			
 		});
 		final ScrollPane sp = new ScrollPane();
