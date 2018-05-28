@@ -18,6 +18,7 @@ public class Calendar implements Serializable  {
 	HashMap<Organization, ArrayList<Auction>> auctionCentralAuctions;
 	private static final Integer MAX_DAYS = 2;
 	private static final Integer MAX_UPCOMING_AUCTIONS = 25;
+	private static final Integer MIN_UPCOMING_AUCTIONS = 1;
 	private static final Integer MAX_UPCOMING_AUCTIONS_DAYS = 60;
 	private static final Integer MIN_UPCOMING_AUCTIONS_DAYS = 14;
 	private Integer maximumUpcomingAuctions;
@@ -35,13 +36,22 @@ public class Calendar implements Serializable  {
 		maximumUpcomingDays = MAX_UPCOMING_AUCTIONS_DAYS;
 		minimumUpcomingDays = MIN_UPCOMING_AUCTIONS_DAYS;
 	}
+	
+	/**
+	 * Checks if the desired maxUpcomingAuctions integer is positive.
+	 */
+	public boolean canChangeMaxUpcomingAuctions(int theInt) {
+		return theInt >= 1;
+	}
 
 	/**
 	 * Set maximum number of allowed active upcoming auctions
 	 * @param theInt
 	 */
 	public void setMaximumUpcomingAuctions(Integer theInt) {
-		maximumUpcomingAuctions = theInt;
+		if (canChangeMaxUpcomingAuctions(theInt)) {
+			maximumUpcomingAuctions = theInt;
+		}
 	}
 
 	/**
@@ -323,7 +333,7 @@ public class Calendar implements Serializable  {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Enter the new number of days in the future that auctions may be stored: ");
 		int potentialDays = scanner.nextInt();
-		while (potentialDays < 0){
+		while (potentialDays < 1){
 			System.out.print("The number of days entered must be positive, enter a new number of days: ");
 			potentialDays = scanner.nextInt();
 		}
