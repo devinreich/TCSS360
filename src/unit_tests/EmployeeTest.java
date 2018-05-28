@@ -36,7 +36,7 @@ class EmployeeTest {
 	 */
 	@Test
 	public void canChangeMaxUpcomingAuctions_PositiveIntGreaterThanNumberofExisitingAuctions_true() {
-		assertTrue(AuctionCentral.calendar.canChangeMaxUpcomingAuctions(AuctionCentral.calendar.getMaximumUpcomingAuctions())
+		assertTrue(AuctionCentral.calendar.canChangeMaxUpcomingAuctions(positiveMaxUpcomingAuctionsGreaterThanCurrent)
 				&& positiveMaxUpcomingAuctionsGreaterThanCurrent > AuctionCentral.calendar.getMaximumUpcomingAuctions());
 	}
 
