@@ -250,8 +250,8 @@ public class AuctioneerMenu {
 			Text title = new Text("Welcome Contact Person : " + user.getName());
 			VBox layout = new VBox(20);
 			layout.setPadding(new Insets(10));
-			final Button ViewBtn = new Button("View My Auction");
-			final Button SubmitBtn = new Button("Submit an Auction");
+			final Button ViewBtn = new Button("View Current Auction");
+			final Button SubmitBtn = new Button("Submit Auction Request");
 			layout.getChildren().addAll(title,ViewBtn,SubmitBtn);
 			pane.setLeft(layout);
 			scene = new Scene(pane,1100,500);
@@ -264,11 +264,10 @@ public class AuctioneerMenu {
 		}
 		else {
 			Text title = new Text("Welcome Contact Person : " + user.getName());
-			final Label noAuctionWaring = new Label("There is no auction under "
-					+ "the organzation right now");
+			final Label noAuctionWaring = new Label("There are no current auctions.");
 			VBox layout = new VBox(20);
 			layout.setPadding(new Insets(10));
-			final Button SubmitBtn = new Button("Submit an Auction");
+			final Button SubmitBtn = new Button("Submit an Auction:");
 			layout.getChildren().addAll(title,noAuctionWaring,SubmitBtn);
 			pane.setLeft(layout);
 			scene = new Scene(pane,1100,500);
@@ -281,23 +280,23 @@ public class AuctioneerMenu {
 	public static  ScrollPane getmyAuction(BorderPane pane, ArrayList<Auction> Allauctions, 
 			Calendar calendar ) {
 		final VBox myAuction = new VBox();
-		final Label label = new Label("My Auction");
+		final Label label = new Label("Current Auction:");
 		myAuction.setSpacing(15);
 		myAuction.getChildren().add(label);
 		
 		for (final Auction theauction : Allauctions ) {
 			final HBox Auction = new HBox();
 			final Label name = new Label(theauction.getOrganization().getName());
-			final Label creatdate = new Label("The Auction created date " +
+			final Label creatdate = new Label("The Auction created on: " +
 					theauction.getCreateDate().getMonth() + " " + theauction
 					.getCreateDate().getDayOfMonth() + ", " + theauction
 					.getCreateDate().getYear());
-			final Label dateForAuction =new Label("The Date For the auction" + 
+			final Label dateForAuction =new Label("The date of the Auction:" + 
 					theauction.getDate().getMonth() + " " + theauction
 					.getDate().getDayOfMonth() + ", " + theauction
 					.getDate().getYear());
 			final Button viewItemInAuction = new Button("View Item");
-			final Button cancleAuction = new Button("cancle auction");
+			final Button cancleAuction = new Button("Cancel Auction");
 			final Button addItem = new Button ("Add Item");
 			Scanner theScanner = new Scanner(System.in);
 			addItem.setOnAction(event -> {
@@ -329,13 +328,13 @@ public class AuctioneerMenu {
 	public static  ScrollPane viewItem(BorderPane pane,Auction theAuction) {
 		final VBox myuItem = new VBox();
 		myuItem.setSpacing(15);
-		final Label label = new Label("Item list");
+		final Label label = new Label("Item List:");
 		for (final Item item : theAuction.getInventory() ) {
 			final HBox Items = new HBox();
 			final Label itemName = new Label("Name: " + item.getName());
 			final Label itemDescription = new Label("Item Description: " + item.getDescription());
 			final Label itemBasePrice = new Label("Item Base Price: "+item.getBasePrice());
-			final Label itemCreatDate = new Label("Item Create Date: " + item.getCreationDate());
+			final Label itemCreatDate = new Label("Item Created On: " + item.getCreationDate());
 			Items.getChildren().addAll(itemName, itemDescription, itemBasePrice,
 					itemCreatDate);
 			Items.setSpacing(10);
@@ -355,7 +354,7 @@ public class AuctioneerMenu {
 		TextField NameofItem= new TextField();
 		final Label Description = new Label("Enter Item Description: ");
 		TextField ItemDescription= new TextField();
-		final Label minimum = new Label("Enter minimum bid price for item: ($) ");
+		final Label minimum = new Label("Enter minimum bid price for Item: ($) ");
 		TextField minimumBid= new TextField();
 		final Button submit = new Button("Submit");
 		submit.setOnAction(event -> {
@@ -377,11 +376,11 @@ public class AuctioneerMenu {
 		final VBox myAuction = new VBox();
 //		final Label organzation = new Label("Enter the name of the organization: ");
 //		TextField Organzation= new TextField();
-		final Label dateofMonth = new Label("Please Enter the Month for the auction: ");
+		final Label dateofMonth = new Label("Please Enter the Month for the Auction: ");
 		TextField month= new TextField();
-		final Label dateofdays = new Label("Please Enter the day for the auction: ");
+		final Label dateofdays = new Label("Please Enter the day for the Auction: ");
 		TextField day= new TextField();
-		final Label dateofYear = new Label("Please Enter the year for the auction: ");
+		final Label dateofYear = new Label("Please Enter the year for the Auction: ");
 		TextField year= new TextField();
 		final Label maxIBbtn = new Label("Enter max number of items bidders can bid on (0 for default)");
 		TextField maxitembid= new TextField();
