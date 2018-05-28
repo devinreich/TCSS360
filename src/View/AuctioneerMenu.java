@@ -12,15 +12,18 @@ import Model.Item;
 import Model.Organization;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import model.User;
 
 
 public class AuctioneerMenu {
@@ -306,7 +309,7 @@ public class AuctioneerMenu {
 	 * @param pane
 	 * @param Allauctions
 	 * @param calendar
-	 * @return
+	 * @return the scroll pane
 	 */
 	public static  ScrollPane getmyAuction(BorderPane pane, ArrayList<Auction> Allauctions, 
 			Calendar calendar ) {
@@ -337,10 +340,10 @@ public class AuctioneerMenu {
 			viewItemInAuction.setOnAction(event -> pane.setCenter(viewItem(pane,theauction)));
 			cancleAuction.setOnAction(event -> {
 				calendar.cancelAuction(theauction);
-				pane.setCenter(getmyAuction(pane,Allauctions,calendar));
+				AuctionCentral.setScene("ehli22");
 			});
 			Auction.getChildren().addAll(name, creatdate, dateForAuction,
-					viewItemInAuction,addItem);
+					viewItemInAuction,addItem,cancleAuction);
 			Auction.setSpacing(10);
 			myAuction.getChildren().add(Auction);
 		}
@@ -357,10 +360,10 @@ public class AuctioneerMenu {
 
 
 	/**
-	 * 
+	 * display the item in the auction.
 	 * @param pane
 	 * @param theAuction
-	 * @return
+	 * @return sp the scroll pane
 	 */
 	public static  ScrollPane viewItem(BorderPane pane,Auction theAuction) {
 		final VBox myuItem = new VBox();
@@ -372,7 +375,7 @@ public class AuctioneerMenu {
 			final Label itemDescription = new Label("Item Description: " + item.getDescription());
 			final Label itemBasePrice = new Label("Item Base Price: "+item.getBasePrice());
 			final Label itemCreatDate = new Label("Item Create Date: " + item.getCreationDate());
-			Items.getChildren().addAll(itemName, itemDescription, itemBasePrice,
+			Items.getChildren().addAll(label,itemName, itemDescription, itemBasePrice,
 					itemCreatDate);
 			Items.setSpacing(10);
 			myuItem.getChildren().add(Items);
@@ -385,6 +388,13 @@ public class AuctioneerMenu {
 
 		return sp;
 	}
+	/**
+	 * display the scroll pane for add item in to the auction.
+	 * @param pane
+	 * @param theAuction
+	 * @param theScanner
+	 * @return sp the scroll pane
+	 */
 	public static  ScrollPane addItem(BorderPane pane,Auction theAuction, Scanner theScanner) {
 		final VBox myItem = new VBox();
 		final Label Name = new Label("Enter Item Name: ");
@@ -408,6 +418,15 @@ public class AuctioneerMenu {
 		return sp; 
 		
 	}
+	
+	/**
+	 * display the scroll pane for submit an auction.
+	 * @param pane
+	 * @param allauctions
+	 * @param thecalendar
+	 * @param user
+	 * @return sp the scroll pane
+	 */
 	public static ScrollPane submiteAuction(BorderPane pane,ArrayList<Auction> allauctions,
 			Calendar thecalendar, ContactPerson user) {
 		final VBox myAuction = new VBox();
@@ -437,6 +456,7 @@ public class AuctioneerMenu {
 			if(allauctions.size()== 0) {
 				Organization theOrg = new Organization("ehli22");
 				Auction theauction = new Auction(auctionDate,createDate,MaxperBid,MaxItemSell,theOrg);
+			
 				thecalendar.submitAuctionRequestWithAuction(theOrg, theauction);
 			}
 			else {
@@ -453,5 +473,43 @@ public class AuctioneerMenu {
 
 		return sp;
 		
+	}
+	public void alertForSubmit(Auction theAuction,Calendar thecalendar) {
+		LocalDate createDate = LocalDate.now();
+		if (thecalendar.checkDate(theAuction.getDate())) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Message");
+			alert.setContentText("Invalid ");
+
+			alert.showAndWait();
+		}
+		else if(thecalendar.checkForMaxDays(theAuction.getDate())){
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Message");
+			alert.setContentText("Invalid ");
+
+			alert.showAndWait();
+		}
+		else if(thecalendar.checkForMinDays(theAuction.getDate())){
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Message");
+			alert.setContentText("Invalid ");
+
+			alert.showAndWait();
+		}
+		else if(thecalendar.checkForUpComingAuctionNumber() ) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Message");
+			alert.setContentText("Invalid ");
+
+			alert.showAndWait();
+		}
+//		else if(thecalendar.checkBeenYearForOrg(theOrganization, theAuction.getDate())){
+//			Alert alert = new Alert(AlertType.ERROR);
+//			alert.setTitle("Error Message");
+//			alert.setContentText("Invalid ");
+//
+//			alert.showAndWait();
+//		}
 	}
 }
