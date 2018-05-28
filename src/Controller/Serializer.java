@@ -27,6 +27,7 @@ public class Serializer {
 	// Change out.writeObject to contain your object
 	public static void main(String[] args) {
 		Bidder bidder = new Bidder("John Doe", "johnny");
+		Bidder bidder2 = new Bidder("John Doe 2.0", "johnnybGood");
 
 		Organization testOrganization = new Organization("Ehli Auctions");
 		
@@ -38,6 +39,7 @@ public class Serializer {
 		ContactPerson cPerson2 = new ContactPerson("Bill Parsons", "billyBob", testOrg2);
 		ContactPerson cPerson3 = new ContactPerson("Georgie", "georgie", testOrg3);
 		
+		Serializer.serialize(bidder2, "johnnybGood");
 		Serializer.serialize(employee, "bobbyHILL");
 		Serializer.serialize(cPerson2, "billyBob");
 		Serializer.serialize(cPerson3, "georgie");
