@@ -278,7 +278,7 @@ public class EmployeeMenu {
 	}
 	
 
-	
+	 
 	public static void viewAllAuctions(BorderPane pane, Employee user) {
 		VBox oldMenu = (VBox) pane.getLeft();
 		VBox newMenu = new VBox(20);
