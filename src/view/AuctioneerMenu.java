@@ -246,22 +246,35 @@ public class AuctioneerMenu {
 	public static  Scene getContactMenu(Scene scene, ContactPerson user, Calendar calendar) {
 		BorderPane pane = new BorderPane();
 		ArrayList<Auction> Allauctions = calendar.getAuction();
-		Text title = new Text("Welcome Contact Person : " + user.getName());
-		VBox layout = new VBox(20);
-		layout.setPadding(new Insets(10));
-		final Button ViewBtn = new Button("View My Auction");
-		final Button SubmitBtn = new Button("Submit an Auction");
-	//	final Button logOutBtn = new Button("Log out");
-		layout.getChildren().addAll(title,ViewBtn,SubmitBtn);
-		pane.setLeft(layout);
-		scene = new Scene(pane,1100,500);
-		ViewBtn.setOnAction(event ->
-		pane.setCenter(getmyAuction(pane,Allauctions,calendar)));
-
-		SubmitBtn.setOnAction(event ->
-		pane.setCenter(submiteAuction(pane,Allauctions,calendar)));
+		if(Allauctions.size() != 0 ) {
+			Text title = new Text("Welcome Contact Person : " + user.getName());
+			VBox layout = new VBox(20);
+			layout.setPadding(new Insets(10));
+			final Button ViewBtn = new Button("View My Auction");
+			final Button SubmitBtn = new Button("Submit an Auction");
+			layout.getChildren().addAll(title,ViewBtn,SubmitBtn);
+			pane.setLeft(layout);
+			scene = new Scene(pane,1100,500);
+			ViewBtn.setOnAction(event ->
+			pane.setCenter(getmyAuction(pane,Allauctions,calendar)));
 	
+			SubmitBtn.setOnAction(event ->
+			pane.setCenter(submiteAuction(pane,Allauctions,calendar)));
 		
+		}
+		else {
+			Text title = new Text("Welcome Contact Person : " + user.getName());
+			final Label noAuctionWaring = new Label("There is no auction under "
+					+ "the organzation right now");
+			VBox layout = new VBox(20);
+			layout.setPadding(new Insets(10));
+			final Button SubmitBtn = new Button("Submit an Auction");
+			layout.getChildren().addAll(title,noAuctionWaring,SubmitBtn);
+			pane.setLeft(layout);
+			scene = new Scene(pane,1100,500);
+			SubmitBtn.setOnAction(event ->
+			pane.setCenter(submiteAuction(pane,Allauctions,calendar)));
+		}
 		
 		return scene;
 	}
@@ -270,9 +283,8 @@ public class AuctioneerMenu {
 		final VBox myAuction = new VBox();
 		final Label label = new Label("My Auction");
 		myAuction.setSpacing(15);
-//		Button backBtn = new Button("Back");
-//		myAuction.getChildren().add(backBtn);
 		myAuction.getChildren().add(label);
+		
 		for (final Auction theauction : Allauctions ) {
 			final HBox Auction = new HBox();
 			final Label name = new Label(theauction.getOrganization().getName());
