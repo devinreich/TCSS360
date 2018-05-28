@@ -343,7 +343,7 @@ public class AuctioneerMenu {
 				AuctionCentral.setScene("ehli22");
 			});
 			Auction.getChildren().addAll(name, creatdate, dateForAuction,
-					viewItemInAuction,addItem,cancleAuction);
+					viewItemInAuction,addItem);
 			Auction.setSpacing(10);
 			myAuction.getChildren().add(Auction);
 		}
@@ -454,14 +454,15 @@ public class AuctioneerMenu {
 			LocalDate auctionDate = LocalDate.of(Years,Months,Days);
 			LocalDate createDate = LocalDate.now();
 			if(allauctions.size()== 0) {
-				Organization theOrg = new Organization("ehli22");
+				Organization theOrg = new Organization(user.getName());
 				Auction theauction = new Auction(auctionDate,createDate,MaxperBid,MaxItemSell,theOrg);
-			
+				alertForSubmit(theauction,thecalendar,theOrg);
 				thecalendar.submitAuctionRequestWithAuction(theOrg, theauction);
 			}
 			else {
 				Organization theOrg = allauctions.get(0).getOrganization();
 				Auction theauction = new Auction(auctionDate,createDate,MaxperBid,MaxItemSell,theOrg);
+				alertForSubmit(theauction,thecalendar,theOrg);
 				thecalendar.submitAuctionRequestWithAuction(theOrg, theauction);
 			}
 			AuctionCentral.setScene(user.getLoginName());
@@ -474,42 +475,59 @@ public class AuctioneerMenu {
 		return sp;
 		
 	}
-	public void alertForSubmit(Auction theAuction,Calendar thecalendar) {
-		LocalDate createDate = LocalDate.now();
-		if (thecalendar.checkDate(theAuction.getDate())) {
+	
+	/**
+	 * check the business  story for submit auction if not reach the.
+	 * requirements pop the alert.
+	 * @param theAuction
+	 * @param thecalendar
+	 * @param theOrg
+	 */
+	public static void alertForSubmit(Auction theAuction,Calendar thecalendar,Organization theOrg) {
+//		LocalDate createDate = LocalDate.now();
+		if (!thecalendar.checkDate(theAuction.getDate())) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error Message");
-			alert.setContentText("Invalid ");
+			alert.setContentText("Invalid no more than two auctions for the day");
 
 			alert.showAndWait();
 		}
-		else if(thecalendar.checkForMaxDays(theAuction.getDate())){
+		else if(!thecalendar.checkForMaxDays(theAuction.getDate())){
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error Message");
-			alert.setContentText("Invalid ");
+			alert.setContentText("Invalid the auction can not be scheduled "
+					+ "more than 60 days from now");
 
 			alert.showAndWait();
 		}
-		else if(thecalendar.checkForMinDays(theAuction.getDate())){
+		else if(!thecalendar.checkForMinDays(theAuction.getDate())){
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error Message");
-			alert.setContentText("Invalid ");
+			alert.setContentText("Invalid the auction has to be at least 14 days from now ");
 
 			alert.showAndWait();
 		}
-		else if(thecalendar.checkForUpComingAuctionNumber() ) {
+		else if(!thecalendar.checkForUpComingAuctionNumber() ) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error Message");
-			alert.setContentText("Invalid ");
+			alert.setContentText("Invalid reach the max number(25) of auction on calendar"
+					+ "for the upcoming day ");
 
 			alert.showAndWait();
 		}
-//		else if(thecalendar.checkBeenYearForOrg(theOrganization, theAuction.getDate())){
-//			Alert alert = new Alert(AlertType.ERROR);
-//			alert.setTitle("Error Message");
-//			alert.setContentText("Invalid ");
-//
-//			alert.showAndWait();
-//		}
+		else if(!thecalendar.checkBeenYearForOrg(theOrg, theAuction.getDate())){
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Message");
+			alert.setContentText("Invalid you have to wait for a year for your next auction ");
+
+			alert.showAndWait();
+		}
+		else {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Congratulations");
+			alert.setContentText("Your auction has been scheduled ");
+
+			alert.showAndWait();
+		}
 	}
 }
