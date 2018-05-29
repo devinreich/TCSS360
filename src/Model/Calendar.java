@@ -1,8 +1,10 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -81,14 +83,18 @@ public class Calendar implements Serializable  {
 			//remove items from auction
 			//remove auction from organization
 			//remove auction from calendar
-			ArrayList<ArrayList<Bid>> bidLists = (ArrayList<ArrayList<Bid>>) theAuction.getBids();
-			//remove bids pertaining to auction from bidders
-			for (ArrayList<Bid> lists: bidLists) {
-				for (Bid bid: lists) {
+			Collection<ArrayList<Bid>> lists = theAuction.getBids();
+			Iterator<ArrayList<Bid>> itr = lists.iterator();
+ 
+			while (itr.hasNext()) {
+				for (Bid bid: itr.next()) {
 					Bidder bidder = (Bidder) bid.getBidder();
 					bidder.removeBid(bid);
 				}
-			}  
+				
+				itr.remove();
+			}
+			
 			//remove items from auction
 			for (Item item: theAuction.getInventory()) {
 				theAuction.removeItem(item);
