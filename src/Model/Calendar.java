@@ -283,7 +283,6 @@ public class Calendar implements Serializable  {
 		return result;
 	}
 
-
 	/**
 	 * Checks to make sure the requested auction date is legal
 	 * by checking that it falls after the minimum schedule-out 
