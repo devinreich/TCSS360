@@ -329,6 +329,7 @@ public class AuctioneerMenu {
 					theauction.getDate().getMonth() + " " + theauction
 					.getDate().getDayOfMonth() + ", " + theauction
 					.getDate().getYear());
+			
 			final Button viewItemInAuction = new Button("View Item");
 			final Button cancleAuction = new Button("cancle auction");
 			final Button addItem = new Button ("Add Item");
@@ -342,8 +343,14 @@ public class AuctioneerMenu {
 				calendar.cancelAuction(theauction);
 				AuctionCentral.setScene(user.getLoginName());
 			});
-			Auction.getChildren().addAll(name, creatdate, dateForAuction,
-					viewItemInAuction,addItem);
+			if(theauction.getInventoryCount() != 0) {
+				Auction.getChildren().addAll(name, creatdate, dateForAuction,
+						viewItemInAuction,addItem);
+			}
+			else {
+				Auction.getChildren().addAll(name, creatdate, dateForAuction,
+						addItem);
+			}
 			Auction.setSpacing(10);
 			myAuction.getChildren().add(Auction);
 		}
