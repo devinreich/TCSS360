@@ -69,7 +69,7 @@ public class AuctioneerMenu {
 					auctionMenuOptions(auctionChoice, scanner);
 					} while (auctionChoice != 4);
 					break;
-				case 2:
+				case 2: 
 					// format output for method within organization class
 					// TODO: Look back over this
 					ArrayList<Auction> auctioneerAuctions = auctioneer.getAuctions();
@@ -255,8 +255,15 @@ public class AuctioneerMenu {
 	 * @return scene
 	 */
 	public static  Scene getContactMenu(Scene scene, ContactPerson user, Calendar calendar) {
-		BorderPane pane = new BorderPane();
-		ArrayList<Auction> Allauctions = calendar.getAuction();
+		BorderPane pane = new BorderPane();	
+		ArrayList<Auction> theAllauctions = calendar.getAuction();
+		ArrayList<Auction> Allauctions = new ArrayList<Auction>();
+		for (Auction auctions: theAllauctions ) {
+			if(auctions.getOrganization().getName() == user.getName()) {
+				Allauctions.add(auctions);
+			}
+		}
+		
 		LocalDate today = LocalDate.now();
 		if(Allauctions.size() != 0 && today.isBefore(Allauctions.get(0).getDate())) {
 			Text title = new Text("Welcome Contact Person : " + user.getName());
