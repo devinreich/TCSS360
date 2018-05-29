@@ -32,11 +32,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
-/**
- * the Gui main class
- * @author group2
- *
- */
+
+
 public class AuctionCentral extends Application {
 	static Scene scene1;
 	static Stage window;
@@ -50,9 +47,6 @@ public class AuctionCentral extends Application {
 	}
 
 	@Override
-	/**
-	 * the Gui main stage
-	 */
 	public void start(Stage primaryStage) {
 		calendar = (Calendar) Serializer.deserialize("calendar");
 		window = primaryStage;
@@ -82,10 +76,6 @@ public class AuctionCentral extends Application {
 		window.show();
 	}
 	
-	/**
-	 * display the login pane.
-	 * @param root
-	 */
 	protected final static void displayLoginPane(StackPane root) {
 		final GridPane grid = new GridPane();
 
@@ -119,10 +109,6 @@ public class AuctionCentral extends Application {
 		root.getChildren().add(grid);
 	}
 	
-	/**
-	 * dependens on the input user call different pane.
-	 * @param text
-	 */
 	public static void setScene(String text) {
 		user = (User) Serializer.deserialize(text);
 		Text title;

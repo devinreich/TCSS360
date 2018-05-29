@@ -320,16 +320,17 @@ public class AuctioneerMenu {
 		
 		for (final Auction theauction : Allauctions ) {
 			final HBox Auction = new HBox();
-			final Label name = new Label(theauction.getOrganization().getName());
-			final Label creatdate = new Label("The Auction created date " +
+			final Label name = new Label(user.getAffiliatedOrganization().getName());
+			final Label creatdate = new Label("The Auction was created on:  " +
 					theauction.getCreateDate().getMonth() + " " + theauction
 					.getCreateDate().getDayOfMonth() + ", " + theauction
 					.getCreateDate().getYear());
-			final Label dateForAuction =new Label("The Date For the auction" + 
+			final Label dateForAuction =new Label("The Date of the auction: " + 
 					theauction.getDate().getMonth() + " " + theauction
 					.getDate().getDayOfMonth() + ", " + theauction
 					.getDate().getYear());
-			final Button viewItemInAuction = new Button("View Item");
+			
+			final Button viewItemInAuction = new Button("View Items");
 			final Button cancleAuction = new Button("cancle auction");
 			final Button addItem = new Button ("Add Item");
 			Scanner theScanner = new Scanner(System.in);
@@ -342,8 +343,14 @@ public class AuctioneerMenu {
 				calendar.cancelAuction(theauction);
 				AuctionCentral.setScene(user.getLoginName());
 			});
-			Auction.getChildren().addAll(name, creatdate, dateForAuction,
-					viewItemInAuction,addItem);
+			if(theauction.getInventoryCount() != 0) {
+				Auction.getChildren().addAll(name, creatdate, dateForAuction,
+						viewItemInAuction,addItem);
+			}
+			else {
+				Auction.getChildren().addAll(name, creatdate, dateForAuction,
+						addItem);
+			}
 			Auction.setSpacing(10);
 			myAuction.getChildren().add(Auction);
 		}
@@ -368,7 +375,7 @@ public class AuctioneerMenu {
 	public static  ScrollPane viewItem(BorderPane pane,Auction theAuction) {
 		final VBox myuItem = new VBox();
 		myuItem.setSpacing(15);
-		final Label label = new Label("Item list");
+		final Label label = new Label("Auction Inventory:");
 		for (final Item item : theAuction.getInventory() ) {
 			final HBox Items = new HBox();
 			final Label itemName = new Label("Name: " + item.getName());
@@ -377,7 +384,7 @@ public class AuctioneerMenu {
 			final Label itemCreatDate = new Label("Item Create Date: " + item.getCreationDate());
 			Items.getChildren().addAll(label,itemName, itemDescription, itemBasePrice,
 					itemCreatDate);
-			Items.setSpacing(10);
+			Items.setSpacing('\n');
 			myuItem.getChildren().add(Items);
 		}
 
@@ -401,7 +408,7 @@ public class AuctioneerMenu {
 		TextField NameofItem= new TextField();
 		final Label Description = new Label("Enter Item Description: ");
 		TextField ItemDescription= new TextField();
-		final Label minimum = new Label("Enter minimum bid price for item: ($) ");
+		final Label minimum = new Label("Enter minimum Bid Amount For Item: ($) ");
 		TextField minimumBid= new TextField();
 		final Button submit = new Button("Submit");
 		submit.setOnAction(event -> {
@@ -430,15 +437,15 @@ public class AuctioneerMenu {
 	public static ScrollPane submiteAuction(BorderPane pane,ArrayList<Auction> allauctions,
 			Calendar thecalendar, ContactPerson user) {
 		final VBox myAuction = new VBox();
-		final Label dateofMonth = new Label("Please Enter the Month for the auction: ");
+		final Label dateofMonth = new Label("Please Enter the Month for the Auction: ");
 		TextField month= new TextField();
-		final Label dateofdays = new Label("Please Enter the day for the auction: ");
+		final Label dateofdays = new Label("Please Enter the Day for the Auction: ");
 		TextField day= new TextField();
-		final Label dateofYear = new Label("Please Enter the year for the auction: ");
+		final Label dateofYear = new Label("Please Enter the Year for the Auction: ");
 		TextField year= new TextField();
-		final Label maxIBbtn = new Label("Enter max number of items bidders can bid on (0 for default)");
+		final Label maxIBbtn = new Label("Enter Max Number of Items Bidders Can Bid On (0 for default)");
 		TextField maxitembid= new TextField();
-		final Label maxIbtn = new Label("Enter max number of items total allowed for sale (0 for default): ");
+		final Label maxIbtn = new Label("Enter Max Number of Items Total Allowed for Sale (0 for default): ");
 		TextField maxitem= new TextField();
 		final Button submit = new Button("Submit");
 		
@@ -488,14 +495,14 @@ public class AuctioneerMenu {
 		if (!thecalendar.checkDate(theAuction.getDate())) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error Message");
-			alert.setContentText("Invalid no more than two auctions for the day");
+			alert.setContentText("Invalid: no more than two auctions on one day");
 
 			alert.showAndWait();
 		}
 		else if(!thecalendar.checkForMaxDays(theAuction.getDate())){
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error Message");
-			alert.setContentText("Invalid the auction can not be scheduled "
+			alert.setContentText("Invalid: the auction cannot be scheduled "
 					+ "more than 60 days from now");
 
 			alert.showAndWait();
@@ -503,29 +510,28 @@ public class AuctioneerMenu {
 		else if(!thecalendar.checkForMinDays(theAuction.getDate())){
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error Message");
-			alert.setContentText("Invalid the auction has to be at least 14 days from now ");
+			alert.setContentText("Invalid: the auction has to be scheduled at least 14 days from now ");
 
 			alert.showAndWait();
 		}
 		else if(!thecalendar.checkForUpComingAuctionNumber() ) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error Message");
-			alert.setContentText("Invalid reach the max number(25) of auction on calendar"
-					+ "for the upcoming day ");
+			alert.setContentText("Invalid: reached the max number(25) of auctions scheduled in calendar ");
 
 			alert.showAndWait();
 		}
 		else if(!thecalendar.checkBeenYearForOrg(theOrg, theAuction.getDate())){
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error Message");
-			alert.setContentText("Invalid you have to wait for a year for your next auction ");
+			alert.setContentText("Invalid: you must wait a year between auctions ");
 
 			alert.showAndWait();
 		}
 		else {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Congratulations");
-			alert.setContentText("Your auction has been scheduled ");
+			alert.setContentText("Your auction has been scheduled! ");
 
 			alert.showAndWait();
 		}
