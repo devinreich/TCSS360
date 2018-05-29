@@ -5,8 +5,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import Controller.Run;
+import Controller.Serializer;
 import Model.Auction;
 import Model.Bidder;
+import Model.Calendar;
 import Model.Item;
 import Model.Organization;
 import java.time.LocalDate;
@@ -28,10 +30,12 @@ public class BidderTest {
 	private Integer testMaxItemsPerBidder;
 	private Integer testMaxItemsSold;
 	private Organization testOrganization;
+	private Calendar calendar;
 	
 
 	@BeforeEach
 	void setUp() {
+		calendar = (Calendar) Serializer.deserialize("calendar");
 		testAuctionDatePresent = LocalDate.now();
 		testAuctionDateFuture = testAuctionDatePresent.plusMonths(1);
 		
@@ -52,7 +56,7 @@ public class BidderTest {
 				testMaxItemsSold, testOrganization);		
 
 		/* Add Auction to schedule */
-		Run.calendar.submitAuctionRequestWithAuction(testOrganization, testAuctionFuture);
+		calendar.submitAuctionRequestWithAuction(testOrganization, testAuctionFuture);
 
 		/* Set maximum amount legal active bids for bidder to 3 */
 		testBidder1 = new Bidder("Nadia Polk", "polkn");
