@@ -8,7 +8,10 @@ import java.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 import Controller.Run;
+import Controller.Serializer;
+import GUI.AuctionCentral;
 import Model.Auction;
+import Model.Calendar;
 import Model.Organization;
 
 /**
@@ -25,12 +28,14 @@ public class AuctionRequestTest {
 	private Integer testMaxItemsPerBidder;
 	private Integer testMaxItemsSold;
 	private LocalDate testAuctionDate;
+	private Calendar calendar;
 	
 	@Before
 	public void setUp() {
 		testMaxItemsPerBidder = new Integer(5);		
 		testMaxItemsSold = new Integer (10);		
-		testAuctionDate = LocalDate.now().plusDays(Run.calendar.getMinimumUpcomingDays());
+		calendar = (Calendar) Serializer.deserialize("calendar");
+		testAuctionDate = LocalDate.now().plusDays(calendar.getMinimumUpcomingDays());
 		testOrganization = new Organization("Salvation Army");
 		testOrganization2 = new Organization("Goodwill");
 	}
@@ -42,8 +47,8 @@ public class AuctionRequestTest {
 	 */
 	@Test 
 	public void hasItBeenAYearSinceLastAuction_noPriorAuctions_true() {
-		Run.calendar.wipeSchedule(); /* Reset calendar entry point to today */
-		assertTrue(Run.calendar.checkBeenYearForOrg(testOrganization, testAuctionDate));	
+		calendar.wipeSchedule(); /* Reset calendar entry point to today */
+		assertTrue(calendar.checkBeenYearForOrg(testOrganization, testAuctionDate));	
 	}
 	
 	
@@ -53,16 +58,16 @@ public class AuctionRequestTest {
 	 */
 	@Test 
 	public void hasItBeenAYearSinceLastAuction_requestOneYearAhead_true() {
-		Run.calendar.wipeSchedule();
+		calendar.wipeSchedule();
 		/* Book auction on today's date  (plus minimum schedule out days) */
 		Auction testAuction = new Auction(testAuctionDate, LocalDate.now(), testMaxItemsPerBidder,
 				testMaxItemsSold, testOrganization);
-		Run.calendar.submitAuctionRequestWithAuction(testOrganization, testAuction);
+		calendar.submitAuctionRequestWithAuction(testOrganization, testAuction);
 		/* Move forward one year */
-		Run.calendar.setCurrentDate(LocalDate.now().plusYears(1).plusDays(Run.calendar.getMinimumUpcomingDays()));
+		calendar.setCurrentDate(LocalDate.now().plusYears(1).plusDays(calendar.getMinimumUpcomingDays()));
 		/* Request a date exactly one year out from last auction */
-		LocalDate yearOutDate = LocalDate.now().plusYears(1).plusDays(Run.calendar.getMinimumUpcomingDays());
-		assertTrue(Run.calendar.checkBeenYearForOrg(testOrganization, yearOutDate));	
+		LocalDate yearOutDate = LocalDate.now().plusYears(1).plusDays(calendar.getMinimumUpcomingDays());
+		assertTrue(calendar.checkBeenYearForOrg(testOrganization, yearOutDate));	
 	}
 		
 	
@@ -73,16 +78,16 @@ public class AuctionRequestTest {
 	@Test 
 	public void hasItBeenAYearSinceLastAuction_requestOneDayLessThanYearAhead_false() {
 
-		Run.calendar.wipeSchedule(); 
-		Run.calendar.setCurrentDate(LocalDate.now()); /* Reset calendar entry point to today */
+		calendar.wipeSchedule(); 
+		calendar.setCurrentDate(LocalDate.now()); /* Reset calendar entry point to today */
 		/* Book auction on today's date (plus minimum schedule out days) */
 		Auction testAuction = new Auction(testAuctionDate, LocalDate.now(), testMaxItemsPerBidder,
 				testMaxItemsSold, testOrganization2);
-		Run.calendar.submitAuctionRequestWithAuction(testOrganization, testAuction);		
-		Run.calendar.setCurrentDate(LocalDate.now().plusYears(1)); /* Move forward one year  */
+		calendar.submitAuctionRequestWithAuction(testOrganization, testAuction);		
+		calendar.setCurrentDate(LocalDate.now().plusYears(1)); /* Move forward one year  */
 		/* Request a date exactly one year minus one day out from last auction */
-		LocalDate yearOutDate = LocalDate.now().plusYears(1).plusDays(Run.calendar.getMinimumUpcomingDays()-1);
-		assertFalse(Run.calendar.checkBeenYearForOrg(testOrganization, yearOutDate));	
+		LocalDate yearOutDate = LocalDate.now().plusYears(1).plusDays(calendar.getMinimumUpcomingDays()-1);
+		assertFalse(calendar.checkBeenYearForOrg(testOrganization, yearOutDate));	
 	}
 	
 	
@@ -91,9 +96,9 @@ public class AuctionRequestTest {
 	 */
 	@Test 
 	public void isAuctionRequestDateAllowed_noAuctionsOnDate_true() {		
-		Run.calendar.wipeSchedule();
-		Run.calendar.setCurrentDate(LocalDate.now()); /* Reset calendar entry point to today */
-		assertTrue(Run.calendar.checkDate(LocalDate.now().plusDays(25)));	
+		calendar.wipeSchedule();
+		calendar.setCurrentDate(LocalDate.now()); /* Reset calendar entry point to today */
+		assertTrue(calendar.checkDate(LocalDate.now().plusDays(25)));	
 	}
 	
 	
@@ -102,12 +107,12 @@ public class AuctionRequestTest {
 	 */
 	@Test
 	public void isAuctionRequestDateAllowed_oneAuctionOnDate_true() {
-		Run.calendar.wipeSchedule();
-		Run.calendar.setCurrentDate(LocalDate.now()); /* Reset calendar entry point to today */
+		calendar.wipeSchedule();
+		calendar.setCurrentDate(LocalDate.now()); /* Reset calendar entry point to today */
 		Auction testAuction = new Auction(testAuctionDate, LocalDate.now(), testMaxItemsPerBidder,
 				testMaxItemsSold, testOrganization);
-		Run.calendar.submitAuctionRequestWithAuction(testOrganization, testAuction);
-		assertTrue(Run.calendar.checkDate(testAuctionDate));		
+		calendar.submitAuctionRequestWithAuction(testOrganization, testAuction);
+		assertTrue(calendar.checkDate(testAuctionDate));		
 	}
 		
 	
@@ -116,15 +121,15 @@ public class AuctionRequestTest {
 	 */
 	@Test
 	public void isAuctionRequestDateAllowed_twoAuctionsOnDate_false() {
-		Run.calendar.wipeSchedule();
-		Run.calendar.setCurrentDate(LocalDate.now()); /* Reset calendar entry point to today */
+		calendar.wipeSchedule();
+		calendar.setCurrentDate(LocalDate.now()); /* Reset calendar entry point to today */
 		Auction testAuction = new Auction(testAuctionDate, LocalDate.now(), testMaxItemsPerBidder,
 				testMaxItemsSold, testOrganization);
 		Auction testAuction2 = new Auction(testAuctionDate, LocalDate.now(), testMaxItemsPerBidder,
 				testMaxItemsSold, testOrganization2);
-		Run.calendar.submitAuctionRequestWithAuction(testOrganization, testAuction);
-		Run.calendar.submitAuctionRequestWithAuction(testOrganization2, testAuction2);
-		assertFalse(Run.calendar.checkDate(testAuctionDate));		
+		calendar.submitAuctionRequestWithAuction(testOrganization, testAuction);
+		calendar.submitAuctionRequestWithAuction(testOrganization2, testAuction2);
+		assertFalse(calendar.checkDate(testAuctionDate));		
 	}
 	
 	
@@ -135,17 +140,17 @@ public class AuctionRequestTest {
 	@Test
 	public void isAuctionAmountLegal_oneLessThanMaximumAllowedAutions_true() {
 		
-		Run.calendar.wipeSchedule();
-		Run.calendar.setCurrentDate(LocalDate.now()); /* Reset calendar entry point to today */
-		Run.calendar.setMaximumUpcomingAuctions(3); /* Set max allowed upcoming auctions to 3 */	
+		calendar.wipeSchedule();
+		calendar.setCurrentDate(LocalDate.now()); /* Reset calendar entry point to today */
+		calendar.setMaximumUpcomingAuctions(3); /* Set max allowed upcoming auctions to 3 */	
 		/* Make two auctions on the calendar on same date */
 		Auction testAuction = new Auction(testAuctionDate, LocalDate.now(), testMaxItemsPerBidder,
 				testMaxItemsSold, testOrganization);
 		Auction testAuction2 = new Auction(testAuctionDate, LocalDate.now(), testMaxItemsPerBidder,
 				testMaxItemsSold, testOrganization2);
-		Run.calendar.submitAuctionRequestWithAuction(testOrganization, testAuction);
-		Run.calendar.submitAuctionRequestWithAuction(testOrganization2, testAuction2);
-		assertTrue(Run.calendar.checkForUpComingAuctionNumber());
+		calendar.submitAuctionRequestWithAuction(testOrganization, testAuction);
+		calendar.submitAuctionRequestWithAuction(testOrganization2, testAuction2);
+		assertTrue(calendar.checkForUpComingAuctionNumber());
 	}
 	
 	
@@ -155,17 +160,17 @@ public class AuctionRequestTest {
 	 */
 	@Test
 	public void isAuctionAmountLegal_exactlyMaximumAllowedAutions_false() {		
-		Run.calendar.wipeSchedule();
-		Run.calendar.setCurrentDate(LocalDate.now()); 	/* Reset calendar entry point to today */
-		Run.calendar.setMaximumUpcomingAuctions(2); /* Set max allowed upcoming auctions to 2 */		
+		calendar.wipeSchedule();
+		calendar.setCurrentDate(LocalDate.now()); 	/* Reset calendar entry point to today */
+		calendar.setMaximumUpcomingAuctions(2); /* Set max allowed upcoming auctions to 2 */		
 		/* Make two auctions on the calendar on same date */
 		Auction testAuction = new Auction(testAuctionDate, LocalDate.now(), testMaxItemsPerBidder,
 				testMaxItemsSold, testOrganization);
 		Auction testAuction2 = new Auction(testAuctionDate, LocalDate.now(), testMaxItemsPerBidder,
 				testMaxItemsSold, testOrganization2);
-		Run.calendar.submitAuctionRequestWithAuction(testOrganization, testAuction);
-		Run.calendar.submitAuctionRequestWithAuction(testOrganization2, testAuction2);
-		assertFalse(Run.calendar.checkForUpComingAuctionNumber());
+		calendar.submitAuctionRequestWithAuction(testOrganization, testAuction);
+		calendar.submitAuctionRequestWithAuction(testOrganization2, testAuction2);
+		assertFalse(calendar.checkForUpComingAuctionNumber());
 	}
 	
 	
@@ -174,9 +179,9 @@ public class AuctionRequestTest {
 	 * than the maximum number of days specified out in advance.
 	 */
 	public void isRequestFarEnoughOut_RequestIsLessThanMaxDaysOut_true() {
-		Run.calendar.wipeSchedule();
-		Run.calendar.setCurrentDate(LocalDate.now()); 	/* Reset calendar entry point to today */
-		assertTrue(Run.calendar.checkForMaxDays(testAuctionDate));
+		calendar.wipeSchedule();
+		calendar.setCurrentDate(LocalDate.now()); 	/* Reset calendar entry point to today */
+		assertTrue(calendar.checkForMaxDays(testAuctionDate));
 	}
 	
 	
@@ -185,10 +190,10 @@ public class AuctionRequestTest {
 	 * than the maximum number of days specified out in advance.
 	 */
 	public void isRequestFarEnoughOut_RequestIsExactlyMaxDaysOut_true() {
-		Run.calendar.wipeSchedule();
-		Run.calendar.setCurrentDate(LocalDate.now()); 	/* Reset calendar entry point to today */
-		LocalDate maxDaysOut = LocalDate.now().plusDays(Run.calendar.getMaximumUpcomingDays());
-		assertTrue(Run.calendar.checkForMaxDays(maxDaysOut));
+		calendar.wipeSchedule();
+		calendar.setCurrentDate(LocalDate.now()); 	/* Reset calendar entry point to today */
+		LocalDate maxDaysOut = LocalDate.now().plusDays(calendar.getMaximumUpcomingDays());
+		assertTrue(calendar.checkForMaxDays(maxDaysOut));
 	}
 	
 	
@@ -197,10 +202,10 @@ public class AuctionRequestTest {
 	 * one day more than the maximum number of days out.
 	 */
 	public void isRequestFarEnoughOut_RequestIsOneDayMoreThanMaxDaysOut_false() {
-		Run.calendar.wipeSchedule();
-		Run.calendar.setCurrentDate(LocalDate.now()); 	/* Reset calendar entry point to today */
-		LocalDate maxDaysOut = LocalDate.now().plusDays(Run.calendar.getMaximumUpcomingDays()).plusDays(1);
-		assertFalse(Run.calendar.checkForMaxDays(maxDaysOut));
+		calendar.wipeSchedule();
+		calendar.setCurrentDate(LocalDate.now()); 	/* Reset calendar entry point to today */
+		LocalDate maxDaysOut = LocalDate.now().plusDays(calendar.getMaximumUpcomingDays()).plusDays(1);
+		assertFalse(calendar.checkForMaxDays(maxDaysOut));
 	}
 	
 	
@@ -209,9 +214,9 @@ public class AuctionRequestTest {
 	 * than the minimum number of days specified out in advance.
 	 */
 	public void isRequestFarEnoughOut_RequestIsMoreThanMinDaysOut_true() {
-		Run.calendar.wipeSchedule();
-		Run.calendar.setCurrentDate(LocalDate.now()); 	/* Reset calendar entry point to today */
-		assertTrue(Run.calendar.checkForMaxDays(testAuctionDate));
+		calendar.wipeSchedule();
+		calendar.setCurrentDate(LocalDate.now()); 	/* Reset calendar entry point to today */
+		assertTrue(calendar.checkForMaxDays(testAuctionDate));
 	}
 	
 	
@@ -220,10 +225,10 @@ public class AuctionRequestTest {
 	 *  the minimum number of days specified out in advance.
 	 */
 	public void isRequestFarEnoughOut_RequestIsExactlyMinDaysOut_true() {
-		Run.calendar.wipeSchedule();
-		Run.calendar.setCurrentDate(LocalDate.now()); 	/* Reset calendar entry point to today */
-		LocalDate minDaysOut = LocalDate.now().plusDays(Run.calendar.getMinimumUpcomingDays());
-		assertTrue(Run.calendar.checkForMaxDays(minDaysOut));
+		calendar.wipeSchedule();
+		calendar.setCurrentDate(LocalDate.now()); 	/* Reset calendar entry point to today */
+		LocalDate minDaysOut = LocalDate.now().plusDays(calendar.getMinimumUpcomingDays());
+		assertTrue(calendar.checkForMaxDays(minDaysOut));
 	}
 	
 	
@@ -232,9 +237,9 @@ public class AuctionRequestTest {
 	 * one day less than the minimum number of days out.
 	 */
 	public void isRequestFarEnoughOut_RequestIsOneDayLessThanMinDaysOut_false() {
-		Run.calendar.wipeSchedule();
-		Run.calendar.setCurrentDate(LocalDate.now()); 	/* Reset calendar entry point to today */
-		LocalDate minDaysOut = LocalDate.now().plusDays(Run.calendar.getMinimumUpcomingDays()).minusDays(1);
-		assertFalse(Run.calendar.checkForMaxDays(minDaysOut));
+		calendar.wipeSchedule();
+		calendar.setCurrentDate(LocalDate.now()); 	/* Reset calendar entry point to today */
+		LocalDate minDaysOut = LocalDate.now().plusDays(calendar.getMinimumUpcomingDays()).minusDays(1);
+		assertFalse(calendar.checkForMaxDays(minDaysOut));
 	}	
 }

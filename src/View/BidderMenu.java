@@ -226,7 +226,7 @@ public class BidderMenu {
 		}
 		
 		if (layout.getChildren().size() == 1) {
-			Text warning = new Text("There are no actions! Please wait for an auction to be posted");
+			Text warning = new Text("There are no auctions! Please wait for an auction to be posted");
 			layout.getChildren().add(warning);
 		}
 		 

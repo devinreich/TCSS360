@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import Controller.Run;
+import Controller.Serializer;
 import GUI.AuctionCentral;
 
 /**
@@ -122,7 +123,7 @@ public class Bidder extends User implements Serializable {
 	 */
 	public ArrayList<Bid> getActiveBids() {
 		ArrayList<Bid> activeBids = new ArrayList<Bid>();
-		Calendar calendar = Run.calendar;
+		Calendar calendar = (Calendar) Serializer.deserialize("calendar");
 		if (calendar == null) {
 			calendar = AuctionCentral.calendar;
 		}

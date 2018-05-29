@@ -125,12 +125,18 @@ public class Auction implements Serializable {
 			ArrayList<Bid> currBids = inventory.get(theItem);
 			currBids.add(bid);
 			inventory.put(theItem, currBids);
-			System.out.println("Your bid has been successfully placed!");
+			//System.out.println("Your bid has been successfully placed!");
 		} else {
-			System.out.println("Your bid could not be placed.");
+			//System.out.println("Your bid could not be placed.");
 		}
 	}
 
+	/** 
+	 * Setter for max number of bids in auction. Used for testing.
+	 */
+	public void setMaxBids(int theInt) {
+		maxItemsPerBidder = theInt;
+	}
 
 	/**
 	 * @param theItem The Item you want details about. 
