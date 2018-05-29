@@ -259,7 +259,7 @@ public class AuctioneerMenu {
 		ArrayList<Auction> theAllauctions = calendar.getAuction();
 		ArrayList<Auction> Allauctions = new ArrayList<Auction>();
 		for (Auction auctions: theAllauctions ) {
-			if(auctions.getOrganization().getName() == user.getName()) {
+			if(auctions.getOrganization().getName().equals(user.getName())) {
 				Allauctions.add(auctions);
 			}
 		}
