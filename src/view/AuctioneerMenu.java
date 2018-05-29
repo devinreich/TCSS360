@@ -64,9 +64,9 @@ public class AuctioneerMenu {
 
 					int auctionChoice;			
 					do {
-					auctioneer.displayCurrentAuctionDetails();
-					auctionChoice = displayAuctionDetailMenu(scanner);
-					auctionMenuOptions(auctionChoice, scanner);
+						auctioneer.displayCurrentAuctionDetails();
+						auctionChoice = displayAuctionDetailMenu(scanner);
+						auctionMenuOptions(auctionChoice, scanner);
 					} while (auctionChoice != 4);
 					break;
 				case 2:
@@ -77,10 +77,10 @@ public class AuctioneerMenu {
 					for (int i = 0; i < auctioneerAuctions.size(); i++) {
 						Auction auction = auctioneerAuctions.get(i);
 						System.out.println(j + ") Auction Date: " + auction.getDate()); 
-							for (int x = 0; x < auction.getInventory().size(); x++) {
-								int index = x + 1;
-								System.out.println("Item " + index + ": " + getItemDescription(auction.getInventory().get(x)));
-							}
+						for (int x = 0; x < auction.getInventory().size(); x++) {
+							int index = x + 1;
+							System.out.println("Item " + index + ": " + getItemDescription(auction.getInventory().get(x)));
+						}
 						j++;
 						System.out.println();
 					}
@@ -104,18 +104,18 @@ public class AuctioneerMenu {
 					for (int i = 0; i < auctioneerAuctions.size(); i++) {
 						Auction auction = auctioneerAuctions.get(i);
 						System.out.println(j + ") Auction Date: " + auction.getDate()); 
-							for (int x = 0; x < auction.getInventory().size(); x++) {
-								int index = x + 1;
-								System.out.println("Item " + index + ": " + getItemDescription(auction.getInventory().get(x)));
-							}
+						for (int x = 0; x < auction.getInventory().size(); x++) {
+							int index = x + 1;
+							System.out.println("Item " + index + ": " + getItemDescription(auction.getInventory().get(x)));
+						}
 						j++;
 						System.out.println();
 					}
-					
-//					auctioneer.getAuctions();
-//					for (Auction auction: auctioneer.getAuctions()) {
-//						System.out.println("Date: " + auction.getDate());
-//					}
+
+					//					auctioneer.getAuctions();
+					//					for (Auction auction: auctioneer.getAuctions()) {
+					//						System.out.println("Date: " + auction.getDate());
+					//					}
 				}			
 			}
 			if (scanner.hasNextLine()) {
@@ -127,7 +127,7 @@ public class AuctioneerMenu {
 
 	}
 
-	
+
 	/**
 	 * Displays menu for an Organization with an Active Auction set
 	 * @param theScanner
@@ -145,7 +145,7 @@ public class AuctioneerMenu {
 		// Should check for error input?
 	}
 
-	
+
 	/**
 	 * Display menu for Organization with no Active Auction set
 	 * @param theScanner
@@ -161,14 +161,14 @@ public class AuctioneerMenu {
 		return choice;
 	}
 
-	
+
 	/**
 	 * Options for the current (active) auction for an Organization.
 	 * @param theScanner
 	 * @return
 	 */
 	public int displayAuctionDetailMenu(Scanner theScanner) {
-		
+
 		/** MUST REPEAT THIS MENU UNTIL USER SELECTS 4*/
 		//!!!!!!!!!!!!
 
@@ -182,7 +182,7 @@ public class AuctioneerMenu {
 		return choice;
 	}
 
-	
+
 	/**
 	 * Lets the organization add item to inventory,
 	 * remove item from inventory,
@@ -201,42 +201,42 @@ public class AuctioneerMenu {
 		}
 
 		switch(theOption) {
-	
-			case 1:	//Add item
-				Scanner scanner = new Scanner(System.in);
-				System.out.print("Enter Item Name: ");
-				String itemName = scanner.nextLine();
-				System.out.print("\nEnter Item Description: ");
-				String itemDescription = scanner.nextLine();
-				System.out.print("\nEnter minimum bid price for item: $");
-				double basePrice = scanner.nextDouble();
-				LocalDate createDate = LocalDate.now();
-				Item item = new Item(itemName, itemDescription, basePrice, createDate);
-				currentAuction.addItem(item);	
-				break;
-			case 2:	//Remove item
-				for (int i = 0; i < currentAuction.getInventory().size(); i++) {
-					System.out.println("Item " + (i + 1) + ": " 
-							+ getItemDescription(currentAuction.getInventory().get(i)));
-				}
-				System.out.print("Enter index of item to remove: ");
-				int itemIndex = theScanner.nextInt();
-				if (itemIndex <= currentAuction.getInventoryCount() && itemIndex >= 1) {
-					currentAuction.removeItemAt(itemIndex - 1);
-				}
-				break;	
-			case 3:	//View all items		
-				for (int i = 0; i < currentAuction.getInventory().size(); i++) {
-					int index = i + 1;
-					System.out.println("Item " + index + ": " 
-							+ getItemDescription(currentAuction.getInventory().get(i)));
-				}
-			case 4:
-				//Return to previous menu
+
+		case 1:	//Add item
+			Scanner scanner = new Scanner(System.in);
+			System.out.print("Enter Item Name: ");
+			String itemName = scanner.nextLine();
+			System.out.print("\nEnter Item Description: ");
+			String itemDescription = scanner.nextLine();
+			System.out.print("\nEnter minimum bid price for item: $");
+			double basePrice = scanner.nextDouble();
+			LocalDate createDate = LocalDate.now();
+			Item item = new Item(itemName, itemDescription, basePrice, createDate);
+			currentAuction.addItem(item);	
+			break;
+		case 2:	//Remove item
+			for (int i = 0; i < currentAuction.getInventory().size(); i++) {
+				System.out.println("Item " + (i + 1) + ": " 
+						+ getItemDescription(currentAuction.getInventory().get(i)));
 			}
+			System.out.print("Enter index of item to remove: ");
+			int itemIndex = theScanner.nextInt();
+			if (itemIndex <= currentAuction.getInventoryCount() && itemIndex >= 1) {
+				currentAuction.removeItemAt(itemIndex - 1);
+			}
+			break;	
+		case 3:	//View all items		
+			for (int i = 0; i < currentAuction.getInventory().size(); i++) {
+				int index = i + 1;
+				System.out.println("Item " + index + ": " 
+						+ getItemDescription(currentAuction.getInventory().get(i)));
+			}
+		case 4:
+			//Return to previous menu
+		}
 	}
-	
-	
+
+
 	/**
 	 * Returns details about a given Item object. 
 	 * @param item
@@ -244,9 +244,9 @@ public class AuctioneerMenu {
 	 */
 	public String getItemDescription(Item item) {
 		return item.getName() + ", " + item.getDescription() 
-			+ ", $" + item.getBasePrice();
+		+ ", $" + item.getBasePrice();
 	}
-	
+
 	/**
 	 * Return the Scene of the welcoming for the user
 	 * @param scene
@@ -282,10 +282,10 @@ public class AuctioneerMenu {
 			scene = new Scene(pane,1300,500);
 			ViewBtn.setOnAction(event ->
 			pane.setCenter(getmyAuction(pane,Allauctions,calendar,user)));
-	
+
 			SubmitBtn.setOnAction(event ->
 			pane.setCenter(submiteAuction(pane,Allauctions,calendar,user)));
-		
+
 		}
 		else {
 			Text title = new Text("Welcome Contact Person : " + user.getName());
@@ -300,10 +300,10 @@ public class AuctioneerMenu {
 			SubmitBtn.setOnAction(event ->
 			pane.setCenter(submiteAuction(pane,Allauctions,calendar,user)));
 		}
-		
+
 		return scene;
 	}
-	
+
 	/**
 	 * return the scroll pane for viewing the auction.
 	 * @param pane
@@ -317,45 +317,47 @@ public class AuctioneerMenu {
 		final Label label = new Label("My Auction");
 		myAuction.setSpacing(15);
 		myAuction.getChildren().add(label);
-		
+
 		for (final Auction theauction : Allauctions ) {
-			final HBox Auction = new HBox();
-			final Label name = new Label(theauction.getOrganization().getName());
-			final Label creatdate = new Label("The Auction created date " +
-					theauction.getCreateDate().getMonth() + " " + theauction
-					.getCreateDate().getDayOfMonth() + ", " + theauction
-					.getCreateDate().getYear());
-			final Label dateForAuction =new Label("The Date For the auction" + 
-					theauction.getDate().getMonth() + " " + theauction
-					.getDate().getDayOfMonth() + ", " + theauction
-					.getDate().getYear());
-			final Button viewItemInAuction = new Button("View Item");
-			final Button cancleAuction = new Button("cancle auction");
-			final Button addItem = new Button ("Add Item");
-			Scanner theScanner = new Scanner(System.in);
-			addItem.setOnAction(event -> {
-				pane.setCenter(addItem(pane,theauction, theScanner));
-				
-			});
-			viewItemInAuction.setOnAction(event -> pane.setCenter(viewItem(pane,theauction)));
-			cancleAuction.setOnAction(event -> {
-				calendar.cancelAuction(theauction);
-				AuctionCentral.setScene(user.getLoginName());
-			});
-			Auction.getChildren().addAll(name, creatdate, dateForAuction,
-					viewItemInAuction,addItem);
-			Auction.setSpacing(10);
-			myAuction.getChildren().add(Auction);
+			if (theauction.getOrganization().equals(user.getAffiliatedOrganization())) {
+				final HBox Auction = new HBox();
+				final Label name = new Label(theauction.getOrganization().getName());
+				final Label creatdate = new Label("The Auction created date " +
+						theauction.getCreateDate().getMonth() + " " + theauction
+						.getCreateDate().getDayOfMonth() + ", " + theauction
+						.getCreateDate().getYear());
+				final Label dateForAuction =new Label("The Date For the auction" + 
+						theauction.getDate().getMonth() + " " + theauction
+						.getDate().getDayOfMonth() + ", " + theauction
+						.getDate().getYear());
+				final Button viewItemInAuction = new Button("View Item");
+				final Button cancleAuction = new Button("cancle auction");
+				final Button addItem = new Button ("Add Item");
+				Scanner theScanner = new Scanner(System.in);
+				addItem.setOnAction(event -> {
+					pane.setCenter(addItem(pane,theauction, theScanner));
+
+				});
+				viewItemInAuction.setOnAction(event -> pane.setCenter(viewItem(pane,theauction)));
+				cancleAuction.setOnAction(event -> {
+					calendar.cancelAuction(theauction);
+					AuctionCentral.setScene(user.getLoginName());
+				});
+				Auction.getChildren().addAll(name, creatdate, dateForAuction,
+						viewItemInAuction,addItem);
+				Auction.setSpacing(10);
+				myAuction.getChildren().add(Auction);
+			}
 		}
-		
-		 
-		 
+
+
+
 		final ScrollPane sp = new ScrollPane();
 		sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
 		sp.setContent(myAuction);
 		return sp;
-		
+
 	}
 
 
@@ -406,7 +408,7 @@ public class AuctioneerMenu {
 		final Button submit = new Button("Submit");
 		submit.setOnAction(event -> {
 			theAuction.addItem(NameofItem.getText(),
-			ItemDescription.getText(),minimumBid.getText());
+					ItemDescription.getText(),minimumBid.getText());
 			pane.setCenter(viewItem(pane,theAuction));
 		}); 
 		myItem.getChildren().addAll(Name,NameofItem,Description,ItemDescription,minimum,minimumBid,submit);
@@ -414,11 +416,11 @@ public class AuctioneerMenu {
 		sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
 		sp.setContent(myItem);
- 
+
 		return sp; 
-		
+
 	}
-	
+
 	/**
 	 * display the scroll pane for submit an auction.
 	 * @param pane
@@ -441,10 +443,10 @@ public class AuctioneerMenu {
 		final Label maxIbtn = new Label("Enter max number of items total allowed for sale (0 for default): ");
 		TextField maxitem= new TextField();
 		final Button submit = new Button("Submit");
-		
+
 		myAuction.getChildren().addAll(dateofMonth,month,dateofdays,
 				day,dateofYear,year,maxIBbtn,maxitembid,maxIbtn,maxitem,submit);
-	
+
 		submit.setOnAction(event -> {
 			int Months = Integer.parseInt(month.getText());
 			int Days = Integer.parseInt(day.getText());
@@ -454,10 +456,9 @@ public class AuctioneerMenu {
 			LocalDate auctionDate = LocalDate.of(Years,Months,Days);
 			LocalDate createDate = LocalDate.now();
 			if(allauctions.size()== 0) {
-				Organization theOrg = new Organization(user.getName());
-				Auction theauction = new Auction(auctionDate,createDate,MaxperBid,MaxItemSell,theOrg);
-				alertForSubmit(theauction,thecalendar,theOrg);
-				thecalendar.submitAuctionRequestWithAuction(theOrg, theauction);
+				Auction theauction = new Auction(auctionDate,createDate,MaxperBid,MaxItemSell,user.getAffiliatedOrganization());
+				alertForSubmit(theauction,thecalendar,user.getAffiliatedOrganization());
+				thecalendar.submitAuctionRequestWithAuction(user.getAffiliatedOrganization(), theauction);
 			}
 			else {
 				Organization theOrg = allauctions.get(0).getOrganization();
@@ -473,9 +474,9 @@ public class AuctioneerMenu {
 		sp.setContent(myAuction);
 
 		return sp;
-		
+
 	}
-	
+
 	/**
 	 * check the business  story for submit auction if not reach the.
 	 * requirements pop the alert.
@@ -484,7 +485,7 @@ public class AuctioneerMenu {
 	 * @param theOrg
 	 */
 	public static void alertForSubmit(Auction theAuction,Calendar thecalendar,Organization theOrg) {
-//		LocalDate createDate = LocalDate.now();
+		//		LocalDate createDate = LocalDate.now();
 		if (!thecalendar.checkDate(theAuction.getDate())) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error Message");
